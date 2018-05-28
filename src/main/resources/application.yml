@@ -1,0 +1,21 @@
+#服务器相关配置
+server:
+  port: 9999
+  servlet:
+    context-path: /visney-manager
+#mysql相关配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://192.168.30.25:3306/tthome_visney?characterEncoding=utf-8&useSSL=false
+ #MyBatis相关配置
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+# 分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
