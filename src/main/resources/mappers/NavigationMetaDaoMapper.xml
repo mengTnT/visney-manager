@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tthome.visneymanager.dao.NavigationMetaDao">
+
+    <resultMap id="BaseResultMap" type="com.tthome.visneymanager.entity.NavigationMeta">
+        <result column="navigation_id" property="navigationId"/>
+        <result column="navigation_name" property="navigationName"/>
+        <result column="navigation_title" property="navigationTitle"/>
+        <result column="navigation_description" property="navigationDescription"/>
+        <result column="navigation_keyword" property="navigationKeyword"/>
+    </resultMap>
+
+    <select id="getMetaTotal" resultType="int">
+     SELECT count(*) FROM navigation_meta
+    </select>
+    <select id="metaGetAll" resultMap="BaseResultMap">
+     SELECT * FROM navigation_meta
+    </select>
+
+   <insert id="metaAdd">
+       INSERT INTO navigation_meta VALUES(0,#{navigationName},#{navigationTitle},#{navigationDescription},#{navigationKeyword})
+   </insert>
+
+</mapper>
