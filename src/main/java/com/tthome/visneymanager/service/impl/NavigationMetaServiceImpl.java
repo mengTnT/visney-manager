@@ -30,4 +30,9 @@ public class NavigationMetaServiceImpl implements NavigationMetaService {
         map.put("rows",list);
         return map;
     }
+
+    @Override
+    public int metaAdd(NavigationMeta navigationMeta) {
+        return 0;
+    }
 }

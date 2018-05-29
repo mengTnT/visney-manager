@@ -5,8 +5,10 @@ import com.tthome.visneymanager.entity.User;
 import com.tthome.visneymanager.service.UserService;
 import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,28 +21,19 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
-    Map map=new HashMap();
     @Override
-    public Map userLogin(String username, String password, HttpSession session) {
+    public User userLogin(String username, String password, HttpSession session, HttpServletRequest request) {
+
+        Map map=new HashMap();
         User user1 = userDao.login(username, password);
         if(user1!=null){
-            if(user1.username!=username){
-                map.put("msg","用户不存在");
-                map.put("login",false);
-            }else{
-                if(user1.password==password){
-                    map.put("msg","登陆成功");
-                    map.put("login",true);
-                }else{
-                    map.put("msg","用户密码错误");
-                    map.put("login",false);
-                }
-            }
+            map.put("login",true);
+            session.setAttribute("user",user1);
+
         }else{
-            map.put("msg","用户不存在");
-            map.put("login",false);
+            request.setAttribute("msg","帐户或者用户名输入错误，");
         }
-        session.setAttribute("user",user1);
-        return map;
+
+        return user1;
     }
 }
