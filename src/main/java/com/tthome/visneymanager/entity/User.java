@@ -1,9 +1,15 @@
 package com.tthome.visneymanager.entity;
 
-public class User {
-    public static void main(String[] args) {
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
-        System.out.printf("分支");
-        System.out.printf("分支222");
-    }
+import java.io.Serializable;
+
+@Data
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 122690792271926213L;
+    public Integer userId;
+    public String username;
+    public String password;
 }
