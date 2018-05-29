@@ -6,6 +6,7 @@ import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @GetMapping("/login")
+    @ResponseBody
     public Map userlogin(String username, String password, HttpSession session){
 
        return  userService.userLogin(username,password,session);
