@@ -16,14 +16,12 @@ import java.util.Set;
  * @author zcy
  * @date 2018-05-29 16:26
  */
-public class AuthFilter {
-    public static void main(String[] args) {
-        System.out.printf("ssss");
-    }
+
+
 
 @WebFilter(filterName = "AuthFilter",urlPatterns = "/*")
 public class AuthFilter  implements Filter {
-// 不用过滤的地址
+    // 不用过滤的地址
     private static Set<String> GreenUrlSet = new HashSet<String>();
 
     @Override
@@ -56,6 +54,7 @@ public class AuthFilter  implements Filter {
     public void destroy() {
 
     }
+}
 
 
 
@@ -117,4 +116,4 @@ public class AuthFilter  implements Filter {
     public void destroy() {
 
     }*/
-}
+
