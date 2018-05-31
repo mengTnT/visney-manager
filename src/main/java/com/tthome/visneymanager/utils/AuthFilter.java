@@ -32,7 +32,7 @@ public class AuthFilter extends HttpServlet implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         // 将请求转换成HttpServletRequest 请求
-        HttpServletRequest req = (HttpServletRequest) servletRequest;
+     /*   HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String path = req.getContextPath();
         String basePath = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+path;
@@ -47,7 +47,7 @@ public class AuthFilter extends HttpServlet implements Filter {
         } else {
             // Filter 只是链式处理，请求依然转发到目的地址。
             filterChain.doFilter(req, resp);
-        }
+        }*/
     }
     @Override
     public void destroy() {

@@ -24,8 +24,12 @@ public class MyInterceptorConfig extends WebMvcConfigurerAdapter {
        //注册拦截器
         InterceptorRegistration interceptorRegistration = registry.addInterceptor(myInterceptor);
         /*设置拦截器规则*/
-        interceptorRegistration.addPathPatterns("/**").excludePathPatterns("/login");
-        interceptorRegistration.excludePathPatterns("/index.html");
+        interceptorRegistration.addPathPatterns("/test/*");
+        interceptorRegistration.addPathPatterns("/js/*");
+
+        interceptorRegistration.excludePathPatterns("/login");
+
+        interceptorRegistration.excludePathPatterns("/visney-manager");
 
         super.addInterceptors(registry);
     }

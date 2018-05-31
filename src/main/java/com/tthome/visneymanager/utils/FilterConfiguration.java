@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
  * @author zcy
  * @date 2018-05-31 11:27
  */
-//@Configuration
+@Configuration
 public class FilterConfiguration {
-    @Bean
+    /*@Bean
     public FilterRegistrationBean filterDemo4Registration(){
         FilterRegistrationBean registration = new FilterRegistrationBean();
         //注入过滤器
@@ -24,5 +24,5 @@ public class FilterConfiguration {
         //过滤器顺序
         registration.setOrder(1);
         return registration;
-    }
+    }*/
 }
