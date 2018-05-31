@@ -17,8 +17,19 @@
      SELECT * FROM navigation_meta
     </select>
 
-   <insert id="metaAdd">
+    <insert id="metaAdd">
        INSERT INTO navigation_meta VALUES(0,#{navigationName},#{navigationTitle},#{navigationDescription},#{navigationKeyword})
    </insert>
+    <update id="metaUpdate">
+    UPDATE  navigation_meta  SET navigation_name=#{navigationName},navigation_title=#{navigationTitle},navigation_description=#{navigationDescription},navigation_keyword=#{navigationKeyword}
+    WHERE navigation_id=#{navigationId}
+    </update>
+
+    <delete id="metaDelete">
+        delete from navigation_meta where navigation_id in
+        <foreach collection="array" open="(" close=")" separator=","
+                 item="id">#{id}
+        </foreach>
+    </delete>
 
 </mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tthome.visneymanager.dao.ArticleImgDao">
+
+
+
+    <resultMap id="PageViews" type="com.tthome.visneymanager.entity.ArticleImg">
+        <result column="article_img_id" property="articleImgId"/>
+        <result column="article_img_alt" property="articleImgAlt"/>
+        <result column="article_img_src" property="articleImgSrc"/>
+
+    </resultMap>
+
+    <delete id="articleImgDelete">
+        delete from article_img
+        where article_img_id in
+        <foreach collection="array" open="(" close=")" separator=","
+                 item="id">#{id}
+        </foreach>
+    </delete>
+
+
+
+</mapper>

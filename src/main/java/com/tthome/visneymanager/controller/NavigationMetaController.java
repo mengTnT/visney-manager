@@ -30,4 +30,13 @@ public class NavigationMetaController {
         return navigationMetaService.metaAdd(navigationMeta);
 
     }
+    @PostMapping("/metaUpdate")
+    public int metaUpdate(NavigationMeta navigationMeta){
+        return navigationMetaService.metaUpdate(navigationMeta);
+    }
+    @PostMapping("/metaDelete")
+    public int metaDelete(int [] ids){
+       return navigationMetaService.metaDelete(ids);
+
+    }
 }

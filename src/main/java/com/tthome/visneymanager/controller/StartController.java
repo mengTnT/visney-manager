@@ -1,6 +1,5 @@
 package com.tthome.visneymanager.controller;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,11 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date 2018/5/28 15:39
  */
 @Controller
-@RequestMapping("/test")
 public class StartController {
-@RequestMapping("/test11")
-public void test11(){
+    @RequestMapping("/test")
+    public String test(){
+        return "redirect:/main.html";
+    }
 
-    System.out.println("sssssssss");
-}
 }

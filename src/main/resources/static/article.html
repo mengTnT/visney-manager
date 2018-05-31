@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>article</title>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/css.css">
+    <link type="text/css" rel="stylesheet" href="css/easyui.css">
+    <link type="text/css" rel="stylesheet" href="css/icon.css">
+</head>
+
+</head>
+<body>
+<!--展示数据-->
+<table id="showAllArticle"></table>
+
+<div id="win">
+
+</div>
+
+
+
+<!--修改文章-->
+<div id="updateArticle" class="easyui-dialog" data-options="closed:true">
+    <form id="updateArticleInformation" enctype="multipart/form-data" method="post">
+
+        <input name="navigationId" id="navigationId" type="hidden"><br>
+        导航名：<input name="navigationName" id="navigationName"><br>
+        Title：<input name="navigationTitle" id="navigationTitle"><br>
+        Description：<input name="navigationDescription" id="navigationDescription"><br>
+        Keyword：<input name="navigationKeyword" id="navigationKeyword"><br>
+
+        <center>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">确认</a>
+        </center>
+    </form>
+
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        $('#win').window({
+            title:"文本编辑器",
+            width:600,
+            height:400,
+            closed:true,
+            maximized:true,
+            content:"<iframe id=\"myArticleIframe\" src=\"/visney-manager/editor\" width=\"100%\" height=\"100%\"></iframe>"
+        });
+
+
+
+
+        $("#showAllArticle")
+            .datagrid(
+                {
+                    url: 'http://localhost:9999/visney-manager/article/getArticles',
+                    fitColumns: true,
+
+                    columns: [[{
+                        checkbox: true
+                    }, {
+                        field: 'articleId',
+                        align: 'center',
+                        title: 'Id',
+                        width: 200,
+
+                    },{
+                        field: 'articleName',
+                        align: 'center',
+                        title: '标题',
+                        width: 200,
+
+                    },{
+                        field: 'articleText',
+                        align: 'center',
+                        title: '正文',
+                        width: 200,
+                        formatter:function (value,row,index) {
+                            //去除标签，截取50个字符
+                            return value.replace(/<\/?.+?>/g,"").substring(0,50)
+
+                        }
+
+                    },{
+                        field: 'articleEditor',
+                        align: 'center',
+                        title: '编辑',
+                        width: 200,
+                        formatter:function (value,row,index) {
+
+                            return value.articleEditorName
+
+                        }
+
+                    },{
+                        field: 'articleImg',
+                        align: 'center',
+                        title: '封面图片',
+                        width: 200,
+                        formatter: function (value, row, index) {
+                            // value  当前列值
+                            // row 当前行对象
+                            // index  行数据下标
+                            if (value) {
+                                return "<img width=50px height=50px src='" + row.articleImg.articleImgSrc + "'>";
+
+                            }
+
+                        }
+
+                    },{
+                        field: 'articleCategory',
+                        align: 'center',
+                        title: '所属类别',
+                        width: 200,
+                        formatter: function (value, row, index) {
+                            // value  当前列值
+                            // row 当前行对象
+                            // index  行数据下标
+                            if (value) {
+                                return value.articleCategoryName
+
+                            }
+
+                        }
+
+                    },{
+                        field: 'articleRecommend',
+                        align: 'center',
+                        title: '是否推荐',
+                        width: 200,
+                        formatter: function (value, row, index) {
+                            // value  当前列值
+                            // row 当前行对象
+                            // index  行数据下标
+                            if (value==1) {
+                                return "是";
+
+                            }
+                            else{
+                                return "否";
+                            }
+
+                        }
+
+                    },{
+                        field: 'labelList',
+                        align: 'center',
+                        title: '标签',
+                        width: 200,
+                        formatter:function (value,row,index) {
+                            var content="<select>"
+                            for(var i=0;i<value.length;i++){
+                                content+="<option>"+value[i].articleLabelName+"</option>";
+                            }
+                            return content+"</select>";
+
+                        }
+
+                    },{
+                        field: 'articleMetaDescription',
+                        align: 'center',
+                        title: 'Description',
+                        width: 200,
+
+                    },{
+                        field: 'articleMetaTitle',
+                        align: 'center',
+                        title: 'Title',
+                        width: 200,
+
+                    },{
+                        field: 'articleKeyWord',
+                        align: 'center',
+                        title: 'KeyWord',
+                        width: 200,
+
+                    },{
+                        field: 'pageViews',
+                        align: 'center',
+                        title: '浏览量',
+                        width: 200,
+                        formatter: function (value, row, index) {
+                            // value  当前列值
+                            // row 当前行对象
+                            // index  行数据下标
+                            if (value) {
+                                return value.pageViewsCount
+
+                            }
+
+                        }
+
+                        },{
+                        field: 'articleUpdateTime',
+                        align: 'center',
+                        title: '更新时间',
+                        width: 200,
+
+                    },{
+                        field: 'articleAddTime',
+                        align: 'center',
+                        title: '添加时间',
+                        width: 200,
+
+                    }
+                    ]],
+                    striped: true,
+                    pagination: true,
+                    pageSize:40,
+                    /* pageList: [10,20,30,40],*/
+                    toolbar: [
+                        {
+                            iconCls: 'icon-add',
+                            handler: function () {
+                                $('#win').window({
+                                    closed:false
+                                });
+                            }
+                        },
+                        '-',
+                        {
+                            iconCls: 'icon-edit',
+                            handler: function () {
+                                var cates = $("#showAllArticle")
+                                    .datagrid('getChecked');
+                                if (cates.length > 1
+                                    || cates.length < 1) {
+                                    $.messager.alert("消息",
+                                        "请选择一条数据修改", 'warning');
+                                } else {
+                                    $("#updateArticle").dialog(
+                                        {
+                                            title: '修改meta',
+                                            width: 400,
+                                            modal: true,
+                                            closed: false,
+
+                                        })
+                                    var navigationId;
+                                    var navigationName;
+                                    var navigationTitle;
+                                    var navigationDescription;
+                                    var navigationKeyword;
+                                    var navigationgetChecked = $("#showAllArticle").datagrid('getChecked');
+                                    $.each(navigationgetChecked, function (index,
+                                                             cate) {
+                                        console.log(cate)
+
+
+                                        navigationId = cate.navigationId;
+                                        navigationName = cate.navigationName;
+                                        navigationTitle = cate.navigationTitle;
+                                        navigationDescription = cate.navigationDescription;
+                                        navigationKeyword = cate.navigationKeyword;
+
+                                    })
+
+                                    $("#navigationId").val(navigationId);
+                                    $("#navigationName").val(navigationName);
+                                    $("#navigationTitle").val(navigationTitle);
+                                    $("#navigationDescription").val(navigationDescription);
+                                    $("#navigationKeyword").val(navigationKeyword);
+
+                                }
+                            }
+                        },
+                        '-',
+                        {
+                            iconCls: 'icon-remove',
+                            handler: function () {
+                                var cates = $("#showAllArticle").datagrid('getChecked');
+                                if (cates.length < 1) {
+                                    $.messager.alert("消息", "请选择一条数据修改", 'warning');
+                                } else {
+                                    $.messager.confirm("消息", "您确定要删除吗？", function (x) {
+                                        if (x) {
+                                            var articleIds = [];
+                                            var pageViewsIds = [];
+                                            var articleImgIds = [];
+
+                                            var cateIds = $("#showAllArticle").datagrid('getChecked');
+                                            $.each(cateIds, function (index, ii) {
+                                                articleIds.push(ii.articleId);
+                                                pageViewsIds.push(ii.pageViews.pageViewsId);
+                                                articleImgIds.push(ii.articleImg.articleImgId);
+                                            })
+                                            $.ajax({
+                                                type: 'post',
+                                                url: 'http://localhost:9999/visney-manager/article/articleDelete',
+                                                /*传递数组需要加上这个参数，不然默认在后面加上[]*/
+                                                traditional: true,
+                                                data: {
+                                                    "articleIds":articleIds,
+                                                    "pageViewsIds":pageViewsIds,
+                                                    "articleImgIds":articleImgIds,
+                                                },
+
+                                                success: function (data) {
+                                                    if (data != 0) {
+                                                        $.messager.alert("消息", "删除成功", 'info');
+                                                        $("#showAllArticle").datagrid('reload');
+                                                    } else {
+                                                        $.messager.alert("消息", "删除失败", 'error');
+                                                        $("#showAllArticle").datagrid('reload');
+                                                    }
+                                                }
+                                            })
+                                        } else {
+                                            $("#showAllArticle").datagrid('reload');
+                                        }
+                                    })
+
+                                }
+                            }
+                        }]
+
+                })
+    })
+
+
+    $("#addArticleInformation").submit(function () {
+        var formData = new FormData($("#addArticleInformation")[0]);
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaAdd',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (dada) {
+                if (dada == 1) {
+                    $.messager.alert("消息", "添加成功", 'info');
+                    $("#addArticle").dialog('close');
+                    $("#showAllArticle").datagrid('reload');
+
+                } else if (dada == 0) {
+                    $.messager.alert("消息", "添加失败", 'error');
+                    $("#addArticle").dialog('close');
+                    $("#showAllArticle").datagrid('reload');
+
+                }
+            }
+        })
+        return false;
+    })
+    $("#updateArticleInformation").submit(function () {
+        var formData = new FormData($("#updateArticleInformation")[0]);
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaUpdate',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (dada) {
+                if (dada == 1) {
+                    $.messager.alert("消息", "修改成功", 'info');
+                    $("#updateArticle").dialog('close');
+                    $("#showAllArticle").datagrid('reload');
+                } else {
+                    $.messager.alert("消息", "修改失败", 'error');
+                    $("#updateArticle").dialog('close');
+                    $("#showAllArticle").datagrid('reload');
+                }
+            }
+        })
+        return false;
+    })
+
+
+    function pro2() {
+        $("#updateArticleInformation").submit();
+    }
+
+    function pro1() {
+        $("#addArticleInformation").submit();
+    }
+</script>
+</body>
+
+
+
+</html>

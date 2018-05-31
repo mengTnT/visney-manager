@@ -22,4 +22,18 @@ public interface NavigationMetaService {
      */
     public int metaAdd(NavigationMeta navigationMeta);
 
+    /**
+     * 修改导航meta
+     * @param navigationMeta
+     * @return
+     */
+    public int metaUpdate(NavigationMeta navigationMeta);
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    public int metaDelete(int [] ids);
+
 }

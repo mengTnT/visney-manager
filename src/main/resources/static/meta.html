@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>meta</title>
-    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
     <link type="text/css" rel="stylesheet" href="css/css.css">
@@ -18,13 +18,12 @@
 <!--添加导航meta标签-->
 <div id="addMeta" class="easyui-dialog" data-options="closed:true">
     <form id="addMetaInformation" enctype="multipart/form-data" method="post">
-        导航名称：<input name="navigationName"><br>
-        Title：<input name="navigationTitle"><br>
+             导航名称：<input name="navigationName"><br>
+              Title：<input name="navigationTitle"><br>
         Description：<input name="navigationDescription"><br>
-        Keyword：<input name="navigationKeyword"><br>
+            Keyword：<input name="navigationKeyword"><br>
         <center>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro1()">确认</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
         </center>
 
     </form>
@@ -32,32 +31,15 @@
 <!--修改meta标签内容-->
 <div id="updateMeta" class="easyui-dialog" data-options="closed:true">
     <form id="updateMetaInformation" enctype="multipart/form-data" method="post">
-        <input id="bannerId" name="bannerId" type="hidden"/>
-        <input id="banner_Image" name="bannerImage" type="hidden"/>
 
-        轮播图名：<input name="bannerName" id="bannerName"><br>
-        <%--图片：<input type="file"  name="image" /><br/><br/>
-        <div id="bannerImg2"></div>--%>
-        图片路径：<input type="file" onchange="previewImage2(this)"  name="image"><br>
-        <div id="preview2">
-            <%--<img id="imghead2" border="0" src="img/photo_icon.png" width="90" height="90" >--%>
-        </div><br>
+        <input name="navigationId" id="navigationId" type="hidden"><br>
+        导航名：<input name="navigationName" id="navigationName"><br>
+        Title：<input name="navigationTitle" id="navigationTitle"><br>
+        Description：<input name="navigationDescription" id="navigationDescription"><br>
+        Keyword：<input name="navigationKeyword" id="navigationKeyword"><br>
 
-        状态：<input class="easyui-combobox" id="banner_status2" name="bannerState" data-options="
-    			valueField: 'label',
-				textField: 'value',
-				width:150,height:20,
-				data: [{
-					label: 'y',
-					value: '显示'
-				},{
-					label: 'n',
-					value: '不显示'
-				}]
-    		"></input><br/>
         <center>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">确认</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
         </center>
     </form>
 
@@ -109,14 +91,14 @@
                     ]],
                     striped: true,
                     pagination: true,
-                    pageSize:10,
+                    pageSize:40,
                     /* pageList: [10,20,30,40],*/
                     toolbar: [
                         {
                             iconCls: 'icon-add',
                             handler: function () {
                                 $("#addMeta").dialog({
-                                    title: '添加轮播图',
+                                    title: '添加导航meta',
                                     width: 400,
                                     modal: true,
                                     closed: false
@@ -137,48 +119,37 @@
                                 } else {
                                     $("#updateMeta").dialog(
                                         {
-                                            title: '修改轮播图',
+                                            title: '修改meta',
                                             width: 400,
                                             modal: true,
                                             closed: false,
 
                                         })
-                                    var bannerId;
-                                    var bannerImage;
-                                    var bannerName;
-                                    var bannerNum;
-                                    var bannerState;
-                                    var state2;
-                                    var banner = $("#showAllmeta").datagrid('getChecked');
-                                    $.each(banner, function (index,
+                                    var navigationId;
+                                    var navigationName;
+                                    var navigationTitle;
+                                    var navigationDescription;
+                                    var navigationKeyword;
+                                    var navigationgetChecked = $("#showAllmeta").datagrid('getChecked');
+                                    $.each(navigationgetChecked, function (index,
                                                              cate) {
                                         console.log(cate)
 
 
-                                        bannerId = cate.bannerId;
-                                        bannerImage = cate.bannerImage;
-                                        bannerName = cate.bannerName;
-                                        bannerNum = cate.bannerNum;
-                                        bannerState = cate.bannerState;
-                                        state2=cate.bannerState;
+                                        navigationId = cate.navigationId;
+                                        navigationName = cate.navigationName;
+                                        navigationTitle = cate.navigationTitle;
+                                        navigationDescription = cate.navigationDescription;
+                                        navigationKeyword = cate.navigationKeyword;
 
                                     })
 
-                                    $("#bannerId")
-                                        .val(bannerId);
-                                    $("#bannerName")
-                                        .val(bannerName);
-                                    $("#banner_Image")
-                                        .val(bannerImage);
-                                    var state=bannerState;
-                                    if(state=='y'){
-                                        state='已展示'
-                                    }
-                                    else{state='未展示'}
-                                    console.log(state)
-                                    $("#banner_status2").combobox("select",state);
-                                    $("#banner_status2").combobox('setValue', state2);
-                                    $("#preview2").html('<img id="imghead2" border="0" width="50px" height="50px" src="${pageContext.request.contextPath}/picture'+bannerImage+'"/>');
+                                    $("#navigationId").val(navigationId);
+                                    $("#navigationName").val(navigationName);
+                                    $("#navigationTitle").val(navigationTitle);
+                                    $("#navigationDescription").val(navigationDescription);
+                                    $("#navigationKeyword").val(navigationKeyword);
+
                                 }
                             }
                         },
@@ -195,14 +166,14 @@
                                             var ids = [];
                                             var cateIds = $("#showAllmeta").datagrid('getChecked');
                                             $.each(cateIds, function (index, ii) {
-                                                ids.push(ii.bannerId);
+                                                ids.push(ii.navigationId);
                                             })
                                             $.ajax({
                                                 type: 'post',
-                                                url: '${pageContext.request.contextPath}/deleteBanner.do',
+                                                url: 'http://localhost:9999/visney-manager/NavigationMeta/metaDelete',
                                                 data: 'ids=' + ids,
-                                                success: function (dada) {
-                                                    if (dada != 0) {
+                                                success: function (data) {
+                                                    if (data != 0) {
                                                         $.messager.alert("消息", "删除成功", 'info');
                                                         $("#showAllmeta").datagrid('reload');
                                                     } else {
@@ -228,7 +199,7 @@
         var formData = new FormData($("#addMetaInformation")[0]);
         $.ajax({
             type: 'post',
-            url: '${pageContext.request.contextPath}/addMeta.do',
+            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaAdd',
             data: formData,
             contentType: false,
             processData: false,
@@ -252,7 +223,7 @@
         var formData = new FormData($("#updateMetaInformation")[0]);
         $.ajax({
             type: 'post',
-            url: '${pageContext.request.contextPath}/updateMeta.do',
+            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaUpdate',
             data: formData,
             cache: false,
             contentType: false,
@@ -272,10 +243,6 @@
         return false;
     })
 
-    function exit() {
-        $("#updateMeta").dialog('close');
-        $("#showAllmeta").datagrid('reload');
-    }
 
     function pro2() {
         $("#updateMetaInformation").submit();
