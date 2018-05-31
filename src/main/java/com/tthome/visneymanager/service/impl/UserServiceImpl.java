@@ -22,8 +22,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
     @Override
-    public User userLogin(String username, String password, HttpSession session, HttpServletRequest request) {
-
+    public User userLogin(String username, String password, HttpServletRequest request) {
+        HttpSession session=request.getSession();
         Map map=new HashMap();
         User user1 = userDao.login(username, password);
         if(user1!=null){

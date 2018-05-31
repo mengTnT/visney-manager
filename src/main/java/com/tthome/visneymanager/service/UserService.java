@@ -12,5 +12,5 @@ import java.util.Map;
  * @date 2018-05-29 8:59
  */
 public interface UserService {
-    User userLogin(String username, String password, HttpSession session,HttpServletRequest request);
+    User userLogin(String username, String password,HttpServletRequest request);
 }
