@@ -13,5 +13,7 @@ public interface NavigationMetaDao {
     public List<NavigationMeta> metaGetAll();
     public int getMetaTotal();
     public int metaAdd(NavigationMeta navigationMeta);
+    public int metaUpdate(NavigationMeta navigationMeta);
+    public int metaDelete(int [] ids);
 
 }

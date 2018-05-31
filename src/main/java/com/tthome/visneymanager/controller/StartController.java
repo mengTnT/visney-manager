@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class StartController {
-
+    @RequestMapping("/test")
+    public String test(){
+        return "redirect:/main.html";
+    }
 
 }

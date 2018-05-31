@@ -6,6 +6,7 @@ import com.tthome.visneymanager.entity.NavigationMeta;
 import com.tthome.visneymanager.service.NavigationMetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @date 2018/5/22 14:33
  */
 @Service
+@Transactional
 public class NavigationMetaServiceImpl implements NavigationMetaService {
     @Autowired
     private NavigationMetaDao navigationMetaDao;
@@ -29,5 +31,20 @@ public class NavigationMetaServiceImpl implements NavigationMetaService {
         map.put("total",total);
         map.put("rows",list);
         return map;
+    }
+
+    @Override
+    public int metaAdd(NavigationMeta navigationMeta) {
+        return navigationMetaDao.metaAdd(navigationMeta);
+    }
+
+    @Override
+    public int metaUpdate(NavigationMeta navigationMeta) {
+        return navigationMetaDao.metaUpdate(navigationMeta);
+    }
+
+    @Override
+    public int metaDelete(int[] ids) {
+        return navigationMetaDao.metaDelete(ids);
     }
 }
