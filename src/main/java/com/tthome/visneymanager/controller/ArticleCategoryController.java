@@ -31,10 +31,6 @@ public class ArticleCategoryController {
         return articleCategoryService.getPageArticleCategory(page,rows);
     }
     @PostMapping("/addArticleCategory")
-  /*  public Map addArticleCategory(){
-
-        return null;
-    }*/
     public Map addArticleCategory(ArticleCategory articleCategory){
 
        return articleCategoryService.addArticleCategory(articleCategory);

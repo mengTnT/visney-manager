@@ -16,7 +16,7 @@ import java.util.Map;
  * @date 2018/5/11 17:12
  */
 @Transactional
-@Service
+@Service("articleCategoryService")
 public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     @Autowired
     private ArticleCategoryDao articleCategoryDao;
