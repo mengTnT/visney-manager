@@ -4,7 +4,7 @@
 
 
     <resultMap id="Article" type="com.tthome.visneymanager.entity.Article">
-        <result column="article_id" property="articleId"/>
+        <id column="article_id" property="articleId"></id>
         <result column="article_name" property="articleName"/>
         <result column="article_text" property="articleText"/>
         <result column="article_cover_img" property="articleCoverImg"/>
@@ -32,12 +32,24 @@
             <result column="page_views_id" property="pageViewsId"/>
             <result column="page_views_count" property="pageViewsCount"/>
         </association>
-        <collection property="labelList" ofType="com.tthome.visneymanager.entity.ArticleLabel">
-            <result column="article_label_id" property="articleLabelId"/>
+        <collection property="labelList" ofType="com.tthome.visneymanager.entity.ArticleLabel" select="getLabel" column="article_id">
+            <id column="article_label_id" property="articleLabelId"/>
             <result column="article_label_name" property="articleLabelName"/>
             <result column="article_id" property="articleId"/>
         </collection>
     </resultMap>
+
+    <resultMap id="ArticleLabel" type="com.tthome.visneymanager.entity.ArticleLabel">
+        <id column="article_label_id" property="articleLabelId"/>
+        <result column="article_label_name" property="articleLabelName"/>
+        <result column="article_id" property="articleId"/>
+    </resultMap>
+
+    <select id="getLabel" resultMap="ArticleLabel">
+select * from article_label
+where article_id=#{article_id}
+
+    </select>
 
 
     <select id="getArticles" resultMap="Article">
@@ -54,15 +66,14 @@
         t5.page_views_count,
         t1.article_add_time,
         t1.article_update_time,
-        t2.article_label_id,
-        t2.article_label_name,
+
         t6.*, t1.article_meta_title,
         t1.article_meta_description,
         t1.article_meta_keyword,
         t1.article_recommend
         FROM
         article t1
-        LEFT JOIN article_label t2 ON t1.article_id = t2.article_id
+
         LEFT JOIN article_editor t3 ON t1.article_editor_id = t3.article_editor_id
         LEFT JOIN article_category t4 ON t1.article_category_id = t4.article_category_id
         LEFT JOIN page_views t5 ON t1.article_page_views_id = t5.page_views_id

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tthome.visneymanager.dao.ProductDao">
+    <resultMap id="BaseResultMap" type="com.tthome.visneymanager.entity.Product">
+        <id column="pro_id" property="proId" jdbcType="INTEGER"/>
+        <result column="pro_name" property="proName" jdbcType="VARCHAR"/>
+        <result column="pro_price" property="proPrice" jdbcType="DECIMAL"/>
+        <result column="pro_msg" property="proMsg" jdbcType="VARCHAR"/>
+        <result column="pro_src" property="proSrc" jdbcType="VARCHAR"/>
+        <result column="pro_add_time" property="proAddTime"/>
+        <result column="pro_update_time" property="proUpdateTime"/>
+        <result column="pro_putaway" property="proPutaway" jdbcType="TINYINT"/>
+        <result column="pro_meta_keyword" property="proMetaKeyWord"/>
+        <result column="pro_meta_description" property="proMetaDescription"/>
+        <result column="pro_meta_title" property="proMetaTitle"/>
+        <association property="brand" javaType="com.tthome.visneymanager.entity.Brand">
+            <result column="brand_id" property="brandId"></result>
+            <result column="brand_name" property="brandName"></result>
+        </association>
+        <association property="modleCode" javaType="com.tthome.visneymanager.entity.ModleCode">
+            <result column="model_code_id" property="modelCodeId"></result>
+            <result column="model_code_name" property="modelCodeName"></result>
+        </association>
+        <association property="size" javaType="com.tthome.visneymanager.entity.Size">
+            <result column="size_id" property="sizeId"></result>
+            <result column="size_msg" property="siziMsg"></result>
+        </association>
+        <association property="pageViews" javaType="com.tthome.visneymanager.entity.PageViews" >
+            <result column="page_views_id" property="pageViewsId"></result>
+            <result column="page_views_count" property="pageViewsCount"></result>
+        </association>
+        <association property="proPosition" javaType="com.tthome.visneymanager.entity.ProPosition" >
+            <result column="position_id" property="proPositionId"></result>
+            <result column="pname" property="proPositionName"></result>
+        </association>
+        <association property="proStyle" javaType="com.tthome.visneymanager.entity.ProStyle" >
+            <result column="style_id" property="proStyleId"></result>
+            <result column="sname" property="proStyleName"></result>
+        </association>
+        <association property="proType" javaType="com.tthome.visneymanager.entity.ProType" >
+            <result column="type_id" property="proTypeId"></result>
+            <result column="tname" property="proTypeName"></result>
+        </association>
+        <association property="proSeries" javaType="com.tthome.visneymanager.entity.ProSeries" >
+            <result column="series_id" property="proSeriesId"></result>
+            <result column="srname" property="proSeriesName"></result>
+        </association>
+        <association property="proTexture" javaType="com.tthome.visneymanager.entity.ProTexture" >
+            <result column="texture_id" property="proTextureId"></result>
+            <result column="txname" property="proTextureName"></result>
+        </association>
+        <collection property="proImgs" ofType="com.tthome.visneymanager.entity.ProImg" select="getImgs" column="pro_id">
+            <id column="pro_img_id" property="proImgId"></id>
+            <result column="pro_img_alt" property="proImgAlt"></result>
+            <result column="pro_img_src" property="proImgSrc"></result>
+            <result column="pro_img_cover" property="proImgCover"></result>
+        </collection>
+    </resultMap>
+
+    <resultMap id="proImg" type="com.tthome.visneymanager.entity.ProImg">
+        <id column="pro_img_id" property="proImgId"></id>
+        <result column="pro_img_alt" property="proImgAlt"></result>
+        <result column="pro_img_src" property="proImgSrc"></result>
+        <result column="pro_img_cover" property="proImgCover"></result>
+    </resultMap>
+
+    <select id="getImgs" resultMap="proImg">
+        select * from pro_img
+        where pro_id=#{pro_id}
+
+    </select>
+
+    <select id="getTotal" resultType="int">
+        select count(*) from product t1
+    </select>
+
+
+    <select id="selectAll" resultMap="BaseResultMap">
+
+       SELECT t1.*,t2.brand_name,t3.pro_category_name pname,t4.pro_category_name sname,t5.pro_category_name tname,t6.pro_category_name srname,t7.pro_category_name txname,t8.size_msg,t9.page_views_count,t11.model_code_name
+from product t1
+LEFT JOIN brand t2 ON t1.brand_id=t2.brand_id
+LEFT JOIN pro_category t3 ON t1.position_id=t3.pro_category_id
+LEFT JOIN pro_category t4 ON t1.style_id=t4.pro_category_id
+LEFT JOIN pro_category t5 ON t1.type_id=t5.pro_category_id
+LEFT JOIN pro_category t6 ON t1.series_id=t6.pro_category_id
+LEFT JOIN pro_category t7 ON t1.texture_id=t7.pro_category_id
+LEFT JOIN size t8 ON t1.size_id=t8.size_id
+LEFT JOIN page_views t9 ON t1.page_views_id=t9.page_views_id
+
+LEFT JOIN modle_code t11 ON t1.model_code_id=t11.model_code_id
+
+    </select>
+
+</mapper>

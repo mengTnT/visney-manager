@@ -20,7 +20,7 @@
 
         </div>
         <div title="产品">
-
+            <a id="pro-linkbutton" class="easyui-linkbutton" onclick="addTabs('product.html')"></a>
         </div>
         <div title="文章">
             <a id="article-linkbutton" class="easyui-linkbutton" onclick="addTabs('article.html')"></a>
@@ -52,6 +52,10 @@
 
     $('#article-linkbutton').linkbutton({
         text: '文章管理',
+        iconCls: 'icon-ok',
+    });
+    $('#pro-linkbutton').linkbutton({
+        text: '产品管理',
         iconCls: 'icon-ok',
     });
     function addTabs(url) {
