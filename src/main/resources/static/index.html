@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
     <head>
 
@@ -23,7 +23,7 @@
         <![endif]-->
 
         <!-- Favicon and touch icons -->
-        <link rel="shortcut icon" href="//assets/ico/favicon.png">
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
@@ -49,9 +49,13 @@
                         </div>
                     </div>
                     <div class="row">
+
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                         	<div class="form-top">
                         		<div class="form-top-left">
+                                    <h2>
+
+                                        <span th:text="${msg}"></span> </h2>
                         			<h3>Login to our site</h3>
                             		<p>输入用户名和密码:</p>
                         		</div>
@@ -60,16 +64,16 @@
                         		</div>
                             </div>
                             <div class="form-bottom">
-			                    <form role="form" action="" method="post" class="login-form">
+			                    <form role="form"  class="login-form" id="login" method="post" action="http://localhost:9999/visney-manager/login">
 			                    	<div class="form-group">
 			                    		<label class="sr-only" for="form-username">Username</label>
-			                        	<input type="text" name="form-username" placeholder="Username..." class="form-username form-control" id="form-username">
+			                        	<input type="text" name="username" placeholder="Username..." class="form-username form-control" id="form-username">
 			                        </div>
 			                        <div class="form-group">
 			                        	<label class="sr-only" for="form-password">Password</label>
-			                        	<input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password">
+			                        	<input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password">
 			                        </div>
-			                        <button type="submit" class="btn" onclick="checklogin()">登陆</button>
+			                        <button class="btn" type="submit">登陆</button>
 			                    </form>
 		                    </div>
                         </div>
@@ -87,13 +91,36 @@
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="assets/js/jquery.backstretch.min.js"></script>
         <script src="assets/js/scripts.js"></script>
-        <script type="text/javascript">
+       <!-- <script type="text/javascript">
         	function checklogin () {
-        		alert("ok")
+        		/*alert("ok 2545 25")*/
+               /* var username=$("#form-username").val();
+                var password=$("#form-password").val();*/
+                alert("000")
+                var formData = new FormData($("#login")[0]);
+                $.ajax({
+                    url:"http://localhost:9999/visney-manager/userLogin/login",
+                    type:'post',
+                    data:formData,
+                    dataType:"json",
+                    success:function (data) {
+                       /* if(data.login){
+                            /!*  window.location.href="main.html"*!/
+
+                        }else{
+                            alert(data.msg)
+                        }*/
+                       alert("000")
+
+                    }
+
+
+                })
+
         	}
         	
         	
-        </script>
+        </script>-->
         
         <!--[if lt IE 10]>
         <script src="assets/js/placeholder.js"></script>

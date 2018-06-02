@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tthome.visneymanager.dao.ArticleEditorDao">
+
+
+    <resultMap id="ArticleEditor" type="com.tthome.visneymanager.entity.ArticleEditor">
+        <result column="article_editor_id" property="articleEditorId"/>
+        <result column="article_editor_name" property="articleEditorName"/>
+    </resultMap>
+
+<!--全部-->
+    <select id="getArticleAll" resultMap="ArticleEditor">
+        SELECT * from article_editor limit #{start},#{end}
+    </select>
+<!-- Count-->
+    <select id="getArticleEditorCount"  resultType="int">
+        select  count(*) from article_editor
+    </select>
+<!--add=-->
+    <insert id="editorAdd" >
+        insert into article_editor values (0,#{articleEditorName})
+    </insert>
+<!--delete-->
+    <delete id="editorDelte">
+        delete from article_editor
+        where article_editor_id in
+        <foreach collection="array" open="(" close=")" separator=","
+                 item="articleEditorId">#{articleEditorId}
+        </foreach>
+    </delete>
+<!--update-->
+    <update id="editorUpdate" >
+      update  article_editor set article_editor_name=#{articleEditorName}
+      where article_editor_id=#{articleEditorId}
+    </update>
+</mapper>

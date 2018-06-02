@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>article</title>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/css.css">
+    <link type="text/css" rel="stylesheet" href="css/easyui.css">
+    <link type="text/css" rel="stylesheet" href="css/icon.css">
+</head>
+
+</head>
+<body>
+<!--展示数据-->
+<table id="showAllArticleLabel"></table>
+<!--工具栏-->
+<div id="toolBar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="addE()"></a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" onclick="updateE()"></a>
+  <!--  <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="deleteE()"></a>
+-->
+</div>
+
+
+<!--修改文章-->
+<div id="updateArticleLabel" class="easyui-dialog" data-options="closed:true">
+    <form id="updateArticleLabelInformation" enctype="multipart/form-data" method="post">
+
+        <input name="articleLabelId" id="articleLabelId" type="hidden"><br>
+        <input name="articleId" id="articleId"  type="hidden" ><br>
+        标签名：<input name="articleLabelName" id="articleLabelName" ><br>
+
+        <center>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro1()">确认</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">放弃</a>
+
+        </center>
+    </form>
+
+</div>
+<div id="addArticleLabel" class="easyui-dialog" data-options="closed:true">
+    <form id="addArticleLabelInformation" enctype="multipart/form-data" method="post">
+
+        <input name="articleLabelId"  type="hidden"><br>
+        标签名：<input name="articleLabelName"  ><br>
+        文章标号：<input name="articleId" ><br>
+
+        <center>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro3()">确认</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro4()">放弃</a>
+
+        </center>
+    </form>
+
+</div>
+<script type="text/javascript">
+    $(function () {
+    /*分页 展示所有*/
+        //1.2把table转换成一个datagrid效果
+        $("#showAllArticleLabel").datagrid({
+            url:"http://localhost:9999/visney-manager/articleLabel/getAllArticleLabel",//请求路径
+            //在底部显示分页工具栏，设置为true之后，datagrid再发生ajax的时候就会发送两个参数
+            pagination:true,//如果为true，则在DataGrid控件底部显示分页工具栏。
+            border:true,
+            maximizable:true,
+
+            toolbar:"#toolBar",//顶部添加工具栏
+            columns:[[
+                {checkbox: true},
+                {title:"id",field:"articleLabelId",width:200},//每一列是一个对象
+                {title:"标签名",field:"articleLabelName", width:200},
+                {title:"文章标号",field:"articleId", width:200},
+            ]],
+        })
+
+    })
+/*update*/
+    //加载修改页面。。。。。。。。。。。。
+    $(function(){
+        $("#updateArticleLabel").dialog({
+
+            title:"修改页面",
+            width:860,
+            width:400,
+            cache: false,
+            closed:true,
+            modal:true,
+            contentType: false,
+            processData: false,
+        })
+    })
+
+    //点击执行修改操作 显示修改页面
+    function updateE(){
+        //返回第一个被选中的行或如果没有选中的行则返回null。
+
+        var va=$("#showAllArticleLabel").datagrid("getSelected");
+        if(va==null){
+            $.messager.alert("提示框","请选择一个要修改的数据","warming");
+        }else{
+            $("#updateArticleLabelInformation input" ).val("");
+            $("#updateArticleLabel").dialog("open");
+            $("#articleLabelId").val(va.articleLabelId);
+            $("#articleLabelName").val(va.articleLabelName);
+            $("#articleId").val(va.articleId);
+        }
+    }
+    //在修改页面 点击修改 修改
+    function pro1(){
+        //点击form表单 用ajax提交
+        $("#updateArticleLabelInformation").form("submit",{
+            url:"http://localhost:9999/visney-manager/articleLabel/updateArticleLabel",
+
+            success:function(data){
+                var da=eval('(' + data + ')');
+                console.log(data)
+                if(da.msg){
+                    $.messager.alert("提示框"," 修改成功","info");//提示框
+                    //关闭添加  对话框
+
+                    $("#updateArticleLabel").dialog("close");
+
+                    //表格重新加载
+                    $("#showAllArticleLabel").datagrid("reload");
+                }else{
+                    $.messager.alert("提示框","修改失败，请确认","warming");
+                }
+            }
+        })
+    }
+    //点击取消 取消修改
+    function pro2(){
+        $("#updateArticleLabel").dialog("close");
+    }
+    /*添加界面开始*/
+    //添加页面
+    $(function(){
+        $("#addArticleLabel").dialog({
+            title:"添加页面",
+            width:860,
+            height: 400,
+            cache: false,
+            closed:true,
+            modal:true,
+            contentType: false,
+            processData: false,
+        });
+    })
+    //显示添加 页面
+    function addE(){
+        $("#addArticleLabel").dialog("open");
+    }
+    //点击添加按钮添加
+    function pro3(){
+//              发送ajxs请求
+
+        $("#addArticleLabelInformation").form('submit',{
+            url:"http://localhost:9999/visney-manager/articleLabel/addArticleLabel",
+            type:"post",
+            success:function (data) {
+                var da = eval('(' + data + ')');
+                if(da.msg){
+                    $.messager.alert("提示框","添加成功","info")
+                    //	关闭对话框
+                    $("#addArticleLabel").dialog("close")
+                    //表格重新加载
+                    $("#showAllArticleLabel").datagrid("reload");
+                }else{
+                    $.messager.alert("提示框","添加失败","warming");
+                }
+            }
+        })
+    }
+    //点击取消按钮 取消添加
+    function prof4(){
+        $("#addArticleLabel").dialog("close");
+    }
+
+    /*//点击删除按钮执行  删除操作
+    function  deleteE(){
+        var rows = $("#showAllArticleLabel").datagrid("getSelections");//返回所有被选中的行，当没有记录被选中的时候将返回一个空数组。
+
+        if(rows.length==0){
+            $.messager.alert("提示框","请删除要选择的内容","warning");
+        }else{
+            $.messager.confirm("确认删除","确定要删除选中的所有内容吗？",function(r){
+                if(r){
+                    var ids = new Array();//创建一个数组
+                    for(var i = 0;i<rows.length;i++){
+                        ids[i]= rows[i].articleEditorId;//这里是（对象.属性）
+                        alert(ids[1]);              }
+
+
+                    $.ajax({
+                        url:"http://localhost:9999/visney-manager/articleEditor/deleteArticleEditor",
+                        type:"post",
+                        data:"ids="+ids,//data:{"ids":ids}
+                        success:function(data){
+                            data=eval('(' + data + ')');
+                            if(data.msg){
+                                $.messager.alert("提示框","删除成功","info");
+                                $("#showAllArticleLabel").datagrid("reload");//刷新表格
+                            }else{
+                                $.messager.alert("提示框","删除失败","warning");
+
+                            }
+
+                        },
+
+                    });
+
+                }
+            });
+        }
+    }*/
+</script>
+</body>
+
+
+
+</html>

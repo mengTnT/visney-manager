@@ -2,13 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tthome.visneymanager.dao.ArticleCategoryDao">
 
-    <resultMap id="BaseResultMap" type="com.tthome.visneymanager.entity.ArticleCategory">
+    <resultMap id="ArticleCategory" type="com.tthome.visneymanager.entity.ArticleCategory">
         <id column="article_category_id" property="articleCategoryId"/>
         <result column="article_category_name" property="articleCategoryName"/>
     </resultMap>
 
 
-    <select id="getAllArticleCategory" resultMap="BaseResultMap">
+    <select id="getAllArticleCategory" resultMap="ArticleCategory">
     SELECT * FROM article_category
   </select>
+       <!--分页-->
+    <select id="getPageArticleCategory" resultMap="ArticleCategory">
+        select * from article_category limit #{start},#{end}
+    </select>
+    <!--count-->
+    <select id="getAllArticleCategoryCount" resultType="int">
+        select count(*) from article_category
+    </select>
+    <!--add-->
+    <insert id="addArticleCategory" >
+        insert into article_category values (0,#{articleCategoryName})
+    </insert>
+    <!--update-->
+    <update id="updateArticleCategory">
+        update article_category set article_category_name=#{articleCategoryName}
+        where article_category_id=#{articleCategoryId}
+    </update>
+    <!--delete-->
+    <delete id="deleteArticleCategory">
+        delete from article_category where navigation_id in
+        <foreach collection="array" open="(" close=")" separator=","
+                 item="id">#{id}
+        </foreach>
+    </delete>
 </mapper>

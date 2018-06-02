@@ -12,6 +12,6 @@ import java.io.Serializable;
 public class ArticleCategory implements Serializable {
 
     private static final long serialVersionUID = 5072225058629885094L;
-    private int articleCategoryId;
+    private Integer articleCategoryId;
     private String articleCategoryName;
 }
