@@ -1,153 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tthome.visneymanager.dao.ArticleDao">
+<mapper namespace="com.tthome.visneymanager.dao.ArticleEditorDao">
 
 
-    <resultMap id="Article" type="com.tthome.visneymanager.entity.Article">
-        <result column="article_id" property="articleId"/>
-        <result column="article_name" property="articleName"/>
-        <result column="article_text" property="articleText"/>
-        <result column="article_cover_img" property="articleCoverImg"/>
-        <result column="article_add_time" property="articleAddTime"/>
-        <result column="article_update_time" property="articleUpdateTime"/>
-        <result column="article_recommend" property="articleRecommend"/>
-        <result column="article_meta_description" property="articleMetaDescription"/>
-        <result column="article_meta_title" property="articleMetaTitle"/>
-        <result column="article_meta_keyword" property="articleKeyWord"/>
-        <association property="articleEditor" javaType="com.tthome.visneymanager.entity.ArticleEditor">
-            <result column="article_editor_id" property="articleEditorId"/>
-            <result column="article_editor_name" property="articleEditorName"/>
-        </association>
-
-        <association property="articleCategory" javaType="com.tthome.visneymanager.entity.ArticleCategory">
-            <result column="article_category_id" property="articleCategoryId"/>
-            <result column="article_category_name" property="articleCategoryName"/>
-        </association>
-        <association property="articleImg" javaType="com.tthome.visneymanager.entity.ArticleImg">
-            <result column="article_img_id" property="articleImgId"/>
-            <result column="article_img_alt" property="articleImgAlt"/>
-            <result column="article_img_src" property="articleImgSrc"/>
-        </association>
-        <association property="pageViews" javaType="com.tthome.visneymanager.entity.PageViews">
-            <result column="page_views_id" property="pageViewsId"/>
-            <result column="page_views_count" property="pageViewsCount"/>
-        </association>
-        <collection property="labelList" ofType="com.tthome.visneymanager.entity.ArticleLabel">
-            <result column="article_label_id" property="articleLabelId"/>
-            <result column="article_label_name" property="articleLabelName"/>
-            <result column="article_id" property="articleId"/>
-        </collection>
+    <resultMap id="ArticleEditor" type="com.tthome.visneymanager.entity.ArticleEditor">
+        <result column="article_editor_id" property="articleEditorId"/>
+        <result column="article_editor_name" property="articleEditorName"/>
     </resultMap>
 
-
-    <select id="getArticles" resultMap="Article">
-        SELECT
-        t1.article_id,
-        t1.article_name,
-        t1.article_text,
-        t1.article_editor_id,
-        t3.article_editor_name,
-        t1.article_category_id,
-        t4.article_category_name,
-        t1.article_page_views_id,
-        t5.page_views_id,
-        t5.page_views_count,
-        t1.article_add_time,
-        t1.article_update_time,
-        t2.article_label_id,
-        t2.article_label_name,
-        t6.*, t1.article_meta_title,
-        t1.article_meta_description,
-        t1.article_meta_keyword,
-        t1.article_recommend
-        FROM
-        article t1
-        LEFT JOIN article_label t2 ON t1.article_id = t2.article_id
-        LEFT JOIN article_editor t3 ON t1.article_editor_id = t3.article_editor_id
-        LEFT JOIN article_category t4 ON t1.article_category_id = t4.article_category_id
-        LEFT JOIN page_views t5 ON t1.article_page_views_id = t5.page_views_id
-        LEFT JOIN article_img t6 ON t1.article_img_id = t6.article_img_id
-
+<!--全部-->
+    <select id="getArticleAll" resultMap="ArticleEditor">
+        SELECT * from article_editor limit #{start},#{end}
     </select>
-
-    <select id="getArticlesByCategory" resultMap="Article">
-        SELECT
-        t1.article_id,
-        t1.article_name,
-        t1.article_text,
-        t1.article_editor_id,
-        t3.article_editor_name,
-        t1.article_category_id,
-        t4.article_category_name,
-        t1.article_page_views_id,
-        t5.page_views_id,
-        t5.page_views_count,
-        t1.article_add_time,
-        t1.article_update_time,
-        t2.article_label_id,
-        t2.article_label_name,
-        t6.*, t1.article_meta_title,
-        t1.article_meta_description,
-        t1.article_meta_keyword,
-        t1.article_recommend
-        FROM
-        article t1
-        LEFT JOIN article_label t2 ON t1.article_id = t2.article_id
-        LEFT JOIN article_editor t3 ON t1.article_editor_id = t3.article_editor_id
-        LEFT JOIN article_category t4 ON t1.article_category_id = t4.article_category_id
-        LEFT JOIN page_views t5 ON t1.article_page_views_id = t5.page_views_id
-        LEFT JOIN article_img t6 ON t1.article_img_id = t6.article_img_id
-            WHERE t1.article_category_id=#{articleCategoryId}
-
-
+<!-- Count-->
+    <select id="getArticleEditorCount"  resultType="int">
+        select  count(*) from article_editor
     </select>
-
-    <select id="getArticleDetails" resultMap="Article">
-SELECT
-	t1.article_id,
-	t1.article_name,
-	t1.article_text,
-	t1.article_editor_id,
-	t3.article_editor_name,
-	t1.article_category_id,
-	t4.article_category_name,
-	t1.article_page_views_id,
-	t5.page_views_id,
-	t5.page_views_count,
-	t1.article_add_time,
-	t1.article_update_time,
-	t2.article_label_id,
-	t2.article_label_name,
-	t6.*, t1.article_meta_title,
-	t1.article_meta_description,
-	t1.article_meta_keyword,
-	t1.article_recommend
-FROM
-	article t1
-LEFT JOIN article_label t2 ON t1.article_id = t2.article_id
-LEFT JOIN article_editor t3 ON t1.article_editor_id = t3.article_editor_id
-LEFT JOIN article_category t4 ON t1.article_category_id = t4.article_category_id
-LEFT JOIN page_views t5 ON t1.article_page_views_id = t5.page_views_id
-LEFT JOIN article_img t6 ON t1.article_img_id = t6.article_img_id
-WHERE t1.article_id=#{articleId}
-    </select>
-
-    <select id="getTotalByArticleCategoryId" resultType="int">
-        select count(*) from article t1
-        where t1.article_category_id=#{0}
-    </select>
-
-    <select id="getArticleTotal" resultType="int">
-        select count(*) from article
-    </select>
-
-    <delete id="articleDelete">
-        delete from article
-        where article_id in
+<!--add=-->
+    <insert id="editorAdd" >
+        insert into article_editor values (0,#{articleEditorName})
+    </insert>
+<!--delete-->
+    <delete id="editorDelte">
+        delete from article_editor
+        where article_editor_id in
         <foreach collection="array" open="(" close=")" separator=","
-                 item="id">#{id}
+                 item="articleEditorId">#{articleEditorId}
         </foreach>
     </delete>
-
-
+<!--update-->
+    <update id="editorUpdate" >
+      update  article_editor set article_editor_name=#{articleEditorName}
+      where article_editor_id=#{articleEditorId}
+    </update>
 </mapper>
