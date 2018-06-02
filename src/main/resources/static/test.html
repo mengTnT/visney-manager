@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <meta charset="UTF-8">
+    <title>meta</title>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/css.css">
+    <link type="text/css" rel="stylesheet" href="css/easyui.css">
+    <link type="text/css" rel="stylesheet" href="css/icon.css">
+</head>
+<body>
+
+
+    <div id="win">
+
+    </div>
+</div>
+<script type="text/javascript" >
+    $(function () {
+
+        $('#win').window({
+            title:"文本编辑器",
+            width:600,
+            height:400,
+            closed:true,
+            maximized:true,
+            content:"<iframe id=\"myArticleIframe\" src=\"/visney-manager/editor\" width=\"100%\" height=\"100%\"></iframe>"
+        });
+
+
+
+    })
+
+</script>
+
+
+</body>
+</html>
