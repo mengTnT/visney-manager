@@ -22,9 +22,17 @@
         <div title="产品">
             
             <a id="pro-linkbutton" class="easyui-linkbutton" onclick="addTabs('product.html')"></a>
+            <a id="size-linkbutton" class="easyui-linkbutton" onclick="addTabs('size.html')"></a>
+            <a id="proCategory-linkbutton" class="easyui-linkbutton" onclick="addTabs('proCategory.html')"></a>
+
         </div>
         <div title="文章">
+
             <a id="article-linkbutton" class="easyui-linkbutton" onclick="addTabs('article.html')"></a>
+            <a id="articleEditor-linkbutton" class="easyui-linkbutton" onclick="addTabs('articleEditor.html')"></a>
+            <a id="articleCategory-linkbutton" class="easyui-linkbutton" onclick="addTabs('articleCategory.html')"></a>
+            <a id="articleLabel-linkbutton" class="easyui-linkbutton" onclick="addTabs('articleLable.html')"></a>
+
         </div>
 
 
@@ -54,11 +62,42 @@
     $('#article-linkbutton').linkbutton({
         text: '文章管理',
         iconCls: 'icon-ok',
+
     });
+    $('#articleEditor-linkbutton').linkbutton({
+        text: '编辑管理',
+        iconCls: 'icon-ok',
+
+    });
+    $('#articleCategory-linkbutton').linkbutton({
+        text: '类别管理',
+        iconCls: 'icon-ok',
+
+    });
+    $('#articleLabel-linkbutton').linkbutton({
+        text: '标签管理',
+        iconCls: 'icon-ok',
+
+    });
+
+    /* 产品*/
     $('#pro-linkbutton').linkbutton({
         text: '产品管理',
         iconCls: 'icon-ok',
     });
+
+    $('#size-linkbutton').linkbutton({
+        text: '型号管理',
+        iconCls: 'icon-ok',
+    });
+    $('#proCategory-linkbutton').linkbutton({
+        text: '产品类别管理',
+        iconCls: 'icon-ok',
+    });
+
+
+
+
     function addTabs(url) {
         $("#myIframe").prop("src",url)
     }

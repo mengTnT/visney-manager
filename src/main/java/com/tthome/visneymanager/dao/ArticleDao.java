@@ -13,7 +13,6 @@ import java.util.Map;
  */
 public interface ArticleDao {
 
-
     public Article getArticleDetails(int articleId);
     public List<Article> getArticles();
     public List<Article> getArticlesByCategory(@Param("articleCategoryId") int articleCategoryId);

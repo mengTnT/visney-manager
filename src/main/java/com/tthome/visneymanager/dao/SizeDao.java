@@ -9,10 +9,10 @@ import java.util.List;
  * @author zcy
  * @date 2018-06-02 15:01
  */
-public interface SizeDad {
+public interface SizeDao {
     public List<Size> getAllSize(@Param("start")int start,@Param("end")int end);
     public int getSizeCount();
-    public int addSize();
-    public int updateSize();
-    public  int deleteSize();
+    public int addSize(Size size);
+    public int updateSize(Size size);
+    public  int deleteSize(int[] sizeIds);
 }

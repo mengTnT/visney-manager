@@ -2,30 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tthome.visneymanager.dao.SizeDao">
 
-    <resultMap id="size" type="com.tthome.visneymanager.entity.Size">
-        <result column="size_id" property="sizeId"></result>
-        <result column="size_msg" property="siziMsg"></result>
+    <resultMap id="ProCategory" type="com.tthome.visneymanager.dao.ProCategoryDao">
+        <result column="pro_category_id" property="proCategoryId"></result>
+        <result column="pro_category_name" property="proCategoryName"></result>
+        <result column="parent_id" property="parentId"></result>
     </resultMap>
 
-    <select id="getAllSize" resultMap="size">
-     SELECT * FROM size limit #{start},#{end}
+    <select id="getAllProCategory" resultMap="ProCategory">
+     SELECT * FROM pro_category limit #{start},#{end}
     </select>
 
-    <select id="getSizeCount" resultType="int">
-        select count(0) from size
+    <select id="getAllProCategoryCount" resultType="int">
+        select count(0) from pro_category
     </select>
     <!--add-->
-    <insert id="addSize" >
-        insert into size values (0,#{siziMsg})
+    <insert id="getAllProCategory" >
+        insert into pro_category values (0,#{proCategoryName},#{parentId})
     </insert>
     <!--update-->
-    <update id="updateSize">
-        update size set size_msg=#{siziMsg}
-        where size_id=#{sizeId}
+    <update id="updateProCategory">
+        update pro_category set pro_category_name=#{proCategoryName},parent_id=#{parentId}
+        where pro_category_id=#{proCategoryId}
     </update>
-    <delete id="deleteSize">
-        delete  from size
-        where size_id in
+    <delete id="deleteProCategory">
+        delete  from pro_category
+        where pro_category_id in
         <foreach collection="array" open="(" close=")" separator=","
                  item="id">#{id}
         </foreach>
