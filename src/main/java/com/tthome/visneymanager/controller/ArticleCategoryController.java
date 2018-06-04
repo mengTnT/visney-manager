@@ -27,12 +27,10 @@ public class ArticleCategoryController {
     }
     @PostMapping("/getAllpageArticleCategory")
     public Map getAllpageArticleCategory(int page,int rows){
-
         return articleCategoryService.getPageArticleCategory(page,rows);
     }
     @PostMapping("/addArticleCategory")
     public Map addArticleCategory(ArticleCategory articleCategory){
-
        return articleCategoryService.addArticleCategory(articleCategory);
 
     }

@@ -91,14 +91,15 @@
     function updateE(){
         //返回第一个被选中的行或如果没有选中的行则返回null。
 
-        var va=$("#showAllArticleEditor").datagrid("getSelected");
-        if(va==null){
+        var va=$("#showAllArticleEditor").datagrid("getChecked");
+        var vas=$("#showAllArticleEditor").datagrid("getSelected");
+        if(va.length>1||va.length<1){
             $.messager.alert("提示框","请选择一个要修改的数据","warming");
         }else{
             $("#updateArticleEditorInformation input" ).val("");
             $("#updateArticleEditor").dialog("open");
-            $("#articleEditorId").val(va.articleEditorId);
-            $("#articleEditorName").val(va.articleEditorName);
+            $("#articleEditorId").val(vas.articleEditorId);
+            $("#articleEditorName").val(vas.articleEditorName);
         }
     }
     //在修改页面 点击修改 修改
@@ -166,7 +167,7 @@
         })
     }
     //点击取消按钮 取消添加
-    function prof4(){
+    function pro4(){
         $("#addArticleEditor").dialog("close");
     }
 

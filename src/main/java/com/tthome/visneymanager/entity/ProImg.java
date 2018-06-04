@@ -20,5 +20,6 @@ public class ProImg implements Serializable {
     private String proImgSrc;
 
     private int proImgCover;
+    private  Integer proId;
 
 }

@@ -24,6 +24,9 @@
             <a id="pro-linkbutton" class="easyui-linkbutton" onclick="addTabs('product.html')"></a>
             <a id="size-linkbutton" class="easyui-linkbutton" onclick="addTabs('size.html')"></a>
             <a id="proCategory-linkbutton" class="easyui-linkbutton" onclick="addTabs('proCategory.html')"></a>
+            <a id="proImg-linkbutton" class="easyui-linkbutton" onclick="addTabs('proImg.html')"></a>
+            <a id="brand-linkbutton" class="easyui-linkbutton" onclick="addTabs('brand.html')"></a>
+            <a id="modleCode-linkbutton" class="easyui-linkbutton" onclick="addTabs('modleCode.html')"></a>
 
         </div>
         <div title="文章">
@@ -94,12 +97,27 @@
 
     $('#size-linkbutton').linkbutton({
 
-        text: '型号管理',
+        text: '尺寸管理',
         iconCls: 'icon-ok',
     });
     $('#proCategory-linkbutton').linkbutton({
 
         text: '产品类别管理',
+        iconCls: 'icon-ok',
+    });
+    $('#proImg-linkbutton').linkbutton({
+
+        text: '图片管理',
+        iconCls: 'icon-ok',
+    });
+    $('#brand-linkbutton').linkbutton({
+
+        text: '品牌管理',
+        iconCls: 'icon-ok',
+    });
+    $('#modleCode-linkbutton').linkbutton({
+
+        text: '型号管理',
         iconCls: 'icon-ok',
     });
 

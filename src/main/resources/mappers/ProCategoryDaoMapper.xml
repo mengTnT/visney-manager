@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tthome.visneymanager.dao.ProCategoryDao">
 
-    <resultMap id="proCategory" type="com.tthome.visneymanager.dao.ProCategoryDao">
+    <resultMap id="proCategory" type="com.tthome.visneymanager.entity.ProCategory">
         <result column="pro_category_id" property="proCategoryId"></result>
         <result column="pro_category_name" property="proCategoryName"></result>
         <result column="parent_id" property="parentId"></result>
