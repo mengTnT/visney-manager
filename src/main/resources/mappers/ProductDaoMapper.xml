@@ -50,11 +50,11 @@
             <result column="txname" property="proTextureName"></result>
         </association>
         <collection property="proImgs" ofType="com.tthome.visneymanager.entity.ProImg" select="getImgs" column="pro_id">
-            <id column="pro_img_id" property="proImgId"></id>
-            <result column="pro_img_alt" property="proImgAlt"></result>
-            <result column="pro_img_src" property="proImgSrc"></result>
-            <result column="pro_img_cover" property="proImgCover"></result>
-        </collection>
+        <id column="pro_img_id" property="proImgId"></id>
+        <result column="pro_img_alt" property="proImgAlt"></result>
+        <result column="pro_img_src" property="proImgSrc"></result>
+        <result column="pro_img_cover" property="proImgCover"></result>
+       </collection>
     </resultMap>
 
     <resultMap id="proImg" type="com.tthome.visneymanager.entity.ProImg">

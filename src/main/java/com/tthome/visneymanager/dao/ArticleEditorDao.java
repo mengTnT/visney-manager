@@ -16,4 +16,5 @@ public interface ArticleEditorDao {
     public int editorUpdate(ArticleEditor articleEditor);
     public int editorDelte(int[] articleEditorId);
     public int editorAdd(ArticleEditor articleEditor);
+
 }

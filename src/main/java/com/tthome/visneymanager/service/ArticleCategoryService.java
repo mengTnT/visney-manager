@@ -12,7 +12,6 @@ import java.util.Map;
 public interface ArticleCategoryService {
     public List<ArticleCategory> getAllArticleCategory();
     public Map getPageArticleCategory(int pageIndex, int pageSize);
-
     public Map  addArticleCategory(ArticleCategory articleCategory);
     public Map updateArticleCategory(ArticleCategory articleCategory);
     public Map deleteArticleCategory(int[] articleCategoryId);

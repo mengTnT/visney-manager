@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>article</title>
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
@@ -14,7 +14,35 @@
 </head>
 <body>
 <!--展示数据-->
-<table id="showAllArticle"></table>
+<table id="showAllArticle">
+    <div id="tb1">
+        <input name="category" id="ss1" class="easyui-searchbox" style="width:300px"
+               data-options="searcher:search,prompt:'所属类别搜索'"></input>
+        <input name="editor" id="ss2" class="easyui-searchbox" style="width:300px"
+               data-options="searcher:search,prompt:'根据编辑搜索'"></input>
+        <input name="title" id="ss3" class="easyui-searchbox" style="width:300px"
+               data-options="searcher:search,prompt:'根据标题搜索'"></input>
+    </div>
+
+</table>
+<script type="text/javascript">
+    /*关键词搜索*/
+    function search(value,name){
+        var cval = $("#ss1").searchbox('getValue');
+        var eval = $("#ss2").searchbox('getValue');
+        var tval = $("#ss3").searchbox('getValue');
+        alert(value+":"+name)
+        $('#showAllArticle').datagrid({
+            queryParams: {
+                category:cval,
+                editor:eval,
+                title:tval
+            }
+
+        });
+
+    }
+</script>
 
 <div id="win">
 
@@ -39,6 +67,8 @@
 
 </div>
 <script type="text/javascript">
+
+
     $(function () {
 
         $('#win').window({
@@ -49,8 +79,6 @@
             maximized:true,
             content:"<iframe id=\"myArticleIframe\" src=\"/visney-manager/editor\" width=\"100%\" height=\"100%\"></iframe>"
         });
-
-
 
 
         $("#showAllArticle")
@@ -316,7 +344,11 @@
 
                                 }
                             }
-                        }]
+
+                        },
+
+
+    ]
 
                 })
     })

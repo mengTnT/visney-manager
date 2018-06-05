@@ -51,11 +51,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Map getArticles(int page, int rows) {
+    public Map getArticles(int page, int rows,String category,String editor,String title) {
         Map map = new HashMap();
         int total = articleDao.getArticleTotal();
         PageHelper.startPage(page, rows);
-        List<Article> list = articleDao.getArticles();
+        List<Article> list = articleDao.getArticles(category, editor, title);
         map.put("total", total);
         map.put("rows", list);
         return map;

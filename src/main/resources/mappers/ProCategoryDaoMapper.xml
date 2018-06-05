@@ -15,10 +15,7 @@
     <select id="getAllProCategoryCount" resultType="int">
         select count(0) from pro_category
     </select>
-    <!--add-->
-    <insert id="getAllProCategory" >
-        insert into pro_category values (0,#{proCategoryName},#{parentId})
-    </insert>
+
     <!--update-->
     <update id="updateProCategory">
         update pro_category set pro_category_name=#{proCategoryName},parent_id=#{parentId}

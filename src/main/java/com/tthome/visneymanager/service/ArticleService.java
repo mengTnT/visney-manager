@@ -27,13 +27,15 @@ public interface ArticleService {
     public Map getArticles(int articleCategoryId, int page, int rows);
 
     /**
-     * 获取所有文章
+     * 获取所有文章,可分类查询
      * @param page
      * @param rows
      * @return
      */
-    public Map getArticles(int page, int rows);
+    public Map getArticles(int page, int rows,String category,String editor,String title);
 
     public int articleDelete(int[] articleIds,int[]pageViewsIds,int []articleImgIds);
+
+
 
 }

@@ -8,19 +8,23 @@
         <result column="article_editor_name" property="articleEditorName"/>
     </resultMap>
 
-<!--全部-->
+    <!--全部-->
     <select id="getArticleAll" resultMap="ArticleEditor">
-        SELECT * from article_editor limit #{start},#{end}
+        SELECT * from article_editor
+        <if test="start!=0 and end!=0">
+            limit #{start},#{end}
+        </if>
     </select>
-<!-- Count-->
-    <select id="getArticleEditorCount"  resultType="int">
+
+    <!-- Count-->
+    <select id="getArticleEditorCount" resultType="int">
         select  count(*) from article_editor
     </select>
-<!--add=-->
-    <insert id="editorAdd" >
+    <!--add=-->
+    <insert id="editorAdd">
         insert into article_editor values (0,#{articleEditorName})
     </insert>
-<!--delete-->
+    <!--delete-->
     <delete id="editorDelte">
         delete from article_editor
         where article_editor_id in
@@ -28,8 +32,8 @@
                  item="articleEditorId">#{articleEditorId}
         </foreach>
     </delete>
-<!--update-->
-    <update id="editorUpdate" >
+    <!--update-->
+    <update id="editorUpdate">
       update  article_editor set article_editor_name=#{articleEditorName}
       where article_editor_id=#{articleEditorId}
     </update>

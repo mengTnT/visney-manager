@@ -19,7 +19,6 @@ public class ArticleLabelController {
     private ArticleLabelService articleLabelService;
     @PostMapping("/getAllArticleLabel")
     public Map getAllArticleLabel(int page,int rows){
-        System.out.println(articleLabelService.getAllArticleLabel(page,rows));
         return articleLabelService.getAllArticleLabel(page,rows);
     }
     @PostMapping("/addArticleLabel")

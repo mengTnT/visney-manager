@@ -31,7 +31,6 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
         int start=(pageIndex-1)*pageSize;
         int end=pageSize;
         List<ArticleLabel> allArticleLabel = articleLabelDao.getAllArticleLabel(start, end);
-        System.out.println(allArticleLabel);
         int i = articleLabelDao.getAllArticleLabelCount();
         map.put("total",i);
         map.put("rows",allArticleLabel);

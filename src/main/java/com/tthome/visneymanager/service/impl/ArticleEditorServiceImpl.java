@@ -39,7 +39,7 @@ public class ArticleEditorServiceImpl implements ArticleEditorService {
     public Map editorUpdate(ArticleEditor articleEditor) {
         Map map=new HashMap();
         int i = articleEditorDao.editorUpdate(articleEditor);
-        System.out.println(i+">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
         if(i==1){
             map.put("msg",true);
         }else{
@@ -71,4 +71,5 @@ public class ArticleEditorServiceImpl implements ArticleEditorService {
         }
         return map;
     }
+
 }

@@ -15,8 +15,8 @@ import java.util.Map;
  * @author NBUG
  * @date 2018/5/11 17:31
  */
-@RestController
 @RequestMapping("/articleCategory")
+@RestController
 public class ArticleCategoryController {
     @Autowired
     private ArticleCategoryService articleCategoryService;
@@ -31,10 +31,6 @@ public class ArticleCategoryController {
         return articleCategoryService.getPageArticleCategory(page,rows);
     }
     @PostMapping("/addArticleCategory")
-  /*  public Map addArticleCategory(){
-
-        return null;
-    }*/
     public Map addArticleCategory(ArticleCategory articleCategory){
 
        return articleCategoryService.addArticleCategory(articleCategory);
