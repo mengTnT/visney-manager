@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+        <meta charset="UTF-8">
+       <title>article</title>
+        <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/css.css">
+        <link type="text/css" rel="stylesheet" href="css/easyui.css">
+        <link type="text/css" rel="stylesheet" href="css/icon.css">
+    </head>
+
+</head>
+<body>
+ 
+ <table id="showAllProImg"></table>
+ 
+ <div id="toolBar">
+         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="addE()"></a>
+         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" onclick="updateE()"></a>
+         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="deleteE()"></a>
+     </div>
+ 
+ 
+ 
+ <div id="updateProImg" class="easyui-dialog" data-options="closed:true">
+         <form id="updateProImgInformation" enctype="multipart/form-data" method="post">
+     
+             <input name="proImgId" id="proImgId" type="hidden"><br>
+             proImgAlt：<input name="proImgAlt" id="proImgAlt" ><br>
+             proImgSrc：<input name="proImgSrc" id="proImgSrc" ><br>
+             proImgCover：<input name="proImgCover" id="proImgCover" ><br>
+             proId：<input name="proId" id="proId" ><br>
+     
+             <center>
+                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro1()">确认</a>
+                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">放弃</a>
+     
+             </center>
+         </form>
+     
+     </div>
+ <div id="addProImg" class="easyui-dialog" data-options="closed:true">
+         <form id="addProImgInformation" enctype="multipart/form-data" method="post">
+     
+             <input name="proImgId"  type="hidden"><br>
+             proImgAlt：<input name="proImgAlt"  ><br>
+             proImgSrc：<input name="proImgSrc"  ><br>
+             proImgCover：<input name="proImgCover"  ><br>
+             proId：<input name="proId"><br>
+     
+             <center>
+                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro3()">确认</a>
+                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro4()">放弃</a>
+     
+             </center>
+         </form>
+     
+     </div>
+ 
+ <script type="text/javascript">
+         $(function () {
+             /*分页 展示所有*/
+                     //1.2把table转换成一个datagrid效果
+                         $("#showAllProImg").datagrid({
+                                 url:"http://localhost:9999/visney-manager/proImg/getAllProImg",//请求路径
+                         //在底部显示分页工具栏，设置为true之后，datagrid再发生ajax的时候就会发送两个参数
+                             pagination:true,//如果为true，则在DataGrid控件底部显示分页工具栏。
+                         border:true,
+                         maximizable:true,
+             
+                             toolbar:"#toolBar",//顶部添加工具栏
+                         columns:[[
+                             {checkbox: true},
+                             {title:"proImgId",field:"proImgId",width:200},//每一列是一个对象
+                             {title:"proImgAlt",field:"proImgAlt", width:200},
+                             {title:"proImgSrc",field:"proImgSrc", width:200,
+                                 formatter: function (value, row, index) {
+                         // value  当前列值
+                         // row 当前行对象
+                         // index  行数据下标
+                         if (value) {
+                             return "<img width=50px height=50px src='" +  row.proImgSrc +  "'>";
+ 
+                         }
+ 
+                     }
+                             },
+                         {title:"proImgCover",field:"proImgCover", width:200,
+                             formatter: function (value, row, index) {
+                                 // value  当前列值
+                                 // row 当前行对象
+                                 // index  行数据下标
+                                 if (value==1) {
+                                     return "封面图片";
+
+                                 }
+                                 else{
+                                     return "插图";
+                                 }
+
+                             }},
+                             {title:"proId",field:"proId", width:200},
+                         ]],
+                 })
+         
+                 })
+     /*update*/
+         //加载修改页面。。。。。。。。。。。。
+             $(function(){
+                     $("#updateProImg").dialog({
+                 
+                             title:"修改页面",
+                             width:860,
+                             width:400,
+                             cache: false,
+                             closed:true,
+                             modal:true,
+                         })
+                 })
+     
+         //点击执行修改操作 显示修改页面
+             function updateE(){
+                     //返回第一个被选中的行或如果没有选中的行则返回null。
+                 
+                     var va=$("#showAllProImg").datagrid("getChecked");
+                     var vas=$("#showAllProImg").datagrid("getSelected");
+                     if(va.length>1||va.length<1){
+                             $.messager.alert("提示框","请选择一个要修改的数据","warming");
+                         }else{
+                             $("#updateProImgInformation input" ).val("");
+                             $("#updateProImg").dialog("open");
+                             $("#sizeId").val(vas.sizeId);
+                             $("#siziMsg").val(vas.siziMsg);
+                         }
+                 }
+         //在修改页面 点击修改 修改
+         function pro1(){
+                 //点击form表单 用ajax提交
+                     $("#updateProImgInformation").form("submit",{
+                             url:"http://localhost:9999/visney-manager/proImg/updateProImg",
+             
+                             success:function(data){
+                             var da=eval('(' + data + ')');
+                             console.log(data)
+                             if(da.msg){
+                                     $.messager.alert("提示框"," 修改成功","info");//提示框
+                                     //关闭添加  对话框
+                     
+                                             $("#updateProImg").dialog("close");
+                 
+                                         //表格重新加载
+                                             $("#showAllProImg").datagrid("reload");
+                                 }else{
+                                     $.messager.alert("提示框","修改失败，请确认","warming");
+                                 }
+                         }
+                 })
+             }
+         //点击取消 取消修改
+         function pro2(){
+                 $("#updateProImg").dialog("close");
+             }
+         /*添加界面开始*/
+         //添加页面
+             $(function(){
+                     $("#addProImg").dialog({
+                             title:"添加页面",
+                             width:860,
+                             height: 400,
+                             cache: false,
+                             closed:true,
+                             modal:true,
+                         });
+                 })
+         //显示添加 页面
+         function addE(){
+                 $("#addProImg").dialog("open");
+             }
+         //点击添加按钮添加
+         function pro3(){
+         //              发送ajxs请求
+             
+                         $("#addProImgInformation").form('submit',{
+                                 url:"http://localhost:9999/visney-manager/proImg/addProImg",
+                         type:"post",
+                         success:function (data) {
+                             var da = eval('('+  data  + ')');
+                             if(da.msg){
+                                     $.messager.alert("提示框","添加成功","info")
+                                     //	关闭对话框
+                                     $("#addProImg").dialog("close")
+                                     //表格重新加载
+                                     $("#showAllProImg").datagrid("reload");
+                                 }else{
+                                     $.messager.alert("提示框","添加失败","warming");
+                                 }
+                         }
+                 })
+             }
+         //点击取消按钮 取消添加
+         function prof4(){
+                 $("#addProImg").dialog("close");
+             }
+     
+         //点击删除按钮执行  删除操作
+             function  deleteE(){
+                     var rows = $("#showAllProImg").datagrid("getSelections");//返回所有被选中的行，当没有记录被选中的时候将返回一个空数组。
+             
+                         if(rows.length==0){
+                             $.messager.alert("提示框","请删除要选择的内容","warning");
+                         }else{
+                             $.messager.confirm("确认删除","确定要删除选中的所有内容吗？",function(r){
+                                     if(r){
+                                             var ids = new Array();//创建一个数组
+                                             for(var i = 0;i<rows.length;i  ){
+                                                     ids[i]= rows[i].sizeId;//这里是（对象.属性）
+                                                 }
+                                             $.ajax({
+                                                     url:"http://localhost:9999/visney-manager/proImg/deleteSize",
+                                                     type:"post",
+                                                     data:"ids="+ids,//data:{"ids":ids}
+                                                     success:function(data){
+
+
+                                                         if(data.msg){
+                                                                 $.messager.alert("提示框"," 修改成功","info");//提示框
+                                                                 //关闭添加  对话框
+                                     
+                                                                         $("#updateProImg").dialog("close");
+                                 
+                                                                     //表格重新加载
+                                                                         $("#showAllProImg").datagrid("reload");
+                                                             }else{
+                                                                 $.messager.alert("提示框","修改失败，请确认","warming");
+                                                             }
+                                                     }
+                                             });
+                         
+                                             }
+                                 });
+                         }
+                 }
+     </script>
+ </body>
+ 
+ 
+ 
+
+</html>

@@ -49,7 +49,7 @@ public class Product implements Serializable {
     //是否上架，默认1为上架
     private Byte proPutaway = 1;
     /*所属图片*/
-    private List<ProImg> proImgs;
+     private List<ProImg> proImgs;
     //meta标签相关内容
     private String proMetaKeyWord;
 

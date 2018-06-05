@@ -40,10 +40,16 @@
                 </ul>
             </section>
         </section>-->
-        导航名称：<input name="navigationName"><br>
+        <input name="navigationName"><br>
         Title：<input name="navigationTitle"><br>
         Description：<input name="navigationDescription"><br>
         Keyword：<input name="navigationKeyword"><br>
+
+
+
+
+
+
         <center>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro1()">确认</a>
         </center>
@@ -54,11 +60,27 @@
 <div id="updateProduct" class="easyui-dialog" data-options="closed:true">
     <form id="updateProductInformation" enctype="multipart/form-data" method="post">
 
-        <input name="navigationId" id="navigationId" type="hidden"><br>
-        导航名：<input name="navigationName" id="navigationName"><br>
-        Title：<input name="navigationTitle" id="navigationTitle"><br>
-        Description：<input name="navigationDescription" id="navigationDescription"><br>
-        Keyword：<input name="navigationKeyword" id="navigationKeyword"><br>
+        <input name="proId" id="proId" type="hidden"><br>
+        产品名：<input name="proName" id="proName"><br>
+        价格：<input name="proPrice" id="proPrice"><br>
+        位置：<input name="proPosition" id="proPosition"><br>
+        风格：<input name="proStyle" id="proStyle"><br>
+        类型：<input name="proType" id="proType"><br>
+        系列：<input name="proSeries" id="proSeries"><br>
+        材质：<input name="center" id="center"><br>
+        品牌：<input name="brand" id="brand"><br>
+        型号：<input name="modleCode" id="modleCode"><br>
+        尺寸：<input name="size" id="size"><br>
+        介绍：<input name="proMsg" id="proMsg"><br>
+        浏览量：<input name="pageViews" id="pageViews"><br>
+        网店地址：<input name="proSrc" id="proSrc"><br>
+        添加时间：<input name="proAddTime" id="proAddTime"><br>
+        修改时间：<input name="proUpdateTime" id="proUpdateTime"><br>
+        是否上架：<input name="proPutaway" id="proPutaway"><br>
+        图片：<input name="proImgSrc" id="proImgSrc"><br>
+        Keyword：<input name="proMetaKeyWord" id="proMetaKeyWord"><br>
+        Description：<input name="proMetaDescription" id="proMetaDescription"><br>
+        Title：<input name="proMetaTitle" id="proMetaTitle"><br>
 
         <center>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">确认</a>
@@ -235,14 +257,15 @@
                         }
 
                     },{
-                        field: 'proImgs',
+                        field: 'proImgSrc',
                         align: 'center',
-                        title: '封面图片',
+                        title: '图片',
                         width: 200,
                         formatter: function (value, row, index) {
                             // value  当前列值
                             // row 当前行对象
                             // index  行数据下标
+                          //  return "<img width=50px height=50px src='" + value[i].proImgSrc + "'>";
                             if (value) {
                                 for(var i=0;i<value.length;i++) {
                                     if(i==0) {
