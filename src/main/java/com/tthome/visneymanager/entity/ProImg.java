@@ -3,6 +3,7 @@ package com.tthome.visneymanager.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**用于网页优化，图片 alt内容的填充
  * @author NBUG
@@ -17,6 +18,7 @@ public class ProImg implements Serializable {
 
     private String proImgAlt;
 
+   // private List<String> proImgSrc;
     private String proImgSrc;
 
     private int proImgCover;
