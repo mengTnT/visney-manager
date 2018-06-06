@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class ArticleImg implements Serializable {
 
     private static final long serialVersionUID = 4720007967091848857L;
-    private Integer articleImgId;
+    private int articleImgId;
     private String articleImgAlt;
     private String articleImgSrc;
 }

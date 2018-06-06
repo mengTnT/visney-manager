@@ -18,6 +18,10 @@
         </foreach>
     </delete>
 
+    <insert id="pageViewsAdd" useGeneratedKeys="true" keyProperty="pageViewsId">
+        insert into page_views values (0,#{pageViewsCount})
+    </insert>
+
 
 
 </mapper>

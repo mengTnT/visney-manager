@@ -2,6 +2,7 @@ package com.tthome.visneymanager.controller;
 
 
 import com.tthome.visneymanager.entity.Article;
+import com.tthome.visneymanager.entity.ArticleImg;
 import com.tthome.visneymanager.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,25 +53,28 @@ public class ArticleController {
     }
 
 
-    @PostMapping("/img_upload")
+    @PostMapping("/articleCover_img_upload")
     public String upload2(HttpServletRequest req, @RequestParam("files") MultipartFile[] files) {
         if (files.length == 0) {
-            return "图片不能为空";
+            return "error";
         }
         try {
             for (MultipartFile file : files) {
-                //获取原文件名
+                //获取原文件名,和毫秒数进行拼接
                 String fileName = System.currentTimeMillis() + file.getOriginalFilename();
                 //图片将要存储到本地的地址
                 String destFileName = uploadPath + "/article" + File.separator + fileName;
                 //创建一个file对象
                 File destFile = new File(destFileName);
-                //创建文件夹
-                destFile.getParentFile().mkdirs();
+               if (!destFile.exists()){
+                   //创建文件夹
+                   destFile.getParentFile().mkdirs();
+               }
                 //写入文件
                 file.transferTo(destFile);
                 System.out.println(fileName);
                 System.out.println(destFileName);
+                System.out.println("article" + File.separator + fileName);
 
             }
 
@@ -83,6 +87,47 @@ public class ArticleController {
         }
 
         return "ok";
+    }
+
+    @PostMapping("/articleImgAdd")
+    public int articleImgAdd(String label1,String label2,Article article,HttpServletRequest req, @RequestParam("files") MultipartFile[] files){
+        String articleImgSrc=null;
+        if (files.length == 0) {
+            return 0;
+        }
+        try {
+            for (MultipartFile file : files) {
+                //获取原文件名,和毫秒数进行拼接
+                String fileName = System.currentTimeMillis() + file.getOriginalFilename();
+                //图片将要存储到本地的地址
+                String destFileName = uploadPath + "/article" + File.separator + fileName;
+                //创建一个file对象
+                File destFile = new File(destFileName);
+                if (!destFile.exists()){
+                    //文件夹不存在，就创建文件夹
+                    destFile.getParentFile().mkdirs();
+                }
+                //写入文件
+                file.transferTo(destFile);
+                articleImgSrc="article" + File.separator + fileName;
+                System.out.println(fileName);
+                System.out.println(destFileName);
+                System.out.println(articleImgSrc);
+
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        ArticleImg articleImg = article.getArticleImg();
+        articleImg.setArticleImgSrc(articleImgSrc);
+        int result = articleService.articleAdd(label1,label2,article);
+        return result;
+
     }
 
 

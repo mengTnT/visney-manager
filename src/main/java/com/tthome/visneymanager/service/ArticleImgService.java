@@ -1,5 +1,10 @@
 package com.tthome.visneymanager.service;
 
+import com.tthome.visneymanager.entity.ArticleImg;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author NBUG
  * @date 2018/5/30 15:52
@@ -11,4 +16,11 @@ public interface ArticleImgService {
      * @return
      */
     public int articleImgDelete(int[] articleImgIds);
+
+    /**
+     * 添加封面图片
+     * @param articleImg
+     * @return
+     */
+    public int articleImgAdd(ArticleImg articleImg);
 }

@@ -1,6 +1,7 @@
 package com.tthome.visneymanager.service.impl;
 
 import com.tthome.visneymanager.dao.ArticleImgDao;
+import com.tthome.visneymanager.entity.ArticleImg;
 import com.tthome.visneymanager.service.ArticleImgService;
 import com.tthome.visneymanager.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,10 @@ public class ArticleImgServiceImpl implements ArticleImgService {
     @Override
     public int articleImgDelete(int[] articleImgIds) {
         return articleImgDao.articleImgDelete(articleImgIds);
+    }
+
+    @Override
+    public int articleImgAdd(ArticleImg articleImg) {
+        return articleImgDao.articleImgAdd(articleImg);
     }
 }

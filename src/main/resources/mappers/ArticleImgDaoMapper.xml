@@ -20,5 +20,11 @@
     </delete>
 
 
+    <insert id="articleImgAdd" keyProperty="articleImgId" useGeneratedKeys="true">
+        insert  into article_img values (0,#{articleImgAlt},#{articleImgSrc})
+
+    </insert>
+
+
 
 </mapper>
