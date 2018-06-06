@@ -19,24 +19,31 @@
 <html>
 <body>
     <form action="" method="post" id="article-form" enctype="multipart/form-data">
-        文章标题：<input type="text" name="articleName">
+        文章标题：<input type="text" name="articleName" id="article_title">
         文章类别选择：
         <span id="articleCategorySelect"></span>
         文章作者选择：
         <span id="articleEditorSelect"></span>
         文章标签选择：
         <span id="articleLabelSelect1"></span><span id="articleLabelSelect2"></span>
+        是否推荐：
+        <select id="recommend">
+            <option value="1">是</option>
+            <option value="0">否</option>
+        </select>
 
         </br>
         <input type="hidden" name="articleText">
-        封面图片：<input type="file" onchange="previewImage(this)" name="articleImgSrc"><br>
+        封面图片：<input type="file" onchange="previewImage(this)" name="articleImgSrc" id="article_Img">
+        图片alt属性<input type="text" id="img_alt"><br>
         <div id="preview">
             <img id="imghead" border="0" src="img/photo_icon.png" width="90"
                  height="90">
         </div>
         </br>
-        <input type="hidden" name="articleCategory.articleCategoryId" id="acid">
-        <input type="text" name=""></br>
+        meta标签title：<input type="text" id="article_meta_title">
+        meta标签description：<input type="text" id="article_meta_description">
+        meta标签keyword：<input type="text" id="article_meta_keyword">
     </form>
     <script type="text/javascript">
 
@@ -65,7 +72,6 @@
 
             },
             success: function (value) {
-                console.log(value)
 
                 var content = "<select id=\"editor_select\">"
                 for (var i = 0; i < value.rows.length; i++) {
@@ -86,7 +92,6 @@
 
             },
             success: function (value) {
-                console.log(value)
                 var content1 = "<select id=\"label_select1\">"
                 var content2 = "<select id=\"label_select2\">"
                 for (var i = 0; i < value.rows.length; i++) {
@@ -104,13 +109,72 @@
             }
         })
 
+        function articleAdd() {
+            //选中的文本
+            var articleTitle = $("#article_title").val();
+            var cid=$('#category_select option:selected').val();
+            var eid=$('#editor_select option:selected').val();
+
+            var lname1=$('#label_select1 option:selected').text();
+            var lname2=$('#label_select2 option:selected').text();
+
+            var article_recommend=$("#recommend option:selected").val();
+
+            var meta_title= $("#article_meta_title").val();
+            var meta_description=$("#article_meta_description").val();
+            var meta_keyword=$("#article_meta_keyword").val();
+
+            var articletext=getContent();
+
+            var articleimg=document.getElementById("article_Img").files[0];
+
+            var imgalt = $("#img_alt").val();
+
+            var formdata=new FormData();
+            formdata.append("label1",lname1);
+            formdata.append("label2",lname2);
+            formdata.append("articleName",articleTitle);
+            formdata.append("articleText",articletext);
+            formdata.append("articleEditor.articleEditorId",eid);
+            formdata.append("articleCategory.articleCategoryId",cid);
+            formdata.append(" articleRecommend",article_recommend);
+            formdata.append("articleMetaDescription",meta_description);
+            formdata.append("articleMetaTitle",meta_title);
+            formdata.append("articleKeyWord",meta_keyword);
+            formdata.append("articleImg.articleImgAlt",imgalt);
+            formdata.append("files",articleimg);
+
+            console.log(formdata)
+
+
+          $.ajax({
+                type: 'post',
+                url: 'http://localhost:9999/visney-manager/article/articleImgAdd',
+                data: formdata,
+                processData: false,// 告诉jQuery不要去处理发送的数据
+                contentType: false,// 告诉jQuery不要去设置Content-Type请求头
+                success: function (data) {
+                    if (data==1){
+                        alert("添加成功")
+                    }
+                    else{
+                        alert("添加失败")
+                    }
+
+                }
+            })
+
+
+
+        }
+
 
     </script>
     <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
 </div>
 <div id="btns">
     <div>
-
+        <button onclick="articleAdd()">确认提交</button>
         <button onclick="getContent()">获得内容</button>
         <button onclick="setContent()">写入内容</button>
         <button onclick="hasContent()">判断是否有内容</button>
@@ -119,12 +183,7 @@
 
 </div>
 <div>
-    <button onclick="createEditor()">
-        创建编辑器
-    </button>
-    <button onclick="deleteEditor()">
-        删除编辑器
-    </button>
+
 </div>
 
 
@@ -138,20 +197,7 @@
     var text = [];
     /* arr.push("使用editor.getContent()方法可以获得编辑器的内容");*/
     text.push(UE.getEditor('editor').getContent());
-    $.ajax({
-    url:"http://localhost:9999/getText",
-    type:"post",
-    data:'text='+text,
-    dataType:"json",
-    success:function(data){
-    if(data==1){
-    alert("添加成功")
-    }
-    },
-    error:function (data) {
-    alert("添加失败")
-    }
-    });
+     return text;
     }
 
     function setContent(isAppendTo) {

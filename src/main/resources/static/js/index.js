@@ -109,7 +109,6 @@ var aTitle = [];
         var oPicLen = document.getElementById('picLen');
         var oPicSize = document.getElementById('picSize');
         var aP = oUl.getElementsByTagName('p');
-        console.log( aSize,aTitle );
         oPicLen.innerHTML = aTitle.length;
         if ( !aTitle[0] ){
             oPicSize.innerHTML = 0;
@@ -118,7 +117,6 @@ var aTitle = [];
         }
 
 
-        console.log( aP.length )
         for ( var i=0;i<aP.length;i++ ){
             aP[i].innerHTML = aTitle[i]+'<i></i>';
         };
@@ -159,7 +157,7 @@ var aTitle = [];
 
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/article/img_upload',
+            url: 'http://localhost:9999/visney-manager/article/articleCover_img_upload',
             data:oFormData,
             async: false,
             processData: false,
@@ -168,7 +166,11 @@ var aTitle = [];
              if (data=='ok') {
                  oDrag.innerHTML = '恭喜你上传成功';
              }
-                oDrag.innerHTML = '上传失败';
+             else{
+                 oDrag.innerHTML = '上传失败';
+
+             }
+
             }
         })
     });

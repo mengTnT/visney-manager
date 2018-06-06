@@ -1,6 +1,7 @@
 package com.tthome.visneymanager.service.impl;
 
 import com.tthome.visneymanager.dao.PageViewsDao;
+import com.tthome.visneymanager.entity.PageViews;
 import com.tthome.visneymanager.service.PageViewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,10 @@ public class PageViewsServiceImpl implements PageViewsService {
     @Override
     public int pageViewsDelete(int[] pageViewsIds){
         return pageViewsDao.pageViewsDelete(pageViewsIds);
+    }
+
+    @Override
+    public int pageViewsAdd(PageViews pageViews) {
+        return pageViewsDao.pageViewsAdd(pageViews);
     }
 }

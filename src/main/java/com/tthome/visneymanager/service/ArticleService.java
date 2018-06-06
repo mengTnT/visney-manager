@@ -1,6 +1,7 @@
 package com.tthome.visneymanager.service;
 
 import com.tthome.visneymanager.entity.Article;
+import com.tthome.visneymanager.entity.ArticleImg;
 
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,8 @@ public interface ArticleService {
     public Map getArticles(int page, int rows,String category,String editor,String title);
 
     public int articleDelete(int[] articleIds,int[]pageViewsIds,int []articleImgIds);
+
+    public int articleAdd(String label1,String label2,Article article);
 
 
 

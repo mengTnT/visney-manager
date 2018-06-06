@@ -174,5 +174,14 @@ WHERE t1.article_id=#{articleId}
         </foreach>
     </delete>
 
+    <insert id="articleAdd"  useGeneratedKeys="true" keyProperty="articleId">
+
+insert into article values (0,#{articleName},#{articleText},#{articleEditor.articleEditorId},
+#{articleCategory.articleCategoryId},#{pageViews.pageViewsId},
+NOW(),NOW(),#{articleImg.articleImgId},#{articleRecommend},
+#{articleMetaTitle},#{articleMetaDescription},#{articleKeyWord})
+
+    </insert>
+
 
 </mapper>
