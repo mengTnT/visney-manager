@@ -78,6 +78,20 @@ where article_id=#{article_id}
         LEFT JOIN article_category t4 ON t1.article_category_id = t4.article_category_id
         LEFT JOIN page_views t5 ON t1.article_page_views_id = t5.page_views_id
         LEFT JOIN article_img t6 ON t1.article_img_id = t6.article_img_id
+        <where>
+        <if test="category!=null and category!=''">
+             t4.article_category_name LIKE "%"#{category}"%"
+        </if>
+        <if test="editor!=null and editor!=''">
+
+              and t3.article_editor_name LIKE "%"#{editor}"%"
+        </if>
+        <if test="title!=null and title!=''">
+
+             and t1.article_name LIKE "%"#{title}"%"
+        </if>
+        </where>
+        order by t1.article_add_time desc
 
     </select>
 

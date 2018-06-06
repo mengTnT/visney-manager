@@ -15,8 +15,8 @@ import java.util.Map;
  * @author NBUG
  * @date 2018/5/11 17:31
  */
-@RestController
 @RequestMapping("/articleCategory")
+@RestController
 public class ArticleCategoryController {
     @Autowired
     private ArticleCategoryService articleCategoryService;

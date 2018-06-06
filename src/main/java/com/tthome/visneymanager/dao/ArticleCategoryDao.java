@@ -11,7 +11,6 @@ import java.util.List;
  */
 public interface ArticleCategoryDao {
     public List<ArticleCategory> getAllArticleCategory();
-
     public List<ArticleCategory> getPageArticleCategory(@Param("start") int start,@Param("end") int end);
     public int getAllArticleCategoryCount();
     public int  addArticleCategory(ArticleCategory articleCategory);

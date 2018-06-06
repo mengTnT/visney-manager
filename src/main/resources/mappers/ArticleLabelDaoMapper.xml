@@ -21,7 +21,10 @@
 
     <!--分页-->
     <select id="getAllArticleLabel" resultMap="ArticleLabel">
-        SELECT * from article_label limit #{start},#{end}
+        SELECT * from article_label
+        <if test="start!=0 and end!=0">
+            limit #{start},#{end}
+        </if>
     </select>
     <select id="getAllArticleLabelCount" resultType="int">
         select count(0) from article_label

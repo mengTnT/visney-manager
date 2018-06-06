@@ -3,10 +3,12 @@ package com.tthome.visneymanager.controller;
 import com.tthome.visneymanager.entity.ArticleEditor;
 import com.tthome.visneymanager.service.ArticleEditorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,20 +20,25 @@ import java.util.Map;
 public class ArticleEditorController {
     @Autowired
     private ArticleEditorService articleEditorService;
+
     @PostMapping("/getAllArticleEditor")
-    public Map GetAllArticleEditor(int page, int rows){
+    public Map GetAllArticleEditor(int page, int rows) {
         return articleEditorService.getArticleAll(page, rows);
     }
+
     @PostMapping("/addArticleEditor")
-    public Map addArticleEditor(ArticleEditor articleEditor){
+    public Map addArticleEditor(ArticleEditor articleEditor) {
         return articleEditorService.editorAdd(articleEditor);
     }
+
     @PostMapping("/updateArticleEditor")
-    public Map updateArticleEditor(ArticleEditor articleEditor){
+    public Map updateArticleEditor(ArticleEditor articleEditor) {
         return articleEditorService.editorUpdate(articleEditor);
     }
+
     @PostMapping("/deleteArticleEditor")
-    public Map deleteArticleEditor(int[] ids){
+    public Map deleteArticleEditor(int[] ids) {
         return articleEditorService.editorDelte(ids);
     }
+
 }

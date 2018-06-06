@@ -14,7 +14,7 @@ import java.util.Map;
 public interface ArticleDao {
 
     public Article getArticleDetails(int articleId);
-    public List<Article> getArticles();
+    public List<Article> getArticles(@Param("category")String category,@Param("editor")String editor,@Param("title")String title);
     public List<Article> getArticlesByCategory(@Param("articleCategoryId") int articleCategoryId);
 
 

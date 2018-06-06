@@ -9,46 +9,21 @@
     <link type="text/css" rel="stylesheet" href="css/css.css">
     <link type="text/css" rel="stylesheet" href="css/easyui.css">
     <link type="text/css" rel="stylesheet" href="css/icon.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
 </head>
 <body>
 <!--展示数据-->
 <table id="showAllProduct"></table>
-<div id="toolBar">
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="addE()"></a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" onclick="updateE()"></a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="deleteE()"></a>
-</div>
-<!--添加产品-->
+<!--添加导航meta标签-->
 <div id="addProduct" class="easyui-dialog" data-options="closed:true">
     <form id="addProductInformation" enctype="multipart/form-data" method="post">
-        <input name="proId" type="hidden"><br>
-        产品名：<input name="proName" ><br>
-        价格：<input name="proPrice"  ><br>
-        位置：<input name="proPosition" ><br>
-        风格：<input name="proStyle" ><br>
-        类型：<input name="proType" ><br>
-        系列：<input name="proSeries" ><br>
-        材质：<input name="center" ><br>
-        品牌：<input name="brand" ><br>
-        型号：<input name="modleCode" ><br>
-        尺寸：<input name="size" ><br>
-        介绍：<input name="proMsg" ><br>
-        浏览量<input name="pageViews"><br>
-        网店地址：<input name="proSrc"><br>
-        添加时间：<input name="proAddTime" ><br>
-        修改时间：<input name="proUpdateTime" ><br>
-        是否上架：<input name="proPutaway" ><br>
-        图片：<input name="proImgs" ><br>
-        Keyword：<input name="proMetaKeyWord" ><br>
-        Description：<input name="proMetaDescription" ><br>
-        Title：<input name="proMetaTitle"><br>
-
+        导航名称：<input name="navigationName"><br>
+        Title：<input name="navigationTitle"><br>
+        Description：<input name="navigationDescription"><br>
+        Keyword：<input name="navigationKeyword"><br>
         <center>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro1()">确认</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">确认</a>
         </center>
 
     </form>
@@ -57,27 +32,11 @@
 <div id="updateProduct" class="easyui-dialog" data-options="closed:true">
     <form id="updateProductInformation" enctype="multipart/form-data" method="post">
 
-        <input name="proId" id="proId" type="hidden"><br>
-        产品名：<input name="proName" id="proName"><br>
-        价格：<input name="proPrice" id="proPrice"><br>
-        位置：<input name="proPosition" id="proPosition"><br>
-        风格：<input name="proStyle" id="proStyle"><br>
-        类型：<input name="proType" id="proType"><br>
-        系列：<input name="proSeries" id="proSeries"><br>
-        材质：<input name="center" id="center"><br>
-        品牌：<input name="brand" id="brand"><br>
-        型号：<input name="modleCode" id="modleCode"><br>
-        尺寸：<input name="size" id="size"><br>
-        介绍：<input name="proMsg" id="proMsg"><br>
-        浏览量：<input name="pageViews" id="pageViews"><br>
-        网店地址：<input name="proSrc" id="proSrc"><br>
-        添加时间：<input name="proAddTime" id="proAddTime"><br>
-        修改时间：<input name="proUpdateTime" id="proUpdateTime"><br>
-        是否上架：<input name="proPutaway" id="proPutaway"><br>
-        图片：<input name="proImgs" id="proImgs"><br>
-        Keyword：<input name="proMetaKeyWord" id="proMetaKeyWord"><br>
-        Description：<input name="proMetaDescription" id="proMetaDescription"><br>
-        Title：<input name="proMetaTitle" id="proMetaTitle"><br>
+        <input name="navigationId" id="navigationId" type="hidden"><br>
+        导航名：<input name="navigationName" id="navigationName"><br>
+        Title：<input name="navigationTitle" id="navigationTitle"><br>
+        Description：<input name="navigationDescription" id="navigationDescription"><br>
+        Keyword：<input name="navigationKeyword" id="navigationKeyword"><br>
 
         <center>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">确认</a>
@@ -87,6 +46,8 @@
 </div>
 <script type="text/javascript">
     $(function () {
+
+
         $("#showAllProduct")
             .datagrid(
                 {
@@ -265,12 +226,14 @@
                             if (value) {
                                 for(var i=0;i<value.length;i++) {
                                     if(i==0) {
-                                       /* console.log(value[i].proImgSrc+"zzzzzzzzzzzzzzzzzzzz")*/
+                                        console.log(value[i].proImgSrc+"zzzzzzzzzzzzzzzzzzzz")
                                         return "<img width=50px height=50px src='" + value[i].proImgSrc + "'>";
                                     }
                                 }
                             }
+
                         }
+
                     },{
                         field: 'proMetaKeyWord',
                         align: 'center',
@@ -295,146 +258,164 @@
                     pagination: true,
                     pageSize:20,
                     /* pageList: [10,20,30,40],*/
-                    toolbar:"#toolBar"
+                    toolbar: [
+                        {
+                            iconCls: 'icon-add',
+                            handler: function () {
+                                $("#addProduct").dialog({
+                                    title: '添加导航meta',
+                                    width: 400,
+                                    modal: true,
+                                    closed: false
+                                })
+
+                            }
+                        },
+                        '-',
+                        {
+                            iconCls: 'icon-edit',
+                            handler: function () {
+                                var cates = $("#showAllProduct")
+                                    .datagrid('getChecked');
+                                if (cates.length > 1
+                                    || cates.length < 1) {
+                                    $.messager.alert("消息",
+                                        "请选择一条数据修改", 'warning');
+                                } else {
+                                    $("#updateProduct").dialog(
+                                        {
+                                            title: '修改meta',
+                                            width: 400,
+                                            modal: true,
+                                            closed: false,
+
+                                        })
+                                    var navigationId;
+                                    var navigationName;
+                                    var navigationTitle;
+                                    var navigationDescription;
+                                    var navigationKeyword;
+                                    var navigationgetChecked = $("#showAllProduct").datagrid('getChecked');
+                                    $.each(navigationgetChecked, function (index,
+                                                                           cate) {
+                                        console.log(cate)
+
+
+                                        navigationId = cate.navigationId;
+                                        navigationName = cate.navigationName;
+                                        navigationTitle = cate.navigationTitle;
+                                        navigationDescription = cate.navigationDescription;
+                                        navigationKeyword = cate.navigationKeyword;
+
+                                    })
+
+                                    $("#navigationId").val(navigationId);
+                                    $("#navigationName").val(navigationName);
+                                    $("#navigationTitle").val(navigationTitle);
+                                    $("#navigationDescription").val(navigationDescription);
+                                    $("#navigationKeyword").val(navigationKeyword);
+
+                                }
+                            }
+                        },
+                        '-',
+                        {
+                            iconCls: 'icon-remove',
+                            handler: function () {
+                                var cates = $("#showAllProduct").datagrid('getChecked');
+                                if (cates.length < 1) {
+                                    $.messager.alert("消息", "请选择一条数据修改", 'warning');
+                                } else {
+                                    $.messager.confirm("消息", "您确定要删除吗？", function (x) {
+                                        if (x) {
+                                            var ids = [];
+                                            var cateIds = $("#showAllProduct").datagrid('getChecked');
+                                            $.each(cateIds, function (index, ii) {
+                                                ids.push(ii.navigationId);
+                                            })
+                                            $.ajax({
+                                                type: 'post',
+                                                url: 'http://localhost:9999/visney-manager/NavigationMeta/metaDelete',
+                                                data: 'ids=' + ids,
+                                                success: function (data) {
+                                                    if (data != 0) {
+                                                        $.messager.alert("消息", "删除成功", 'info');
+                                                        $("#showAllProduct").datagrid('reload');
+                                                    } else {
+                                                        $.messager.alert("消息", "删除失败", 'error');
+                                                        $("#showAllProduct").datagrid('reload');
+                                                    }
+                                                }
+                                            })
+                                        } else {
+                                            $("#showAllProduct").datagrid('reload');
+                                        }
+                                    })
+
+                                }
+                            }
+                        }]
 
                 })
     })
 
-    /*update*/
-    //加载修改页面。。。。。。。。。。。。
-    $(function(){
-        $("#updateSize").dialog({
 
-            title:"修改页面",
-            width:860,
-            width:400,
-            cache: false,
-            closed:true,
-            modal:true,
-        })
-    })
+    $("#addProductInformation").submit(function () {
+        var formData = new FormData($("#addProductInformation")[0]);
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaAdd',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (dada) {
+                if (dada == 1) {
+                    $.messager.alert("消息", "添加成功", 'info');
+                    $("#addProduct").dialog('close');
+                    $("#showAllProduct").datagrid('reload');
 
-    //点击执行修改操作 显示修改页面
-    function updateE(){
-        //返回第一个被选中的行或如果没有选中的行则返回null。
+                } else if (dada == 0) {
+                    $.messager.alert("消息", "添加失败", 'error');
+                    $("#addProduct").dialog('close');
+                    $("#showAllProduct").datagrid('reload');
 
-        var vas=$("#showAllProduct").datagrid("getChecked");
-        var va=$("#showAllProduct").datagrid("getSelected");
-        if(vas.length>1||vas.length<1||vas==null){
-            $.messager.alert("提示框","请选择一个要修改的数据","warming");
-        }else{
-            $("#updateSizeInformation input" ).val("");
-            $("#updateSize").dialog("open");
-            $("#sizeId").val(va.sizeId);
-            $("#siziMsg").val(va.siziMsg);
-        }
-    }
-    //在修改页面 点击修改 修改
-    function pro3(){
-        //点击form表单 用ajax提交
-        $("#updateSizeInformation").form("submit",{
-            url:"http://localhost:9999/visney-manager/size/updateSize",
-
-            success:function(data){
-                var da=eval('(' + data + ')');
-                console.log(data)
-                if(da.msg){
-                    $.messager.alert("提示框"," 修改成功","info");//提示框
-                    //关闭添加  对话框
-
-                    $("#updateSize").dialog("close");
-
-                    //表格重新加载
-                    $("#showAllProduct").datagrid("reload");
-                }else{
-                    $.messager.alert("提示框","修改失败，请确认","warming");
                 }
             }
         })
-    }
-    //点击取消 取消修改
-    function pro4(){
-        $("#updateSize").dialog("close");
-    }
-    /*添加界面开始*/
-    //添加页面
-    $(function(){
-        $("#addProduct").dialog({
-            title:"添加页面",
-            width:860,
-            height: 400,
-            cache: false,
-            closed:true,
-            modal:true,
-        });
+        return false;
     })
-    //显示添加 页面
-    function addE(){
-        $("#addProduct").dialog("open");
-    }
-    //点击添加按钮添加
-    function pro1(){
-//              发送ajxs请求
-
-        $("#addProductInformation").form('submit',{
-            url:"http://localhost:9999/visney-manager/product/addSize",
-            type:"post",
-            success:function (data) {
-                var da = eval('(' + data + ')');
-                if(da.msg){
-                    $.messager.alert("提示框","添加成功","info")
-                    //	关闭对话框
-                    $("#addProduct").dialog("close")
-                    //表格重新加载
-                    $("#showAllProduct").datagrid("reload");
-                }else{
-                    $.messager.alert("提示框","添加失败","warming");
+    $("#updateProductInformation").submit(function () {
+        var formData = new FormData($("#updateProductInformation")[0]);
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaUpdate',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (dada) {
+                if (dada == 1) {
+                    $.messager.alert("消息", "修改成功", 'info');
+                    $("#updateProduct").dialog('close');
+                    $("#showAllProduct").datagrid('reload');
+                } else {
+                    $.messager.alert("消息", "修改失败", 'error');
+                    $("#updateProduct").dialog('close');
+                    $("#showAllProduct").datagrid('reload');
                 }
             }
         })
-    }
-    //点击取消按钮 取消添加
-    function pro2(){
-        $("#addProduct").dialog("close");
-    }
+        return false;
+    })
 
-    //点击删除按钮执行  删除操作
-    function  deleteE(){
-        var rows = $("#showAllProduct").datagrid("getSelections");//返回所有被选中的行，当没有记录被选中的时候将返回一个空数组。
 
-        if(rows.length==0){
-            $.messager.alert("提示框","请删除要选择的内容","warning");
-        }else{
-            $.messager.confirm("确认删除","确定要删除选中的所有内容吗？",function(r){
-                if(r){
-                    var ids = new Array();//创建一个数组
-                    for(var i = 0;i<rows.length;i++){
-                        ids[i]= rows[i].sizeId;//这里是（对象.属性）
-                    }
-                    $.ajax({
-                        url:"http://localhost:9999/visney-manager/product/deleteSize",
-                        type:"post",
-                        data:"ids="+ids,//data:{"ids":ids}
-                        success:function(data){
-                            if(data.msg){
-                                $.messager.alert("提示框","删除成功","info");//提示框
-                                //关闭添加  对话框
-
-                                $("#updateSize").dialog("close");
-
-                                //表格重新加载
-                                $("#showAllProduct").datagrid("reload");
-                            }else{
-                                $.messager.alert("提示框","删除失败，请确认","warming");
-                            }
-                        }
-                    });
-
-                }
-            });
-        }
+    function pro2() {
+        $("#updateProductInformation").submit();
     }
 
+    function pro1() {
+        $("#addProductInformation").submit();
+    }
 </script>
 </body>
 

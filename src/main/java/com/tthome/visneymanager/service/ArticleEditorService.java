@@ -16,4 +16,5 @@ public interface ArticleEditorService {
     public Map editorUpdate(ArticleEditor articleEditor);
     public Map editorDelte(int[] articleEditorId);
     public Map editorAdd(ArticleEditor articleEditor);
+
 }

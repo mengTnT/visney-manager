@@ -15,15 +15,13 @@ var aSize = [];
 var aTitle = [];
     for( var i=0;i<aInput.length;i++ ){
         aInput[i].onchange = function () {
-            //console.log(this.value);
-            //console.log(this.files.item(2));
             var This = this;
             if( this.files.length ){
                 for( var i=0;i<this.files.length;i++ ){
                     (function (i) {// 用了闭包 里面的this指向window，在外面定义 This
                         // 每个文件的详细信息，push到数组
                         var files = This.files.item(i);
-                        //console.log(files)
+
 
                         arr.push(files);
 
@@ -37,7 +35,7 @@ var aTitle = [];
 
                         readerFile(files);
 
-                        //setTimeout('conut()',200)
+
                     })(i);
                 }
             }
@@ -84,12 +82,10 @@ var aTitle = [];
         var e = e || event;
 
         for ( var i=0;i<e.dataTransfer.files.length;i++ ){
-                //console.log( e.dataTransfer.files.item(i) )
-                //console.log( e.dataTransfer.files[i] );
-                // 每个文件的详细信息，push到数组
+
             (function (i) {
                 var files = e.dataTransfer.files.item(i);
-                //console.log(files);
+
                 arr.push(files);
 
                 // 文件名称
@@ -121,10 +117,9 @@ var aTitle = [];
             oPicSize.innerHTML = (eval(aSize.join('+'))/1024/1024).toFixed(2);
         }
 
-        //console.log( eval(aSize.join('+')) )
+
         console.log( aP.length )
         for ( var i=0;i<aP.length;i++ ){
-            console.log(aTitle[i] )
             aP[i].innerHTML = aTitle[i]+'<i></i>';
         };
         slide();
@@ -138,7 +133,7 @@ var aTitle = [];
         for ( var i=0;i<aLi.length;i++ ){
             aLi[i].index = i;
             aLi[i].children[1].children[0].onclick = function () {
-                //console.log( this.parentNode.parentNode.index );
+
                 n = this.parentNode.parentNode.index;
                 oUl.removeChild(aLi[n]);
 
@@ -154,21 +149,29 @@ var aTitle = [];
 
     // 点击上传多文件
     oBtn.addEventListener('click',function () {
-        console.log( arr );
+        var oFormData = new  FormData();
         for ( var i=0;i<arr.length;i++ ){
-            //console.log( arr[i] );
             (function (i) {
-                var xhr = new XMLHttpRequest();
-                xhr.onload = function () {
-                    oDrag.innerHTML = '恭喜你上传成功';
-                }
-                xhr.open('post','upload.php',true);
-
-                var oFormData = new  FormData();
-                oFormData.append('file',arr[i]);
-                xhr.send(oFormData);
+                oFormData.append('files',arr[i]);
             })(i);
         };
+
+
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/article/img_upload',
+            data:oFormData,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data+"+++++++")
+             if (data=="ok") {
+                 oDrag.innerHTML = '恭喜你上传成功';
+             }
+                oDrag.innerHTML = '上传失败';
+            }
+        })
     });
 
 
