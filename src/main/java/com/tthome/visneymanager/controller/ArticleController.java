@@ -63,7 +63,7 @@ public class ArticleController {
                 //获取原文件名,和毫秒数进行拼接
                 String fileName = System.currentTimeMillis() + file.getOriginalFilename();
                 //图片将要存储到本地的地址
-                String destFileName = uploadPath + "/article" + File.separator + fileName;
+                String destFileName = uploadPath + "/article" + fileName;
                 //创建一个file对象
                 File destFile = new File(destFileName);
                if (!destFile.exists()){
@@ -74,7 +74,7 @@ public class ArticleController {
                 file.transferTo(destFile);
                 System.out.println(fileName);
                 System.out.println(destFileName);
-                System.out.println("article" + File.separator + fileName);
+                System.out.println("192.168.100.250/visney"+"/article" + File.separator +fileName);
 
             }
 
@@ -110,6 +110,8 @@ public class ArticleController {
                 //写入文件
                 file.transferTo(destFile);
                 articleImgSrc="article" + File.separator + fileName;
+
+
                 System.out.println(fileName);
                 System.out.println(destFileName);
                 System.out.println(articleImgSrc);

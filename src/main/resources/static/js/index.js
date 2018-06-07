@@ -165,12 +165,13 @@ var aTitle = [];
             success: function (data) {
                 console.log(data+"+++++++")
              if (data=="ok") {
+
                  oDrag.innerHTML = '恭喜你上传成功';
              }
              else{
                  oDrag.innerHTML = '上传失败';
 
-             }
+           }
 
             }
         })

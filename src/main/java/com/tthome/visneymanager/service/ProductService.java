@@ -1,5 +1,10 @@
 package com.tthome.visneymanager.service;
 
+import com.sun.javafx.collections.MappingChange;
+import com.tthome.visneymanager.entity.Product;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,5 +19,11 @@ public interface ProductService {
      */
     public Map selectAll(int page,int rows);
 
+    public int addProduct(Product product);
 
+    public Map updateProduct(Product product);
+
+    public Map deleteProduct(int[] proIds);
+
+    public Map selectAllLikeProduct(String proName,String brandName,String proCategoryName);
 }
