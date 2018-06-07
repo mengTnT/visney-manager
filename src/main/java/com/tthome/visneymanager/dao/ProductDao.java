@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface ProductDao {
 
-    public List<Product> selectAll();
+    public List<Product> selectAll(@Param("proName")String proName,@Param("brandName")String brandName,@Param("proStyleName")String proStyleName,
+    @Param("proTypeName")String proTypeName, @Param("proSeriesName")String proSeriesName, @Param("proTextureName")String proTextureName,
+    @Param("proPositionName")String proPositionName);
 
     public int getTotal();
 
@@ -17,5 +19,4 @@ public interface ProductDao {
 
     public int deleteProduct(int[] proIds);
 
-    public List<Product> selectAllLikeProduct(@Param("proName")String proName,@Param("brandName")String brandName,@Param("proCategoryName")String proCategoryName);
 }

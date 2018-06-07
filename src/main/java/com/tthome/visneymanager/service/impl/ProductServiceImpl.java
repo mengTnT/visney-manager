@@ -29,11 +29,12 @@ public class ProductServiceImpl implements ProductService {
     private BrandDao brandDao;
 
     @Override
-    public Map selectAll(int page,int rows) {
+    public Map selectAll(int page,int rows,String proName, String brandName, String proStyleName,String proTypeName,
+                         String proSeriesName,String proTextureName,String proPositionName) {
         Map map = new HashMap();
         int total = productDao.getTotal();
         PageHelper.startPage(page, rows);
-        List<Product> products = productDao.selectAll();
+        List<Product> products = productDao.selectAll(proName,brandName,proStyleName,proTypeName,proSeriesName,proTextureName,proPositionName);
         map.put("total", total);
         map.put("rows", products);
         return map;
@@ -71,10 +72,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
     }
-    @Override
-    public Map selectAllLikeProduct(String proName, String brandName, String proCategoryName) {
-        return null;
-    }
+
     @Override
     public Map updateProduct(Product product) {
         return null;
@@ -84,8 +82,6 @@ public class ProductServiceImpl implements ProductService {
     public Map deleteProduct(int[] proIds) {
         return null;
     }
-
-
 
 }
 

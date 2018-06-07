@@ -17,7 +17,8 @@ public interface ProductService {
      *
      * @return
      */
-    public Map selectAll(int page,int rows);
+    public Map selectAll(int page,int rows,String proName, String brandName, String proStyleName,String proTypeName,
+                         String proSeriesName,String proTextureName,String proPositionName);
 
     public int addProduct(Product product);
 
@@ -25,5 +26,4 @@ public interface ProductService {
 
     public Map deleteProduct(int[] proIds);
 
-    public Map selectAllLikeProduct(String proName,String brandName,String proCategoryName);
 }

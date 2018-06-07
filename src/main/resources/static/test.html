@@ -13,34 +13,40 @@
     <link type="text/css" rel="stylesheet" href="css/easyui.css">
     <link type="text/css" rel="stylesheet" href="css/icon.css">
 </head>
+</head>
 <body>
-<table id="dg">
-    <form id="addProduct">
 
-    </form>
-</table>
+    <table id="showAllArticle">
+        <div >
+            <input name="category" id="ss1" class="easyui-searchbox" style="width:300px"
+                   data-options="searcher:search,prompt:'所属类别搜索'"></input>
+            <input name="editor" id="ss2" class="easyui-searchbox" style="width:300px"
+                   data-options="searcher:search,prompt:'根据编辑搜索'"></input>
+            <input name="title" id="ss3" class="easyui-searchbox" style="width:300px"
+                   data-options="searcher:search,prompt:'根据标题搜索'"></input>
+        </div>
+
+    </table>
 <!--<form id="test" enctype="multipart/form-data" method="post">
             <input  type="file" name="fils">
             <input type="submit">
         </form>-->
 </div>
 <script type="text/javascript" >
+    /*关键词搜索*/
+    function search(value,name){
+        var cval = $("#ss1").searchbox('getValue');
+        var eval = $("#ss2").searchbox('getValue');
+        var tval = $("#ss3").searchbox('getValue');
+        alert(value+":"+name)
+        $('#showAllArticle').datagrid({
 
-    $('#dg').datagrid({
-        toolbar: [{
-            iconCls: 'icon-edit',
-            handler: function(){
-                $("#addProduct").dialog({
-                    title: '添加导航meta',
-                    modal: true,
-                    closed: false
-                })
-            }
-        },'-',{
-            iconCls: 'icon-help',
-            handler: function(){alert('帮助按钮')}
-        }]
-    });
+        });
+
+    }
+    $(function(){
+
+    })
 
 
 

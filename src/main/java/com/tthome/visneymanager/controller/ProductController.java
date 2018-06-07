@@ -7,10 +7,7 @@ import com.tthome.visneymanager.entity.Product;
 import com.tthome.visneymanager.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,10 +34,11 @@ public class ProductController {
     private ProductService productService;
 
     @RequestMapping("/getAll")
-    public Map getAll(int page,int rows) {
-        return productService.selectAll(page, rows);
+    public Map getAll(int page,int rows,String proName, String brandName, String proStyleName,String proTypeName,
+                      String proSeriesName,String proTextureName,String proPositionName) {
+        return productService.selectAll(page, rows,proName,brandName,proStyleName,proTypeName,proSeriesName,proTextureName,proPositionName);
     }
-
+    @PostMapping ("/addProduct")
     public int addProduct(Product product){ return productService.addProduct(product);}
 
 
