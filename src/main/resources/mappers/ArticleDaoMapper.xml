@@ -46,8 +46,8 @@
     </resultMap>
 
     <select id="getLabel" resultMap="ArticleLabel">
-select * from article_label
-where article_id=#{article_id}
+   select * from article_label
+    where article_id=#{article_id}
 
     </select>
 
@@ -126,35 +126,34 @@ where article_id=#{article_id}
 
 
     </select>
-
+<!--查询单个文章详情-->
     <select id="getArticleDetails" resultMap="Article">
-SELECT
-	t1.article_id,
-	t1.article_name,
-	t1.article_text,
-	t1.article_editor_id,
-	t3.article_editor_name,
-	t1.article_category_id,
-	t4.article_category_name,
-	t1.article_page_views_id,
-	t5.page_views_id,
-	t5.page_views_count,
-	t1.article_add_time,
-	t1.article_update_time,
-	t2.article_label_id,
-	t2.article_label_name,
-	t6.*, t1.article_meta_title,
-	t1.article_meta_description,
-	t1.article_meta_keyword,
-	t1.article_recommend
-FROM
-	article t1
-LEFT JOIN article_label t2 ON t1.article_id = t2.article_id
-LEFT JOIN article_editor t3 ON t1.article_editor_id = t3.article_editor_id
-LEFT JOIN article_category t4 ON t1.article_category_id = t4.article_category_id
-LEFT JOIN page_views t5 ON t1.article_page_views_id = t5.page_views_id
-LEFT JOIN article_img t6 ON t1.article_img_id = t6.article_img_id
-WHERE t1.article_id=#{articleId}
+ SELECT
+        t1.article_id,
+        t1.article_name,
+        t1.article_text,
+        t1.article_editor_id,
+        t3.article_editor_name,
+        t1.article_category_id,
+        t4.article_category_name,
+        t1.article_page_views_id,
+        t5.page_views_id,
+        t5.page_views_count,
+        t1.article_add_time,
+        t1.article_update_time,
+
+        t6.*, t1.article_meta_title,
+        t1.article_meta_description,
+        t1.article_meta_keyword,
+        t1.article_recommend
+        FROM
+        article t1
+
+        LEFT JOIN article_editor t3 ON t1.article_editor_id = t3.article_editor_id
+        LEFT JOIN article_category t4 ON t1.article_category_id = t4.article_category_id
+        LEFT JOIN page_views t5 ON t1.article_page_views_id = t5.page_views_id
+        LEFT JOIN article_img t6 ON t1.article_img_id = t6.article_img_id
+        WHERE t1.article_id=#{articleId}
     </select>
 
     <select id="getTotalByArticleCategoryId" resultType="int">
@@ -182,6 +181,14 @@ NOW(),NOW(),#{articleImg.articleImgId},#{articleRecommend},
 #{articleMetaTitle},#{articleMetaDescription},#{articleKeyWord})
 
     </insert>
+
+
+    <update id="articleUpdate">
+
+      update  article set article_name=#{articleName},article_text=#{articleText},article_editor_id=#{articleEditor.articleEditorId},article_category_id=#{articleCategory.articleCategoryId},
+      article_recommend=#{articleRecommend},article_meta_title=#{articleMetaTitle},article_meta_description=#{articleMetaDescription},article_meta_keyword=#{articleKeyWord}
+      where article_id=#{articleId}
+    </update>
 
 
 </mapper>

@@ -9,4 +9,5 @@ import com.tthome.visneymanager.entity.ArticleImg;
 public interface ArticleImgDao {
     public int articleImgDelete(int[] articleImgIds);
     public int articleImgAdd(ArticleImg articleImg);
+    public int articleImgUpdate(ArticleImg articleImg);
 }

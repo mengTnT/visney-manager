@@ -25,6 +25,13 @@
 
     </insert>
 
+    <update id="articleImgUpdate" >
+
+        update  article_img set article_img_alt=#{articleImgAlt},article_img_src=#{articleImgSrc}
+        where article_img_id=#{articleImgId}
+
+    </update>
+
 
 
 </mapper>

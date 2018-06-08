@@ -63,18 +63,18 @@ public class ArticleController {
                 //获取原文件名,和毫秒数进行拼接
                 String fileName = System.currentTimeMillis() + file.getOriginalFilename();
                 //图片将要存储到本地的地址
-                String destFileName = uploadPath + "/article" + fileName;
+                String destFileName = uploadPath + "/article" + File.separator + fileName;
                 //创建一个file对象
                 File destFile = new File(destFileName);
-               if (!destFile.exists()){
-                   //创建文件夹
-                   destFile.getParentFile().mkdirs();
-               }
+                if (!destFile.exists()) {
+                    //创建文件夹
+                    destFile.getParentFile().mkdirs();
+                }
                 //写入文件
                 file.transferTo(destFile);
                 System.out.println(fileName);
                 System.out.println(destFileName);
-                System.out.println("192.168.100.250/visney"+"/article" + File.separator +fileName);
+                System.out.println("article" + File.separator + fileName);
 
             }
 
@@ -89,9 +89,9 @@ public class ArticleController {
         return "ok";
     }
 
-    @PostMapping("/articleImgAdd")
-    public int articleImgAdd(String label1,String label2,Article article,HttpServletRequest req, @RequestParam("files") MultipartFile[] files){
-        String articleImgSrc=null;
+    @PostMapping("/articleAdd")
+    public int articleAdd(String label1, String label2, Article article, HttpServletRequest req, @RequestParam("files") MultipartFile[] files) {
+        String articleImgSrc = null;
         if (files.length == 0) {
             return 0;
         }
@@ -103,18 +103,13 @@ public class ArticleController {
                 String destFileName = uploadPath + "/article" + File.separator + fileName;
                 //创建一个file对象
                 File destFile = new File(destFileName);
-                if (!destFile.exists()){
+                if (!destFile.exists()) {
                     //文件夹不存在，就创建文件夹
                     destFile.getParentFile().mkdirs();
                 }
                 //写入文件
                 file.transferTo(destFile);
-                articleImgSrc="article" + File.separator + fileName;
-
-
-                System.out.println(fileName);
-                System.out.println(destFileName);
-                System.out.println(articleImgSrc);
+                articleImgSrc = "http://192.168.100.250/visney/article" + File.separator + fileName;
 
             }
 
@@ -127,10 +122,49 @@ public class ArticleController {
         }
         ArticleImg articleImg = article.getArticleImg();
         articleImg.setArticleImgSrc(articleImgSrc);
-        int result = articleService.articleAdd(label1,label2,article);
+        int result = articleService.articleAdd(label1, label2, article);
         return result;
 
     }
 
+    @PostMapping("/articleUpdate")
+    public int articleUpdate(int labelID1, int labelID2,String label1, String label2, Article article, HttpServletRequest req, @RequestParam("files") MultipartFile[] files) {
+        String articleImgSrc = null;
+        //用户没有修改图片
+        if (files.length == 0) {
+            int result = articleService.articleUpdate(labelID1, labelID2,label1,label2, article);
+            return result;
+        }
+        //修改了图片
+        else {
+            try {
+                for (MultipartFile file : files) {
+                    //获取原文件名,和毫秒数进行拼接
+                    String fileName = System.currentTimeMillis() + file.getOriginalFilename();
+                    //图片将要存储到本地的地址
+                    String destFileName = uploadPath + "/article" + File.separator + fileName;
+                    //创建一个file对象
+                    File destFile = new File(destFileName);
+                    if (!destFile.exists()) {
+                        //文件夹不存在，就创建文件夹
+                        destFile.getParentFile().mkdirs();
+                    }
+                    //写入文件
+                    file.transferTo(destFile);
+                    articleImgSrc =  "http://192.168.100.250/visney/article" + File.separator + fileName;
+                }
 
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return 0;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return 0;
+            }
+            ArticleImg articleImg = article.getArticleImg();
+            articleImg.setArticleImgSrc(articleImgSrc);
+            int result = articleService.articleUpdate(labelID1, labelID2,label1,label2, article);
+            return result;
+        }
+    }
 }

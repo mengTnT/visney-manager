@@ -45,131 +45,7 @@
         meta标签description：<input type="text" id="article_meta_description">
         meta标签keyword：<input type="text" id="article_meta_keyword">
     </form>
-    <script type="text/javascript">
 
-        /* 展示可供选择的文章类别*/
-        $.ajax({
-            type: 'get',
-            url: 'http://localhost:9999/visney-manager/articleCategory/getAll',
-            success: function (value) {
-                var content = "<select id=\"category_select\">"
-                for (var i = 0; i < value.length; i++) {
-                    content += "<option value=" + value[i].articleCategoryId + ">" + value[i].articleCategoryName + "</option>";
-                }
-                var result = content + "</select>";
-
-                $("#articleCategorySelect").html(result)
-            }
-        })
-
-        /*展示作者*/
-        $.ajax({
-            type: 'post',
-            url: 'http://localhost:9999/visney-manager/articleEditor/getAllArticleEditor',
-            data:{
-                page:0,
-                rows:0
-
-            },
-            success: function (value) {
-
-                var content = "<select id=\"editor_select\">"
-                for (var i = 0; i < value.rows.length; i++) {
-                    content += "<option value=" + value.rows[i].articleEditorId + ">" + value.rows[i].articleEditorName + "</option>";
-                }
-                var result = content + "</select>";
-
-                $("#articleEditorSelect").html(result)
-            }
-        })
-        /*展示标签*/
-        $.ajax({
-            type: 'post',
-            url: 'http://localhost:9999/visney-manager/articleLabel/getAllArticleLabel',
-            data:{
-                page:0,
-                rows:0
-
-            },
-            success: function (value) {
-                var content1 = "<select id=\"label_select1\">"
-                var content2 = "<select id=\"label_select2\">"
-                for (var i = 0; i < value.rows.length; i++) {
-                    content1 += "<option value=" + value.rows[i].articleLabelId + ">" + value.rows[i].articleLabelName + "</option>";
-                }
-                for (var i = 0; i < value.rows.length; i++) {
-                    content2 += "<option value=" + value.rows[i].articleLabelId + ">" + value.rows[i].articleLabelName + "</option>";
-                }
-
-                var result1 = content1 + "</select>";
-                var result2 = content2 + "</select>";
-
-                $("#articleLabelSelect1").html(result1)
-                $("#articleLabelSelect2").html(result2)
-            }
-        })
-
-        function articleAdd() {
-            //选中的文本
-            var articleTitle = $("#article_title").val();
-            var cid=$('#category_select option:selected').val();
-            var eid=$('#editor_select option:selected').val();
-
-            var lname1=$('#label_select1 option:selected').text();
-            var lname2=$('#label_select2 option:selected').text();
-
-            var article_recommend=$("#recommend option:selected").val();
-
-            var meta_title= $("#article_meta_title").val();
-            var meta_description=$("#article_meta_description").val();
-            var meta_keyword=$("#article_meta_keyword").val();
-
-            var articletext=getContent();
-
-            var articleimg=document.getElementById("article_Img").files[0];
-
-            var imgalt = $("#img_alt").val();
-
-            var formdata=new FormData();
-            formdata.append("label1",lname1);
-            formdata.append("label2",lname2);
-            formdata.append("articleName",articleTitle);
-            formdata.append("articleText",articletext);
-            formdata.append("articleEditor.articleEditorId",eid);
-            formdata.append("articleCategory.articleCategoryId",cid);
-            formdata.append(" articleRecommend",article_recommend);
-            formdata.append("articleMetaDescription",meta_description);
-            formdata.append("articleMetaTitle",meta_title);
-            formdata.append("articleKeyWord",meta_keyword);
-            formdata.append("articleImg.articleImgAlt",imgalt);
-            formdata.append("files",articleimg);
-
-            console.log(formdata)
-
-
-          $.ajax({
-                type: 'post',
-                url: 'http://localhost:9999/visney-manager/article/articleImgAdd',
-                data: formdata,
-                processData: false,// 告诉jQuery不要去处理发送的数据
-                contentType: false,// 告诉jQuery不要去设置Content-Type请求头
-                success: function (data) {
-                    if (data==1){
-                        alert("添加成功")
-                    }
-                    else{
-                        alert("添加失败")
-                    }
-
-                }
-            })
-
-
-
-        }
-
-
-    </script>
     <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
 </div>
 <div id="btns">
@@ -200,12 +76,15 @@
      return text;
     }
 
-    function setContent(isAppendTo) {
-    var arr = [];
-    arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
-    UE.getEditor('editor').setContent('欢迎使用ueditor', isAppendTo);
-    alert(arr.join("\n"));
-    }
+  /*  function setContent(isAppendTo) {
+if (text_value){
+            var arr = [];
+            arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
+            UE.getEditor('editor').setContent(text_value, isAppendTo);
+}
+    }*/
+
+
 
     /* 判断编辑器里是否有内容*/
     function hasContent() {
@@ -218,20 +97,17 @@
 
     /* 根据文章id编辑文章*/
     function updateArticle() {
-    var idd=1;
     $.ajax({
-    url:"http://localhost:9999/getArticle",
-    type:"post",
-    data:'id='+idd,
-    dataType:"json",
+    url:'http://localhost:9999/visney-manager/article/getArticleDetails/'+id,
+    type:"get",
     async: false,
     success:function(data){
     if(data!=null){
     console.log(data)
     UE.getEditor('editor').addListener("ready", function () {
     // editor准备好之后才可以使用
-    UE.getEditor('editor').setContent(data.text);
-    /* setContent(data.text)*/
+    UE.getEditor('editor').setContent(data.articleText);
+
 
     });
 
@@ -270,6 +146,287 @@
 
 
 </script>
+    <script type="text/javascript">
+
+
+
+            //截取url后的参数
+            function GetRequest() {
+                var url = location.search; //获取url中"?"符后的字串
+                var theRequest = new Object();
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    strs = str.split("&");
+                    for(var i = 0; i < strs.length; i ++) {
+                        theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                    }
+                }
+                return theRequest;
+            }
+
+            //获取修改文章的id
+            var Request = new Object();
+            Request = GetRequest();
+            var id=Request["id"]
+
+            if (id) {
+                alert(id)
+                var id_value;
+                var title_value;
+                var category_id;
+                var editor_id;
+                var label_value1;
+                var label_value2;
+                var label_id1;
+                var label_id2;
+                var recommend_value;
+                var img_id;
+                var img_src_value;
+                var img_alt_value;
+                var text_value;
+                var meta_titile_value;
+                var meta_description_value;
+                var meta_keyword_value;
+                $.ajax({
+                    type: 'get',
+                    async: false,/*设置为同步，不出结果的话，不往下执行*/
+                    url: 'http://localhost:9999/visney-manager/article/getArticleDetails/'+id,
+                    success: function (value) {
+                        title_value=value.articleName;
+                        category_id=value.articleCategory.articleCategoryId;
+                        editor_id=value.articleEditor.articleEditorId;
+                        label_value1=value.labelList[0].articleLabelName;
+                        label_value2=value.labelList[1].articleLabelName;
+                        /*有问题需要修改*/
+                        label_id1=value.labelList[0].articleLabelId;
+                        label_id2=value.labelList[1].articleLabelId;
+
+                        recommend_value=value.articleRecommend;
+                        img_id=value.articleImg.articleImgId;
+                        img_src_value=value.articleImg.articleImgSrc;
+                        img_alt_value=value.articleImg.articleImgAlt;
+                        text_value=value.articleText;
+                        meta_titile_value=value.articleName;
+                        meta_description_value=value.articleName;
+                        meta_keyword_value=value.articleName;
+
+                        $("#recommend").find("option[value = '"+recommend_value+"']").attr("selected","selected");
+                        $("#img_alt").val(img_alt_value);
+                        $("#imghead").prop("src",img_src_value);
+                        $("#article_meta_title").val(meta_titile_value);
+                        $("#article_meta_description").val(meta_description_value);
+                        $("#article_meta_keyword").val(meta_keyword_value);
+                        $("#article_title").val(title_value);
+
+                        /* 查询结束后，再去查询其他的内容*/
+                        show();
+
+                    }
+                })
+                ue.addListener("ready", function () {
+                    ue.setContent(text_value);
+                });
+
+            }else { show();}
+
+
+
+
+            function show(){
+                /* 展示可供选择的文章类别*/
+                $.ajax({
+                    type: 'get',
+                    url: 'http://localhost:9999/visney-manager/articleCategory/getAll',
+                    success: function (value) {
+                        var content = "<select id=\"category_select\">"
+                        for (var i = 0; i < value.length; i++) {
+                            content += "<option value=" + value[i].articleCategoryId + ">" + value[i].articleCategoryName + "</option>";
+                        }
+                        var result = content + "</select>";
+
+                        $("#articleCategorySelect").html(result)
+
+
+                        $("#category_select").find("option[value = '"+category_id+"']").attr("selected","selected");
+                    }
+                })
+
+                /*展示作者*/
+                $.ajax({
+                    type: 'post',
+                    url: 'http://localhost:9999/visney-manager/articleEditor/getAllArticleEditor',
+                    data:{
+                        page:0,
+                        rows:0
+
+                    },
+                    success: function (value) {
+
+                        var content = "<select id=\"editor_select\">"
+                        for (var i = 0; i < value.rows.length; i++) {
+                            content += "<option value=" + value.rows[i].articleEditorId + ">" + value.rows[i].articleEditorName + "</option>";
+                        }
+                        var result = content + "</select>";
+
+                        $("#articleEditorSelect").html(result)
+                        $("#editor_select").find("option[value = '"+editor_id+"']").attr("selected","selected");
+
+                    }
+                })
+                /*展示标签*/
+                $.ajax({
+                    type: 'post',
+                    url: 'http://localhost:9999/visney-manager/articleLabel/getAllArticleLabel',
+                    data:{
+                        page:0,
+                        rows:0
+
+                    },
+                    success: function (value) {
+                        var content1 = "<select id=\"label_select1\">"
+                        var content2 = "<select id=\"label_select2\">"
+                        for (var i = 0; i < value.rows.length; i++) {
+                            content1 += "<option value=" + value.rows[i].articleLabelId +' '+'text='+'"'+value.rows[i].articleLabelName +'"'+">" + value.rows[i].articleLabelName + "</option>";
+                        }
+                        for (var i = 0; i < value.rows.length; i++) {
+                            content2 += "<option value=" + value.rows[i].articleLabelId +' '+'text='+'"'+value.rows[i].articleLabelName +'"'+">" + value.rows[i].articleLabelName + "</option>";
+                        }
+
+                        var result1 = content1 + "</select>";
+                        var result2 = content2 + "</select>";
+
+                        $("#articleLabelSelect1").html(result1)
+                        $("#articleLabelSelect2").html(result2)
+
+
+                        $("#label_select1").find("option[text ='"+label_value1+"']").attr("selected","selected");
+                        $("#label_select2").find("option[text ='"+label_value2+"']").attr("selected","selected");
+
+                      /* $("#editor_select option:contains('结构')").attr("selected",true);*/
+                        console.log(label_value1)
+                        console.log(label_value2)
+
+                    }
+                })
+
+            }
+           /* 文章添加,和修改共用*/
+            function articleAdd() {
+                //选中的文本
+                var articleTitle = $("#article_title").val();
+                var cid=$('#category_select option:selected').val();
+                var eid=$('#editor_select option:selected').val();
+
+                var lname1=$('#label_select1 option:selected').text();
+                var lname2=$('#label_select2 option:selected').text();
+                var lid1=$('#label_select2 option:selected').val();
+                var lid2=$('#label_select2 option:selected').val();
+
+                var article_recommend=$("#recommend option:selected").val();
+
+                var meta_title= $("#article_meta_title").val();
+                var meta_description=$("#article_meta_description").val();
+                var meta_keyword=$("#article_meta_keyword").val();
+
+                var articletext=getContent();
+
+                var articleimg=document.getElementById("article_Img").files[0];
+
+                var imgalt = $("#img_alt").val();
+
+                var formdata=new FormData();
+                /*选中的标签名称*/
+                formdata.append("label1",lname1);
+                formdata.append("label2",lname2);
+                formdata.append("articleName",articleTitle);
+                formdata.append("articleText",articletext);
+                formdata.append("articleEditor.articleEditorId",eid);
+                formdata.append("articleCategory.articleCategoryId",cid);
+                formdata.append(" articleRecommend",article_recommend);
+                formdata.append("articleMetaDescription",meta_description);
+                formdata.append("articleMetaTitle",meta_title);
+                formdata.append("articleKeyWord",meta_keyword);
+                formdata.append("articleImg.articleImgAlt",imgalt);
+                formdata.append("files",articleimg);
+                if (id){
+                    /*修改*/
+                    formdata.append("articleId",id);
+                  /*  原文章标签对应的id，需要这两个id进行修改标签的名字*/
+                    formdata.append("labelID1",label_id1);
+                    formdata.append("labelID2",label_id2);
+                    formdata.append("articleImg.articleImgId",img_id);
+                    formdata.append("articleImg.articleImgSrc",img_src_value);
+                    $.ajax({
+                        type: 'post',
+                        url: 'http://localhost:9999/visney-manager/article/articleUpdate',
+                        data: formdata,
+                        async: false,/*设置为同步，不出结果的话，不往下执行*/
+
+                        processData: false,// 告诉jQuery不要去处理发送的数据
+                        contentType: false,// 告诉jQuery不要去设置Content-Type请求头
+                        success: function (data) {
+                            if (data==1){
+                                alert("修改成功")
+                            }
+                            else{
+                                alert("修改失败")
+                            }
+
+                        }
+                    })
+
+                }
+
+if (!id) {
+                /*添加*/
+                $.ajax({
+                    type: 'post',
+                    url: 'http://localhost:9999/visney-manager/article/articleAdd',
+                    data: formdata,
+                    processData: false,// 告诉jQuery不要去处理发送的数据
+                    contentType: false,// 告诉jQuery不要去设置Content-Type请求头
+                    success: function (data) {
+                        if (data==1){
+                            alert("添加成功")
+                        }
+                        else{
+                            alert("添加失败")
+                        }
+
+                    }
+                })
+
+}
+
+            }
+
+            /* 根据文章id编辑文章*/
+            /*  function updateArticle() {
+                  $.ajax({
+                      url:'http://localhost:9999/visney-manager/article/getArticleDetails/'+id,
+                      type:"get",
+                      dataType:"json",
+                      async: false,
+                      success:function(data){
+                          if(data!=null){
+                              console.log(data)
+                              UE.getEditor('editor').addListener("ready", function () {
+                                  // editor准备好之后才可以使用
+                                  UE.getEditor('editor').setContent(data.articleText);
+                                  /!* setContent(data.text)*!/
+
+                              });
+
+
+                          }
+                      },
+                      error:function (data) {
+                          alert("添加失败")
+                      }
+                  });
+              }*/
+
+    </script>
 </body>
 </html>
 

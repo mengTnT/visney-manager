@@ -39,6 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article getArticleDetails(int articleId) {
+
         return articleDao.getArticleDetails(articleId);
     }
 
@@ -113,6 +114,31 @@ public class ArticleServiceImpl implements ArticleService {
             return 1;
         }
 
+        return 0;
+    }
+
+    @Override
+    public int articleUpdate(int labelID1, int labelID2, String label1, String label2,Article article) {
+        ArticleImg articleImg = article.getArticleImg();
+        //修改标签1
+        ArticleLabel articleLabel1=new ArticleLabel();
+        articleLabel1.setArticleLabelId(labelID1);
+        articleLabel1.setArticleLabelName(label1);
+        //修改标签2
+        ArticleLabel articleLabel2=new ArticleLabel();
+        articleLabel2.setArticleLabelId(labelID2);
+        articleLabel2.setArticleLabelName(label2);
+
+        int updateArticleLabel1 = articleLabelDao.updateArticleLabel(articleLabel1);
+        int updateArticleLabel2 = articleLabelDao.updateArticleLabel(articleLabel2);
+        //修改图片
+        int articleImgUpdate = articleImgDao.articleImgUpdate(articleImg);
+        //修改文章
+        int articleUpdate = articleDao.articleUpdate(article);
+
+        if (updateArticleLabel1==1&&updateArticleLabel2==1&&articleImgUpdate==1&&articleImgUpdate==1){
+            return 1;
+        }
         return 0;
     }
 

@@ -32,5 +32,7 @@ public interface ArticleDao {
 
     public int articleAdd(Article article);
 
+    public int articleUpdate(Article article);
+
 
 }
