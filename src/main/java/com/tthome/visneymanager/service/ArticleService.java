@@ -1,9 +1,8 @@
 package com.tthome.visneymanager.service;
 
 import com.tthome.visneymanager.entity.Article;
-import com.tthome.visneymanager.entity.ArticleImg;
+import com.tthome.visneymanager.entity.ArticleLabel;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,6 +37,8 @@ public interface ArticleService {
     public int articleDelete(int[] articleIds,int[]pageViewsIds,int []articleImgIds);
 
     public int articleAdd(String label1,String label2,Article article);
+
+    public int articleUpdate(int labelID1, int labelID2,String label1, String label2, Article article);
 
 
 

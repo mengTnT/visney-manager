@@ -26,4 +26,9 @@ public class ArticleImgServiceImpl implements ArticleImgService {
     public int articleImgAdd(ArticleImg articleImg) {
         return articleImgDao.articleImgAdd(articleImg);
     }
+
+    @Override
+    public int articleImgUpdate(ArticleImg articleImg) {
+        return articleImgDao.articleImgUpdate(articleImg);
+    }
 }

@@ -23,4 +23,11 @@ public interface ArticleImgService {
      * @return
      */
     public int articleImgAdd(ArticleImg articleImg);
+
+    /**
+     * 修改图片
+     * @param articleImg
+     * @return
+     */
+    public int articleImgUpdate(ArticleImg articleImg);
 }

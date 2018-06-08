@@ -31,7 +31,7 @@
         var cval = $("#ss1").searchbox('getValue');
         var eval = $("#ss2").searchbox('getValue');
         var tval = $("#ss3").searchbox('getValue');
-        alert(value+":"+name)
+
         $('#showAllArticle').datagrid({
             queryParams: {
                 category:cval,
@@ -94,7 +94,6 @@
             height:400,
             closed:true,
             maximized:true,
-            content:"<iframe id=\"myArticleIframe\" src=\"/visney-manager/editor\" width=\"100%\" height=\"100%\"></iframe>",
             onClose:function () {
 
                 $("#showAllArticle").datagrid('reload');
@@ -274,9 +273,30 @@
                         {
                             iconCls: 'icon-edit',
                             handler: function () {
-                                $('#win_update').window({
-                                    closed:false
-                                });
+                                var checks= $("#showAllArticle").datagrid('getChecked');
+                                if (checks.length > 1
+                                    || checks.length < 1) {
+                                    $.messager.alert("消息",
+                                        "请选择一条数据修改", 'warning');
+                                }else {
+                                    var aid= $("#showAllArticle").datagrid('getChecked')[0].articleId;
+                                    console.log(aid+"=================")
+                                    var src="/visney-manager/editor?id="+aid;
+
+                                var iframe="<iframe id='myArticleIframe' src='";
+                                    var append=src+"'"+ "width='100%' height='100%'>"
+
+                                        var result=iframe+append+"</iframe>"
+
+                                 console.log(result)
+
+                                     $('#win_update').window({
+                                          closed:false,
+                                         content: result,
+                                      });
+
+                                }
+
                             }
                         },
                         '-',

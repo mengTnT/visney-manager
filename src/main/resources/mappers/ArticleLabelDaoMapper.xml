@@ -21,7 +21,8 @@
 
     <!--分页-->
     <select id="getAllArticleLabel" resultMap="ArticleLabel">
-        SELECT * from article_label
+        SELECT * from article_label t1
+        GROUP BY t1.article_label_name
         <if test="start!=0 and end!=0">
             limit #{start},#{end}
         </if>
