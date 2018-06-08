@@ -33,6 +33,27 @@ public class ProCategoryController {
         return proCategoryService.deleteProCategory(ids);
     }
 
+    /*获取类别*/
+    @PostMapping("/getProCategoryBySeries")
+    public Map getProCategoryBySeries() {
+        return proCategoryService.getProCategoryBySeries();
+    }
+    @PostMapping("/getProCategoryByStyle")
+    public Map getProCategoryByStyle(){
+        return  proCategoryService.getProCategoryByStyle();
+    }
+    @PostMapping("/getProCategoryByTexture")
+    public Map getProCategoryByTexture(){
+        return proCategoryService.getProCategoryByTexture();
+    }
+    @PostMapping("/getProCategoryByType")
+    public Map getProCategoryByType(){
+        return  proCategoryService.getProCategoryByType();
+    }
+    @PostMapping("/getProCategoryByPosition")
+    public Map getProCategoryByPosition(){
+        return proCategoryService.getProCategoryByPosition();
 
+    }
 
 }

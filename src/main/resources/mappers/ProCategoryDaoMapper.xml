@@ -12,9 +12,27 @@
      SELECT * FROM pro_category limit #{start},#{end}
     </select>
 
-    <select id="getAllProCategoryCount" resultType="int">
+    <select id="getProCategoryCount" resultType="int">
         select count(0) from pro_category
     </select>
+
+    <select id="getProCategoryByPosition" resultMap="proCategory">
+        select * from pro_category where parent_id is null and pro_category_id &lt;5
+    </select>
+    <select id="getProCategoryByStyle" resultMap="proCategory">
+        select * from pro_category where parent_id=7
+    </select>
+    <select id="getProCategoryBySeries" resultMap="proCategory">
+        select * from pro_category where parent_id=6
+    </select>
+    <select id="getProCategoryByTexture" resultMap="proCategory">
+        select * from pro_category where parent_id=5
+    </select>
+    <select id="getProCategoryByType" resultMap="proCategory">
+        select * from pro_category where parent_id &lt;4
+    </select>
+
+
     <!--add-->
     <insert id="addProCategory" >
         insert into pro_category values (0,#{proCategoryName},#{parentId})

@@ -43,98 +43,149 @@
 
 </form>
 
-    <form action="" method="post" id="article-form" enctype="multipart/form-data">
-        文章标题：<input type="text" name="articleName" id="article_title">
-        文章类别选择：
-        <span id="articleCategorySelect"></span>
-        文章作者选择：
-        <span id="articleEditorSelect"></span>
-        文章标签选择：
-        <span id="articleLabelSelect1"></span><span id="articleLabelSelect2"></span>
-        是否推荐：
-        <select id="recommend">
-            <option value="1">是</option>
-            <option value="0">否</option>
-        </select>
-
-        </br>
-        <input type="hidden" name="articleText">
-        封面图片：<input type="file" onchange="previewImage(this)" name="articleImgSrc" id="article_Img">
-        图片alt属性<input type="text" id="img_alt"><br>
-        <div id="preview">
-            <img id="imghead" border="0" src="img/photo_icon.png" width="90"
-                 height="90">
-        </div>
-        </br>
-        meta标签title：<input type="text" id="article_meta_title">
-        meta标签description：<input type="text" id="article_meta_description">
-        meta标签keyword：<input type="text" id="article_meta_keyword">
-    </form>
     <script type="text/javascript">
-
-        /* 展示可供选择的文章类别*/
+    function show() {
+        /* 展示可供选择的产品系列*/
         $.ajax({
             type: 'get',
-            url: 'http://localhost:9999/visney-manager/articleCategory/getAll',
+            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryBySeries',
             success: function (value) {
-                var content = "<select id=\"category_select\">"
-                for (var i = 0; i < value.length; i++) {
-                    content += "<option value=" + value[i].articleCategoryId + ">" + value[i].articleCategoryName + "</option>";
+                var content = "<select id=\"eries_select\">"
+                for (var i = 0; i < value.pro.length; i++) {
+                    content += "<option value=" + value.pro[i].proCategoryId + ">" + value.pro[i].proCategoryName + "</option>";
                 }
                 var result = content + "</select>";
 
-                $("#articleCategorySelect").html(result)
+                $("#proSeries").html(result)
             }
         })
 
-        /*展示作者*/
+        /*展示可供选择的产品类型*/
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/articleEditor/getAllArticleEditor',
-            data:{
-                page:0,
-                rows:0
-
-            },
+            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByType',
             success: function (value) {
 
-                var content = "<select id=\"editor_select\">"
-                for (var i = 0; i < value.rows.length; i++) {
-                    content += "<option value=" + value.rows[i].articleEditorId + ">" + value.rows[i].articleEditorName + "</option>";
+                var content = "<select id=\"type_select\">"
+                for (var i = 0; i < value.pro.length; i++) {
+                    content += "<option value=" + value.pro[i].proCategoryId + ">" + value.pro[i].proCategoryName + "</option>";
                 }
                 var result = content + "</select>";
 
-                $("#articleEditorSelect").html(result)
+                $("#proType").html(result)
             }
         })
-        /*展示标签*/
+        /*展示可供选择的产品位置*/
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/articleLabel/getAllArticleLabel',
-            data:{
-                page:0,
-                rows:0
+            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByPosition',
+            success: function (value) {
+
+                var content = "<select id=\"position_select\">"
+                for (var i = 0; i < value.pro.length; i++) {
+                    content += "<option value=" + value.pro[i].proCategoryId + ">" + value.pro[i].proCategoryName + "</option>";
+                }
+                var result = content + "</select>";
+
+                $("#proPosition").html(result)
+            }
+        })
+        /*展示可供选择的产品风格*/
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByStyle',
+            success: function (value) {
+
+                var content = "<select id=\"style_select\">"
+                for (var i = 0; i < value.pro.length; i++) {
+                    content += "<option value=" + value.pro[i].proCategoryId + ">" + value.pro[i].proCategoryName + "</option>";
+                }
+                var result = content + "</select>";
+
+                $("#proStyle").html(result)
+            }
+        })
+        /*展示可供选择的产品材质*/
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByTexture',
+            success: function (value) {
+
+                var content = "<select id=\"texture_select\">"
+                for (var i = 0; i < value.pro.length; i++) {
+                    content += "<option value=" + value.pro[i].proCategoryId + ">" + value.pro[i].proCategoryName + "</option>";
+                }
+                var result = content + "</select>";
+
+                $("#center").html(result)
+            }
+        })
+        /*展示品牌*/
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/brand/getAllBrand',
+            data: {
+                page: 0,
+                rows: 0
 
             },
             success: function (value) {
-                var content1 = "<select id=\"label_select1\">"
-                var content2 = "<select id=\"label_select2\">"
-                for (var i = 0; i < value.rows.length; i++) {
-                    content1 += "<option value=" + value.rows[i].articleLabelId + ">" + value.rows[i].articleLabelName + "</option>";
-                }
-                for (var i = 0; i < value.rows.length; i++) {
-                    content2 += "<option value=" + value.rows[i].articleLabelId + ">" + value.rows[i].articleLabelName + "</option>";
-                }
+                var content1 = "<select id=\"brand_select\">"
 
-                var result1 = content1 + "</select>";
-                var result2 = content2 + "</select>";
+                for (var i = 0; i < value.rows.length; i++) {
+                    content1 += "<option value=" + value.rows[i].brandId + ">" + value.rows[i].brandName + "</option>";
+                }
+                var result = content1 + "</select>";
 
-                $("#articleLabelSelect1").html(result1)
-                $("#articleLabelSelect2").html(result2)
+                $("#brand").html(result)
+            }
+        })
+        /*展示
+        型号*/
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/modleCode/getAllModleCode',
+            data: {
+                page: 0,
+                rows: 0
+
+            },
+            success: function (value) {
+                var content1 = "<select id=\"modelCode_select\">"
+
+                for (var i = 0; i < value.rows.length; i++) {
+                    content1 += "<option value=" + value.rows[i].modelCodeId + ">" + value.rows[i].modelCodeName + "</option>";
+                }
+                var result = content1 + "</select>";
+
+                $("#modleCode").html(result)
+            }
+        })
+        /*展示尺寸*/
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/size/getAllSize',
+            data: {
+                page: 0,
+                rows: 0
+
+            },
+            success: function (value) {
+                var content1 = "<select id=\"size_select\">"
+
+                for (var i = 0; i < value.rows.length; i++) {
+                    content1 += "<option value=" + value.rows[i].sizeId + ">" + value.rows[i].siziMsg + "</option>";
+                }
+                var result = content1 + "</select>";
+
+                $("#size").html(result)
             }
         })
 
-        function articleAdd() {
+        }
+
+
+        function productAdd() {
             //选中的文本
             var articleTitle = $("#article_title").val();
             var cid=$('#category_select option:selected').val();
