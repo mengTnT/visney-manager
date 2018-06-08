@@ -1,9 +1,12 @@
 package com.tthome.visneymanager.controller;
 
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
 import com.tthome.visneymanager.entity.Article;
 import com.tthome.visneymanager.entity.ArticleImg;
 import com.tthome.visneymanager.service.ArticleService;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author NBUG
@@ -60,21 +66,14 @@ public class ArticleController {
         }
         try {
             for (MultipartFile file : files) {
-                //获取原文件名,和毫秒数进行拼接
-                String fileName = System.currentTimeMillis() + file.getOriginalFilename();
-                //图片将要存储到本地的地址
-                String destFileName = uploadPath + "/article" + File.separator + fileName;
-                //创建一个file对象
-                File destFile = new File(destFileName);
-                if (!destFile.exists()) {
-                    //创建文件夹
-                    destFile.getParentFile().mkdirs();
-                }
-                //写入文件
-                file.transferTo(destFile);
-                System.out.println(fileName);
-                System.out.println(destFileName);
-                System.out.println("article" + File.separator + fileName);
+                String fileName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) +
+                        UUID.randomUUID().toString().replace("-", "") +
+                        "." + FilenameUtils.getExtension(file.getOriginalFilename());
+                String url="http://192.168.100.250:8099/img/article_img/"+fileName;
+                System.out.println(url);
+                Client client=new Client();
+                WebResource resource = client.resource(url);
+                resource.put(String.class,file.getBytes());
 
             }
 
@@ -97,19 +96,18 @@ public class ArticleController {
         }
         try {
             for (MultipartFile file : files) {
-                //获取原文件名,和毫秒数进行拼接
-                String fileName = System.currentTimeMillis() + file.getOriginalFilename();
-                //图片将要存储到本地的地址
-                String destFileName = uploadPath + "/article" + File.separator + fileName;
-                //创建一个file对象
-                File destFile = new File(destFileName);
-                if (!destFile.exists()) {
-                    //文件夹不存在，就创建文件夹
-                    destFile.getParentFile().mkdirs();
-                }
-                //写入文件
-                file.transferTo(destFile);
-                articleImgSrc = "http://192.168.100.250/visney/article" + File.separator + fileName;
+                //生成文件名
+                String fileName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) +
+                        UUID.randomUUID().toString().replace("-", "") +
+                        "." + FilenameUtils.getExtension(file.getOriginalFilename());
+                //生成上传的地址
+                String url="http://192.168.100.250:8099/img/article_img/"+fileName;
+                //上传客户端对象
+                Client client=new Client();
+                WebResource resource = client.resource(url);
+                //文件上传到指定地址
+                resource.put(String.class,file.getBytes());
+                articleImgSrc = url;
 
             }
 
@@ -139,19 +137,14 @@ public class ArticleController {
         else {
             try {
                 for (MultipartFile file : files) {
-                    //获取原文件名,和毫秒数进行拼接
-                    String fileName = System.currentTimeMillis() + file.getOriginalFilename();
-                    //图片将要存储到本地的地址
-                    String destFileName = uploadPath + "/article" + File.separator + fileName;
-                    //创建一个file对象
-                    File destFile = new File(destFileName);
-                    if (!destFile.exists()) {
-                        //文件夹不存在，就创建文件夹
-                        destFile.getParentFile().mkdirs();
-                    }
-                    //写入文件
-                    file.transferTo(destFile);
-                    articleImgSrc =  "http://192.168.100.250/visney/article" + File.separator + fileName;
+                    String fileName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) +
+                            UUID.randomUUID().toString().replace("-", "") +
+                            "." + FilenameUtils.getExtension(file.getOriginalFilename());
+                    String url="http://192.168.100.250:8099/img/article_img/"+fileName;
+                    Client client=new Client();
+                    WebResource resource = client.resource(url);
+                    resource.put(String.class,file.getBytes());
+                    articleImgSrc = url;
                 }
 
             } catch (FileNotFoundException e) {
