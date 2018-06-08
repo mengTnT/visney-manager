@@ -15,38 +15,79 @@
 </head>
 </head>
 <body>
+<table id="showAllProduct"></table>
+<div id="updateProduct" class="easyui-dialog" data-options="closed:flase">
+    <form id="updateProductInformation" enctype="multipart/form-data" method="post">
 
-    <table id="showAllArticle">
-        <div >
-            <input name="category" id="ss1" class="easyui-searchbox" style="width:300px"
-                   data-options="searcher:search,prompt:'所属类别搜索'"></input>
-            <input name="editor" id="ss2" class="easyui-searchbox" style="width:300px"
-                   data-options="searcher:search,prompt:'根据编辑搜索'"></input>
-            <input name="title" id="ss3" class="easyui-searchbox" style="width:300px"
-                   data-options="searcher:search,prompt:'根据标题搜索'"></input>
-        </div>
 
-    </table>
-<!--<form id="test" enctype="multipart/form-data" method="post">
-            <input  type="file" name="fils">
-            <input type="submit">
-        </form>-->
-</div>
-<script type="text/javascript" >
-    /*关键词搜索*/
-    function search(value,name){
-        var cval = $("#ss1").searchbox('getValue');
-        var eval = $("#ss2").searchbox('getValue');
-        var tval = $("#ss3").searchbox('getValue');
-        alert(value+":"+name)
-        $('#showAllArticle').datagrid({
+        <input name="proId" id="proId" type="hidden"><br>
+        产品名：<input name="proName" id="proName"><br>
+        价格：<input name="proPrice" id="proPrice"><br>
+        位置：<input name="proPosition" id="proPosition"><br>
+        风格：<input name="proStyle" id="proStyle"><br>
+        类型：<input name="proType" id="proType"><br>
+        系列：<input name="proSeries" id="proSeries"><br>
+        材质：<input name="center" id="center"><br>
+        品牌：<input name="brand" id="brand"><br>
+        型号：<input name="modleCode" id="modleCode"><br>
+        尺寸：<input name="size" id="size"><br>
+        介绍：<input name="proMsg" id="proMsg"><br>
+        浏览量：<input name="pageViews" id="pageViews"><br>
+        网店地址：<input name="proSrc" id="proSrc"><br>
+        添加时间：<input name="proAddTime" id="proAddTime"><br>
+        修改时间：<input name="proUpdateTime" id="proUpdateTime"><br>
+        是否上架：<input name="proPutaway" id="proPutaway"><br>
+        图片：<input name="proImgs" id="proImgs"><br>
+        Keyword：<input name="proMetaKeyWord" id="proMetaKeyWord"><br>
+        Description：<input name="proMetaDescription" id="proMetaDescription"><br>
+        Title：<input name="proMetaTitle" id="proMetaTitle"><br>
 
-        });
+        <center>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">确认</a>
+        </center>
+    </form>
 
-    }
-    $(function(){
+    <script type="text/javascript" >
+        //添加页面
+        $(function(){
+            $("#addProduct").dialog({
+                title:"添加页面",
+                width:860,
+                height: 400,
+                cache: false,
+                closed:true,
+                modal:true,
+            });
+        })
+        //显示添加 页面
+        function addE(){
+            $("#addProduct").dialog("open");
+        }
+        //点击添加按钮添加
+        function pro1(){
+//              发送ajxs请求
 
-    })
+            $("#addProductInformation").form('submit',{
+                url:"http://localhost:9999/visney-manager/product/addSize",
+                type:"post",
+                success:function (data) {
+                    var da = eval('(' + data + ')');
+                    if(da.msg){
+                        $.messager.alert("提示框","添加成功","info")
+                        //	关闭对话框
+                        $("#addProduct").dialog("close")
+                        //表格重新加载
+                        $("#showAllProduct").datagrid("reload");
+                    }else{
+                        $.messager.alert("提示框","添加失败","warming");
+                    }
+                }
+            })
+        }
+        //点击取消按钮 取消添加
+        function pro2(){
+            $("#addProduct").dialog("close");
+        }
 
 
 
