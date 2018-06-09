@@ -8,7 +8,10 @@
     </resultMap>
 
     <select id="getAllModleCode" resultMap="size">
-     SELECT * FROM modle_code limit #{start},#{end}
+     SELECT * FROM modle_code
+        <if test="end!=0 and start!=0">
+            limit #{start}，#{end}
+        </if>
     </select>
 
     <select id="getCount" resultType="int">

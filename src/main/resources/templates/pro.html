@@ -18,6 +18,9 @@
 </head>
 <html>
 <body>
+<div id="uploadImg">
+
+</div>
 <form id="product_form" enctype="multipart/form-data" method="post">
     产品名：<input name="proName" id="proName" type="text"><br>
     价格：<input name="proPrice" id="proPrice"><br>
@@ -29,14 +32,16 @@
     品牌：<span id="brand"></span><br>
     型号：<span id="modleCode"></span><br>
     尺寸：<span id="size"></span><br>
-    介绍：<input name="proMsg" id="proMsg"><br>
+    <input name="proMsg" id="proMsg"  type="hidden" ><br>
     浏览量：<input name="pageViews" id="pageViews"><br>
     网店地址：<input name="proSrc" id="proSrc"><br>
     是否上架： <select id="proPutaway">
                 <option value="1">是</option>
                 <option value="0">否</option>
             </select><br>
-    图片：<input name="proImgs" id="proImgs" type="file" onchange="previewImage(this)"><br>
+    <!--图片：<input name="proImgs" id="proImgs" type="file" onchange="previewImage(this)" onclick="upload()"><br>-->
+    图片：<input type="button" value="点击添加图片" onclick='uploadImgs()'>
+    <br>
     Keyword：<input name="proMetaKeyWord" id="proMetaKeyWord"><br>
     Description：<input name="proMetaDescription" id="proMetaDescription"><br>
     Title：<input name="proMetaTitle" id="proMetaTitle"><br>
@@ -44,19 +49,40 @@
 </form>
 
     <script type="text/javascript">
+        $(function(){
+
+            function uploadImgs(){
+                $("#uploadImg").window({
+                    title:"文本编辑器",
+                    width:600,
+                    height:400,
+                    closed:true,
+                    maximized:true,
+                    content:"<iframe id=\"uploadImgIframe\" src=\"/visney-manager/img_upload\" width=\"100%\" height=\"100%\"></iframe>",
+                    onClose:function () {
+
+                        $("#showAllArticle").datagrid('reload');
+                    }
+                })
+            }
+        })
+
+
+        show()
     function show() {
         /* 展示可供选择的产品系列*/
         $.ajax({
-            type: 'get',
+            type: 'post',
             url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryBySeries',
             success: function (value) {
-                var content = "<select id=\"eries_select\">"
+                var content = "<select id=\"series_select\">"
                 for (var i = 0; i < value.pro.length; i++) {
                     content += "<option value=" + value.pro[i].proCategoryId + ">" + value.pro[i].proCategoryName + "</option>";
                 }
                 var result = content + "</select>";
 
                 $("#proSeries").html(result)
+             //   $("#series_select").find("option[value = '"+series_id+"']").attr("selected","selected");
             }
         })
 
@@ -73,6 +99,7 @@
                 var result = content + "</select>";
 
                 $("#proType").html(result)
+                // $("#type_select").find("option[value = '"+type_id+"']").attr("selected","selected");
             }
         })
         /*展示可供选择的产品位置*/
@@ -88,6 +115,7 @@
                 var result = content + "</select>";
 
                 $("#proPosition").html(result)
+                //$("#position_select").find("option[value = '"+position_id+"']").attr("selected","selected");
             }
         })
         /*展示可供选择的产品风格*/
@@ -103,6 +131,7 @@
                 var result = content + "</select>";
 
                 $("#proStyle").html(result)
+                // $("#style_select").find("option[value = '"+style_id+"']").attr("selected","selected");
             }
         })
         /*展示可供选择的产品材质*/
@@ -118,6 +147,7 @@
                 var result = content + "</select>";
 
                 $("#center").html(result)
+                //$("#texture_select").find("option[value = '"+texture_id+"']").attr("selected","selected");
             }
         })
         /*展示品牌*/
@@ -138,6 +168,8 @@
                 var result = content1 + "</select>";
 
                 $("#brand").html(result)
+                // $("#brand_select").find("option[value = '"+brand_id+"']").attr("selected","selected");
+
             }
         })
         /*展示
@@ -159,6 +191,8 @@
                 var result = content1 + "</select>";
 
                 $("#modleCode").html(result)
+                //$("#modelCode_select").find("option[value = '"+model_code_id+"']").attr("selected","selected");
+
             }
         })
         /*展示尺寸*/
@@ -177,8 +211,11 @@
                     content1 += "<option value=" + value.rows[i].sizeId + ">" + value.rows[i].siziMsg + "</option>";
                 }
                 var result = content1 + "</select>";
-
+                console.log(result+"222222222222222222222222");
                 $("#size").html(result)
+
+              //  $("#size_select").find("option[value = '"+size_id+"']").attr("selected","selected");
+
             }
         })
 
@@ -187,45 +224,50 @@
 
         function productAdd() {
             //选中的文本
-            var articleTitle = $("#article_title").val();
-            var cid=$('#category_select option:selected').val();
-            var eid=$('#editor_select option:selected').val();
+            var proName = $("#proName").val();
+            var proPrice=$('#proPrice').val();
+            var bannerId=$('#brand_select option:selected').val();
+            var proPositionId=$('#position_select option:selected').val();
+            var proStyleId=$('#style_select option:selected').val();
+            var proTypeId=$('#type_select option:selected').val();
+            var proSeriesId=$('#series_select option:selected').val();
+            var centerId=$('#texture_select option:selected').val();
+            var modleCodeId=$('modelCode_select option:selected').val();
+            var sizeId=$("#size_select option:selected").val();
+            var proMsg=getContent();
+            var pageViews=$('#pageViews').val();
+            var proSrc=$('#proSrc').val();
+            var proPutaway=$('#proPutaway').val();
+            var proImgs=$('#proImgs').val();
+            var proMetaKeyWord=$('#proMetaKeyWord').val();
+            var proMetaDescription=$('#proMetaDescription').val();
+            var proMetaTitle=$('#proMetaTitle').val();
+            formdata.append("proName",proName);
+            formdata.append("proPrice",proPrice);
+            formdata.append("brand.brandId",bannerId);
+            formdata.append("proPosition.bannerId",proPositionId);
+            formdata.append("proStyle.proStyleId",proStyleId);
+            formdata.append("proType.proTypeId",proTypeId);
+            formdata.append("proSeries.proSeriesId",proSeriesId);
+            formdata.append("modleCode.modleCodeId",modleCodeId);
+            formdata.append("size.sizeId",sizeId);
+            formdata.append(" center.centerId",centerId);
 
-            var lname1=$('#label_select1 option:selected').text();
-            var lname2=$('#label_select2 option:selected').text();
-
-            var article_recommend=$("#recommend option:selected").val();
-
-            var meta_title= $("#article_meta_title").val();
-            var meta_description=$("#article_meta_description").val();
-            var meta_keyword=$("#article_meta_keyword").val();
-
-            var articletext=getContent();
-
-            var articleimg=document.getElementById("article_Img").files[0];
-
-            var imgalt = $("#img_alt").val();
-
-            var formdata=new FormData();
-            formdata.append("label1",lname1);
-            formdata.append("label2",lname2);
-            formdata.append("articleName",articleTitle);
-            formdata.append("articleText",articletext);
-            formdata.append("articleEditor.articleEditorId",eid);
-            formdata.append("articleCategory.articleCategoryId",cid);
-            formdata.append(" articleRecommend",article_recommend);
-            formdata.append("articleMetaDescription",meta_description);
-            formdata.append("articleMetaTitle",meta_title);
-            formdata.append("articleKeyWord",meta_keyword);
-            formdata.append("articleImg.articleImgAlt",imgalt);
-            formdata.append("files",articleimg);
+            formdata.append("proMsg",proMsg);
+            formdata.append("pageViews",pageViews);
+            formdata.append("proSrc",proSrc);
+            formdata.append("proPutaway",proPutaway);
+            formdata.append("files",proImgs);
+            formdata.append("proMetaKeyWord",proMetaKeyWord);
+            formdata.append("proMetaDescription",proMetaDescription);
+            formdata.append("proMetaTitle",proMetaTitle);
 
             console.log(formdata)
 
 
           $.ajax({
                 type: 'post',
-                url: 'http://localhost:9999/visney-manager/article/articleImgAdd',
+                url: 'http://localhost:9999/visney-manager/product/addProduct',
                 data: formdata,
                 processData: false,// 告诉jQuery不要去处理发送的数据
                 contentType: false,// 告诉jQuery不要去设置Content-Type请求头

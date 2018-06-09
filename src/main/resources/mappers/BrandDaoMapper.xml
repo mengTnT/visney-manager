@@ -8,8 +8,12 @@
     </resultMap>
 
     <select id="getAllBrand" resultMap="brand">
-     SELECT * FROM brand limit #{start},#{end}
+     SELECT * FROM brand
+    <if test="end!=0 and start!=0">
+        limit #{start}，#{end}
+    </if>
     </select>
+
 
     <select id="getAllCount" resultType="int">
         select count(0) from brand
