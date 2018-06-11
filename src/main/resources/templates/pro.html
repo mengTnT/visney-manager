@@ -8,7 +8,14 @@
     <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
     <script type="text/javascript" charset="utf-8" th:src="@{lang/zh-cn/zh-cn.js}"></script>
+
     <script type="text/javascript" th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{js/jquery.easyui.min.js}"></script>
+    <script type="text/javascript" th:src="@{js/easyui-lang-zh_CN.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{css/css.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{css/easyui.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{css/icon.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}" />
     <style type="text/css">
         div {
             width: 100%;
@@ -18,10 +25,13 @@
 </head>
 <html>
 <body>
-<div id="uploadImg">
+<div id="uploadImgdiv">
 
 </div>
-<form id="product_form" enctype="multipart/form-data" method="post">
+
+
+
+<form id="product_form" name="productImgForm" enctype="multipart/form-data" method="post">
     产品名：<input name="proName" id="proName" type="text"><br>
     价格：<input name="proPrice" id="proPrice"><br>
     位置： <span id="proPosition"></span><br>
@@ -39,36 +49,26 @@
                 <option value="1">是</option>
                 <option value="0">否</option>
             </select><br>
-    <!--图片：<input name="proImgs" id="proImgs" type="file" onchange="previewImage(this)" onclick="upload()"><br>-->
-    图片：<input type="button" value="点击添加图片" onclick='uploadImgs()'>
-    <br>
+    选择图片：
+    <input  onchange="changImg(event,'image1')" name="file"  type="file" class="file"><br>
+    <img id="image1" src="../images/sc.jpg"><br><br>
+    <input  onchange="changImg(event,'image2')" name="file"  type="file" class="file"><br>
+    <img id="image2" src="../images/sc.jpg"><br><br>
+    <input  onchange="changImg(event,'image3')" name="file"  type="file" class="file"><br>
+    <img id="image3" src="../images/sc.jpg"><br><br>
+    <input  onchange="changImg(event,'image4')" name="file"  type="file" class="file"><br>
+    <img id="image4" src="../images/sc.jpg"><br><br>
+
+  =
     Keyword：<input name="proMetaKeyWord" id="proMetaKeyWord"><br>
     Description：<input name="proMetaDescription" id="proMetaDescription"><br>
     Title：<input name="proMetaTitle" id="proMetaTitle"><br>
 
 </form>
 
-    <script type="text/javascript">
-        $(function(){
+        <script type="text/javascript">
 
-            function uploadImgs(){
-                $("#uploadImg").window({
-                    title:"文本编辑器",
-                    width:600,
-                    height:400,
-                    closed:true,
-                    maximized:true,
-                    content:"<iframe id=\"uploadImgIframe\" src=\"/visney-manager/img_upload\" width=\"100%\" height=\"100%\"></iframe>",
-                    onClose:function () {
-
-                        $("#showAllArticle").datagrid('reload');
-                    }
-                })
-            }
-        })
-
-
-        show()
+    show()
     function show() {
         /* 展示可供选择的产品系列*/
         $.ajax({
@@ -211,7 +211,6 @@
                     content1 += "<option value=" + value.rows[i].sizeId + ">" + value.rows[i].siziMsg + "</option>";
                 }
                 var result = content1 + "</select>";
-                console.log(result+"222222222222222222222222");
                 $("#size").html(result)
 
               //  $("#size_select").find("option[value = '"+size_id+"']").attr("selected","selected");
@@ -238,7 +237,14 @@
             var pageViews=$('#pageViews').val();
             var proSrc=$('#proSrc').val();
             var proPutaway=$('#proPutaway').val();
-            var proImgs=$('#proImgs').val();
+          //获取图片
+            var list=new ArrayList();
+            list.add($('#image1').val());
+            list.add($('#image2').val());
+            list.add($('#image3').val());
+            list.add($('#image4').val());
+            var proImgs=list;
+
             var proMetaKeyWord=$('#proMetaKeyWord').val();
             var proMetaDescription=$('#proMetaDescription').val();
             var proMetaTitle=$('#proMetaTitle').val();
@@ -281,9 +287,6 @@
 
                 }
             })
-
-
-
         }
 
 
@@ -363,28 +366,35 @@
     }
 
     // 图片回显
-    //添加图片回显
-    function previewImage(file) {
-    var MAXWIDTH = 90;
-    var MAXHEIGHT = 90;
-    var div = document.getElementById('preview');
-    if (file.files && file.files[0]) {
-    div.innerHTML = '<img id=imghead onclick=$("#previewImg").click()>';
-    var img = document.getElementById('imghead');
-    img.onload = function () {
-    var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-    img.width = rect.width;
-    img.height = rect.height;
-    img.style.marginTop = rect.top + 'px';
-    }
-    var reader = new FileReader();
-    reader.onload = function (evt) {
-    img.src = evt.target.result;
-    }
-    reader.readAsDataURL(file.files[0]);
-    }
+  //添加图片回显
+/*function changImg(){
+    var img = new Image();//构造JS的Image对象
+    img.src = document.imageForm.file.value;//将本地图片赋给image对象
+    img.onreadystatechange=function(){
+        if (img.readyState=="complete"){
+            alert(["图片大小是:",img.width,img.height]);
+            document.productImgForm.width.value =200;
+            document.productImgForm.height.value = 200;
 
+        }
     }
+}*/
+    function changImg(e,name) {
+        for (var i = 0; i < e.target.files.length; i++) {
+            var file = e.target.files.item(i);
+            if (!(/^image\/.*$/i.test(file.type))) {
+                continue; //不是图片 就跳出这一次循环
+            }
+            //实例化FileReader API
+            var freader = new FileReader();
+            freader.readAsDataURL(file);
+            freader.onload = function (e) {
+                console.log(e.target.result);
+                $("#"+ name).attr("src", e.target.result);
+            }
+        }
+}
+
 
 
 </script>

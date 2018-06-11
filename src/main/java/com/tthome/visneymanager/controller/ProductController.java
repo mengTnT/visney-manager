@@ -1,9 +1,6 @@
 package com.tthome.visneymanager.controller;
 
-import com.tthome.visneymanager.entity.Article;
-import com.tthome.visneymanager.entity.ArticleImg;
-import com.tthome.visneymanager.entity.ProImg;
-import com.tthome.visneymanager.entity.Product;
+import com.tthome.visneymanager.entity.*;
 import com.tthome.visneymanager.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +41,7 @@ public class ProductController {
 
 
     @PostMapping("/productImgAdd")
-    public int productImgAdd(Product product, HttpServletRequest req, @RequestParam("files") MultipartFile[] files){
+    public int productImgAdd( Product product, HttpServletRequest req, @RequestParam("files") MultipartFile[] files){
         String proImgSrc=null;
         List<ProImg> proImgList=new ArrayList<>();
         if (files.length == 0) {
@@ -70,9 +67,7 @@ public class ProductController {
                 ProImg proImg=new ProImg();
                 proImg.setProImgSrc(proImgSrc);
                 proImgList.add(proImg);
-                System.out.println(fileName);
-                System.out.println(destFileName);
-                System.out.println(proImg);
+
 
             }
 
@@ -83,7 +78,12 @@ public class ProductController {
             e.printStackTrace();
             return 0;
         }
-
+        //第一张图是封面图
+        for(int i=0;i<proImgList.size();i++){
+               ProImg proImg=proImgList.get(0);
+               proImg.setProImgCover('1');
+               proImgList.set(0,proImg);
+        }
         product.setProImgs(proImgList);
         int result =productService.addProduct(product);
         return result;

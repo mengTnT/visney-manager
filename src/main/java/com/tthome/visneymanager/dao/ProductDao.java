@@ -1,6 +1,9 @@
 package com.tthome.visneymanager.dao;
 
+import com.tthome.visneymanager.entity.Brand;
+import com.tthome.visneymanager.entity.ModleCode;
 import com.tthome.visneymanager.entity.Product;
+import com.tthome.visneymanager.entity.Size;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

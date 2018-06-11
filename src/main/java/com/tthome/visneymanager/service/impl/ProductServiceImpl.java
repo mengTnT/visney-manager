@@ -29,8 +29,7 @@ public class ProductServiceImpl implements ProductService {
     private BrandDao brandDao;
 
     @Override
-    public Map selectAll(int page,int rows,String proName, String brandName, String proStyleName,String proTypeName,
-                         String proSeriesName,String proTextureName,String proPositionName) {
+    public Map selectAll(int page,int rows,String proName, String brandName, String proStyleName, String proTypeName, String proSeriesName, String proTextureName, String proPositionName) {
         Map map = new HashMap();
         int total = productDao.getTotal();
         PageHelper.startPage(page, rows);
@@ -53,10 +52,14 @@ public class ProductServiceImpl implements ProductService {
         ModleCode modleCode=new ModleCode();
         int addModleCode = modleCodeDao.addModleCode(modleCode);
         int modleCodeId=modleCode.getModelCodeId();
+//添加品牌
+        Brand brand=new Brand();
+        int addBrand=brandDao.addBrand(brand);
+
 
         product.setSize(size);
         product.setModleCode(modleCode);
-
+        product.setBrand(brand);
 //先添加产品Id
         int addProduct = productDao.addProduct(product);
         Integer proId=product.getProId();
@@ -65,13 +68,19 @@ public class ProductServiceImpl implements ProductService {
         ProImg proImg=new ProImg();
         proImg.setProId(proId);
         int addProImg = proImgDao.addProImg(proImg);
-        if(addsize==1&&addModleCode==1&&addProImg==1&&addProduct==1){
+        if(addsize==1&&addModleCode==1&&addProImg==1&&addProduct==1&&addBrand==1){
             return 1;
         }else{
            return 0;
         }
 
     }
+
+
+
+
+
+
 
     @Override
     public Map updateProduct(Product product) {
@@ -82,7 +91,6 @@ public class ProductServiceImpl implements ProductService {
     public Map deleteProduct(int[] proIds) {
         return null;
     }
-
 }
 
 

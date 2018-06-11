@@ -40,6 +40,36 @@
             <img id="imghead" border="0" src="img/photo_icon.png" width="90"
                  height="90">
         </div>
+     <!--   //添加图片回显
+        function previewImage(file) {
+        var MAXWIDTH = 90;
+        var MAXHEIGHT = 90;
+        var div = document.getElementById('preview');
+        if (file.files && file.files[0]) {
+        div.innerHTML = '<img id=imghead onclick=$("#previewImg").click()>';
+        var img = document.getElementById('imghead');
+        img.onload = function () {
+        var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+        img.width = rect.width;
+        img.height = rect.height;
+        img.style.marginTop = rect.top + 'px';
+        }
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+        img.src = evt.target.result;
+        }
+        reader.readAsDataURL(file.files[0]);
+        }
+
+        }-->
+
+
+
+
+
+
+
+
         </br>
         meta标签title：<input type="text" id="article_meta_title">
         meta标签description：<input type="text" id="article_meta_description">
@@ -50,7 +80,7 @@
 </div>
 <div id="btns">
     <div>
-        <button onclick="articleAdd()">确认提交</button>
+        <button onclick="articleAdd()"> </button>
         <button onclick="getContent()">获得内容</button>
         <button onclick="setContent()">写入内容</button>
         <button onclick="hasContent()">判断是否有内容</button>
