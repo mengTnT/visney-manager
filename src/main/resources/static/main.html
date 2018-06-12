@@ -16,8 +16,12 @@
 <div data-options="region:'west',title:'菜单详情',split:true" style="width:150px;">
     <div id="accordion" class="easyui-accordion">
 
-        <div title="meta标签"><a id="meta-linkbutton" class="easyui-linkbutton" onclick="addTabs('meta.html')"></a>
+        <div title="meta标签">
+            <a id="meta-linkbutton" class="easyui-linkbutton" onclick="addTabs('meta.html')"></a>
+        </div>
 
+        <div title="轮播图">
+            <a id="banner-linkbutton" class="easyui-linkbutton" onclick="addTabs('banner.html')"></a>
         </div>
         <div title="产品">
             
@@ -58,6 +62,12 @@
     $('#meta-linkbutton').linkbutton({
 
         text: '标签内容管理',
+        iconCls: 'icon-ok',
+    });
+
+    $('#banner-linkbutton').linkbutton({
+
+        text: '轮播图管理',
         iconCls: 'icon-ok',
     });
 

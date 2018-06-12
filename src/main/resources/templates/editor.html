@@ -16,7 +16,7 @@
     </style>
 
 </head>
-<html>
+
 <body>
     <form action="" method="post" id="article-form" enctype="multipart/form-data">
         文章标题：<input type="text" name="articleName" id="article_title">
@@ -34,26 +34,37 @@
 
         </br>
         <input type="hidden" name="articleText">
-        封面图片：<input type="file" onchange="previewImage(this)" name="articleImgSrc" id="article_Img">
+        封面图片：<input type="file" onchange="changImg(event)" name="articleImgSrc" id="article_Img">
         图片alt属性<input type="text" id="img_alt"><br>
-        <div id="preview">
-            <img id="imghead" border="0" src="img/photo_icon.png" width="90"
-                 height="90">
-        </div>
+
+            <img id="imghead" border="0" src="img/photo_icon.png" height="100px",width="100px">
         </br>
         meta标签title：<input type="text" id="article_meta_title">
         meta标签description：<input type="text" id="article_meta_description">
         meta标签keyword：<input type="text" id="article_meta_keyword">
     </form>
-
+    <!--图片回显js-->
+    <script type="text/javascript">
+        function changImg(e){
+            for (var i = 0; i < e.target.files.length; i++) {
+                var file = e.target.files.item(i);
+                if (!(/^image\/.*$/i.test(file.type))) {
+                    continue; //不是图片 就跳出这一次循环
+                }
+                //实例化FileReader API
+                var freader = new FileReader();
+                freader.readAsDataURL(file);
+                freader.onload = function(e) {
+                    $("#imghead").attr("src",e.target.result);
+                }
+            }
+        }
+    </script>
     <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
 </div>
 <div id="btns">
     <div>
         <button onclick="articleAdd()">确认提交</button>
-        <button onclick="getContent()">获得内容</button>
-        <button onclick="setContent()">写入内容</button>
-        <button onclick="hasContent()">判断是否有内容</button>
 
     </div>
 

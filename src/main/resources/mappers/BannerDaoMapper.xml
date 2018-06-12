@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tthome.visneymanager.dao.BannerDao" >
+  <resultMap id="BaseResultMap" type="com.tthome.visneymanager.entity.Banner" >
+    <id column="banner_id" property="bannerId" jdbcType="INTEGER" />
+    <result column="banner_alt" property="bannerAlt" jdbcType="VARCHAR" />
+    <result column="banner_src" property="bannerSrc" jdbcType="VARCHAR" />
+    <result column="banner_type_id" property="bannerTypeId"/>
+  </resultMap>
+
+  <select id="selectAllByTpye" resultMap="BaseResultMap" >
+    select *
+    from banner
+    where banner_type_id=#{bannerTypeId}
+  </select>
+<select id="getAll" resultMap="BaseResultMap" >
+    select *
+    from banner
+</select>
+
+  <insert id="add" >
+    insert into banner values (0,#{bannerAlt},#{bannerSrc},#{banner_type_id})
+  </insert>
+
+  <update id="update">
+    update banner set banner_alt=#{bannerAlt},banner_src=#{bannerSrc},banner_type_id=#{bannerTypeId}
+    where banner_id=#{bannerId}
+  </update>
+
+  <delete id="delete">
+    delete from banner where banner_id in
+    <foreach collection="array" open="(" close=")" separator=","
+             item="id">#{id}
+    </foreach>
+  </delete>
+</mapper>
