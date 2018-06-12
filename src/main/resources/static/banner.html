@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>banner</title>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/css.css">
+    <link type="text/css" rel="stylesheet" href="css/easyui.css">
+    <link type="text/css" rel="stylesheet" href="css/icon.css">
+</head>
+
+<body>
+<!--展示数据-->
+<table id="showAllbanner"></table>
+<!--添加轮播图-->
+<div id="addBanner" class="easyui-dialog" data-options="closed:true">
+    <form id="addBannerInformation" enctype="multipart/form-data" method="post">
+        轮播图Alt<input type="text" id="banner_alt" name="bannerAlt"><br>
+       选择图片：<input type="file" name="files" onchange="changImg(event,'addimg')" ><br>
+        <img alt="" id="addimg" src="img/photo_icon.png" height="100px",width="100px"><br>
+        选择轮播图类别：
+        <select id="bannner_type">
+            <option value="1">首页</option>
+            <option value="4">产品详情</option>
+            <option value="11">产品列表</option>
+        </select>
+
+        <center>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro1()">确认</a>
+        </center>
+
+    </form>
+</div>
+<!--图片回显js-->
+<script type="text/javascript">
+
+    function changImg(e,name) {
+        for (var i = 0; i < e.target.files.length; i++) {
+            var file = e.target.files.item(i);
+            if (!(/^image\/.*$/i.test(file.type))) {
+                continue; //不是图片 就跳出这一次循环
+            }
+            //实例化FileReader API
+            var freader = new FileReader();
+            freader.readAsDataURL(file);
+            freader.onload = function (e) {
+                console.log(e.target.result);
+                $("#"+ name).attr("src", e.target.result);
+            }
+        }
+    }
+
+</script>
+
+<!--修改轮播图-->
+<div id="updateBanner" class="easyui-dialog" data-options="closed:true">
+    <form id="updateBannerInformation" enctype="multipart/form-data" method="post">
+        <input type="hidden" id="banner_id">
+        轮播图Alt<input type="text" id="banner_alt_update"><br>
+        选择图片：<input type="file" name="files" onchange="changImg(event)" ><br>
+        <img alt="" id="updateimg" src="img/photo_icon.png" height="100px",width="100px"><br>
+        选择轮播图类别：
+        <select id="bannner_type_update">
+            <option value="1">首页</option>
+            <option value="4">产品详情</option>
+            <option value="11">产品列表</option>
+        </select>
+
+        <center>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">确认</a>
+        </center>
+    </form>
+
+</div>
+<script type="text/javascript">
+    $(function () {
+
+
+        $("#showAllbanner")
+            .datagrid(
+                {
+                    url: 'http://localhost:9999/visney-manager/banner/getAll',
+                    fitColumns: true,
+
+                    columns: [[{
+                        /* field: '',*/
+                        checkbox: true
+                    }, {
+                        field: 'bannerId',
+                        align: 'center',
+                        title: 'Id',
+                        width: 200,
+
+                    },{
+                        field: 'bannerAlt',
+                        align: 'center',
+                        title: 'Alt',
+                        width: 200,
+
+                    },{
+                        field: 'bannerSrc',
+                        align: 'center',
+                        title: '图片',
+                        width: 200,
+                        formatter: function (value, row, index) {
+                            // value  当前列值
+                            // row 当前行对象
+                            // index  行数据下标
+                            if (value) {
+                                return "<img width=50px height=50px src='" +value+ "'>";
+
+                            }
+
+                        }
+
+                    },{
+                        field: 'bannerTypeId',
+                        align: 'center',
+                        title: '轮播图类型',
+                        width: 200,
+                        formatter: function (value, row, index) {
+                            // value  当前列值
+                            // row 当前行对象
+                            // index  行数据下标
+                            if (value==1) {
+                                return "首页"
+                            }
+                            if (value==4) {
+                                return "产品详情"
+                            }
+                            if (value==11) {
+                                return "产品列表"
+                            }
+
+                        }
+
+                    }
+                    ]],
+                    striped: true,
+                    pagination: true,
+                    pageSize:20,
+                    /* pageList: [10,20,30,40],*/
+                    toolbar: [
+                        {
+                            iconCls: 'icon-add',
+                            handler: function () {
+                                $("#addBanner").dialog({
+                                    title: '添加',
+                                    width: 400,
+                                    modal: true,
+                                    closed: false
+                                })
+
+                            }
+                        },
+                        '-',
+                        {
+                            iconCls: 'icon-edit',
+                            handler: function () {
+                                var cates = $("#showAllbanner")
+                                    .datagrid('getChecked');
+                                if (cates.length > 1
+                                    || cates.length < 1) {
+                                    $.messager.alert("消息",
+                                        "请选择一条数据修改", 'warning');
+                                } else {
+                                    $("#updateBanner").dialog(
+                                        {
+                                            title: '修改',
+                                            width: 400,
+                                            modal: true,
+                                            closed: false,
+
+                                        })
+                                    var bannerId;
+                                    var bannerAlt;
+                                    var bannerSrc;
+                                    var bannerTypeId;
+
+                                    var Checked = $("#showAllbanner").datagrid('getChecked');
+                                    $.each(Checked, function (index,
+                                                             cate) {
+
+
+                                        bannerId = cate.bannerId;
+                                        bannerAlt = cate.bannerAlt;
+                                        bannerSrc = cate.bannerSrc;
+                                        bannerTypeId = cate.bannerTypeId;
+
+                                    })
+
+                                    $("#banner_id").val(bannerId);
+                                    $("#banner_alt_update").val(bannerAlt);
+                                    $("#updateimg").val(bannerSrc);
+                                    $("#bannner_type_update").find("option[value = '"+bannerTypeId+"']").attr("selected","selected");
+
+
+                                }
+                            }
+                        },
+                        '-',
+                        {
+                            iconCls: 'icon-remove',
+                            handler: function () {
+                                var cates = $("#showAllbanner").datagrid('getChecked');
+                                if (cates.length < 1) {
+                                    $.messager.alert("消息", "请选择一条数据修改", 'warning');
+                                } else {
+                                    $.messager.confirm("消息", "您确定要删除吗？", function (x) {
+                                        if (x) {
+                                            var ids = [];
+                                            var cateIds = $("#showAllbanner").datagrid('getChecked');
+                                            $.each(cateIds, function (index, ii) {
+                                                ids.push(ii.bannerId);
+                                            })
+                                            $.ajax({
+                                                type: 'post',
+                                                url: 'http://localhost:9999/visney-manager/banner/delete',
+                                                data: 'ids=' + ids,
+                                                success: function (data) {
+                                                    if (data != 0) {
+                                                        $.messager.alert("消息", "删除成功", 'info');
+                                                        $("#showAllbanner").datagrid('reload');
+                                                    } else {
+                                                        $.messager.alert("消息", "删除失败", 'error');
+                                                        $("#showAllbanner").datagrid('reload');
+                                                    }
+                                                }
+                                            })
+                                        } else {
+                                            $("#showAllbanner").datagrid('reload');
+                                        }
+                                    })
+
+                                }
+                            }
+                        }]
+
+                })
+    })
+
+
+    $("#addBannerInformation").submit(function () {
+        var formData = new FormData($("#addBannerInformation")[0]);
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/banner/add',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (dada) {
+                if (dada == 1) {
+                    $.messager.alert("消息", "添加成功", 'info');
+                    $("#addBanner").dialog('close');
+                    $("#showAllbanner").datagrid('reload');
+
+                } else if (dada == 0) {
+                    $.messager.alert("消息", "添加失败", 'error');
+                    $("#addBanner").dialog('close');
+                    $("#showAllbanner").datagrid('reload');
+
+                }
+            }
+        })
+        return false;
+    })
+    $("#updateBannerInformation").submit(function () {
+        var formData = new FormData($("#updateBannerInformation")[0]);
+        $.ajax({
+            type: 'post',
+            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaUpdate',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (dada) {
+                if (dada == 1) {
+                    $.messager.alert("消息", "修改成功", 'info');
+                    $("#updateBanner").dialog('close');
+                    $("#showAllbanner").datagrid('reload');
+                } else {
+                    $.messager.alert("消息", "修改失败", 'error');
+                    $("#updateBanner").dialog('close');
+                    $("#showAllbanner").datagrid('reload');
+                }
+            }
+        })
+        return false;
+    })
+
+
+    function pro2() {
+        $("#updateBannerInformation").submit();
+    }
+
+    function pro1() {
+        $("#addBannerInformation").submit();
+    }
+</script>
+</body>
+
+
+
+</html>
