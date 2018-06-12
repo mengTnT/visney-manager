@@ -17,16 +17,16 @@
 <!--添加轮播图-->
 <div id="addBanner" class="easyui-dialog" data-options="closed:true">
     <form id="addBannerInformation" enctype="multipart/form-data" method="post">
-        轮播图Alt<input type="text" id="banner_alt" name="bannerAlt"><br>
+        轮播图Alt:<input type="text" id="banner_alt" name="bannerAlt"><br>
        选择图片：<input type="file" name="files" onchange="changImg(event,'addimg')" ><br>
         <img alt="" id="addimg" src="img/photo_icon.png" height="100px",width="100px"><br>
         选择轮播图类别：
-        <select id="bannner_type">
+        <select id="bannner_type_select">
             <option value="1">首页</option>
             <option value="4">产品详情</option>
             <option value="11">产品列表</option>
         </select>
-
+        <input type="hidden" id="banner_type_add" name="bannerTypeId">
         <center>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro1()">确认</a>
         </center>
@@ -57,16 +57,18 @@
 <!--修改轮播图-->
 <div id="updateBanner" class="easyui-dialog" data-options="closed:true">
     <form id="updateBannerInformation" enctype="multipart/form-data" method="post">
-        <input type="hidden" id="banner_id">
-        轮播图Alt<input type="text" id="banner_alt_update"><br>
-        选择图片：<input type="file" name="files" onchange="changImg(event)" ><br>
+        <input type="hidden" id="banner_id" name="bannerId">
+        轮播图Alt<input type="text" id="banner_alt_update" name="bannerAlt"><br>
+        选择图片：<input type="file" name="files" onchange="changImg(event,'updateimg')" ><br>
         <img alt="" id="updateimg" src="img/photo_icon.png" height="100px",width="100px"><br>
         选择轮播图类别：
-        <select id="bannner_type_update">
+        <select id="bannner_type_update_select">
             <option value="1">首页</option>
             <option value="4">产品详情</option>
             <option value="11">产品列表</option>
         </select>
+        <input type="hidden" id="banner_src" name="bannerSrc">
+        <input type="hidden" id="banner_type_update" name="bannerTypeId">
 
         <center>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">确认</a>
@@ -193,7 +195,8 @@
 
                                     $("#banner_id").val(bannerId);
                                     $("#banner_alt_update").val(bannerAlt);
-                                    $("#updateimg").val(bannerSrc);
+                                    $("#updateimg").prop("src",bannerSrc);
+                                    $("#banner_src").val(bannerSrc)
                                     $("#bannner_type_update").find("option[value = '"+bannerTypeId+"']").attr("selected","selected");
 
 
@@ -243,6 +246,8 @@
 
 
     $("#addBannerInformation").submit(function () {
+        var btype=$('#bannner_type_select option:selected').val();
+        $("#banner_type_add").val(btype)
         var formData = new FormData($("#addBannerInformation")[0]);
         $.ajax({
             type: 'post',
@@ -267,10 +272,12 @@
         return false;
     })
     $("#updateBannerInformation").submit(function () {
+        var btype2=$('#bannner_type_update_select option:selected').val();
+        $("#banner_type_update").val(btype2)
         var formData = new FormData($("#updateBannerInformation")[0]);
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaUpdate',
+            url: 'http://localhost:9999/visney-manager/banner/update',
             data: formData,
             cache: false,
             contentType: false,

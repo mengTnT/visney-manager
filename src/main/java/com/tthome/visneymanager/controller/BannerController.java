@@ -40,13 +40,48 @@ public class BannerController {
         return bannerService.delete(ids);
     }
     @PostMapping("/update")
-    public int update(int bannerId) {
-        return bannerService.update(bannerId);
+    public int update(Banner banner,@RequestParam("files") MultipartFile[] files) {
+        String bannerImgSrc = null;
+        //用formdata直接格式化form表单，会把空的图片input标签当做有内容，需要以下判断，防止添加错误
+        if (files[0].isEmpty()) {
+            return bannerService.update(banner);
+        }
+        else {
+            try {
+                for (MultipartFile file : files) {
+                    //生成文件名
+                    String fileName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) +
+                            UUID.randomUUID().toString().replace("-", "") +
+                            "." + FilenameUtils.getExtension(file.getOriginalFilename());
+                    //生成上传的地址
+                    String url = "http://192.168.100.250:8099/img/banner_img/" + fileName;
+                    //上传客户端对象
+                    Client client = new Client();
+                    WebResource resource = client.resource(url);
+                    //文件上传到指定地址
+                    resource.put(String.class, file.getBytes());
+                    bannerImgSrc = url;
+
+                }
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return 0;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return 0;
+            }
+            banner.setBannerSrc(bannerImgSrc);
+
+            int update = bannerService.update(banner);
+            return update;
+        }
     }
     @PostMapping("/add")
     public int add(Banner banner,@RequestParam("files") MultipartFile[] files) {
         String bannerImgSrc = null;
-        if (files.length == 0) {
+        //用formdata直接格式化form表单，会把空的图片input标签当做有内容，需要以下判断，防止添加错误
+        if (files[0].isEmpty()) {
             return 0;
         }
         try {

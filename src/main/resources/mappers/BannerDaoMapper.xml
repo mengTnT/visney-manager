@@ -19,7 +19,7 @@
 </select>
 
   <insert id="add" >
-    insert into banner values (0,#{bannerAlt},#{bannerSrc},#{banner_type_id})
+    insert into banner values (0,#{bannerAlt},#{bannerSrc},#{bannerTypeId})
   </insert>
 
   <update id="update">

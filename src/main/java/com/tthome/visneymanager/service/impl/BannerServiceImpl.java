@@ -32,12 +32,14 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
-    public int update(int bannerId) {
-        return bannerDao.update(bannerId);
+    public int update(Banner banner) {
+
+        return bannerDao.update(banner);
     }
 
     @Override
     public int add(Banner banner) {
+
         return bannerDao.add(banner);
     }
 }
