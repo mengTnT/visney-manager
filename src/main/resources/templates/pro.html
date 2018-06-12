@@ -8,7 +8,6 @@
     <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
     <script type="text/javascript" charset="utf-8" th:src="@{lang/zh-cn/zh-cn.js}"></script>
-
     <script type="text/javascript" th:src="@{js/jquery-3.3.1.min.js}"></script>
     <script type="text/javascript" th:src="@{js/jquery.easyui.min.js}"></script>
     <script type="text/javascript" th:src="@{js/easyui-lang-zh_CN.js}"></script>
@@ -43,30 +42,73 @@
     型号：<span id="modleCode"></span><br>
     尺寸：<span id="size"></span><br>
     <input name="proMsg" id="proMsg"  type="hidden" ><br>
-    浏览量：<input name="pageViews" id="pageViews"><br>
+   <input name="pageViews" id="pageViews" type="hidden">
     网店地址：<input name="proSrc" id="proSrc"><br>
     是否上架： <select id="proPutaway">
                 <option value="1">是</option>
                 <option value="0">否</option>
             </select><br>
-    选择图片：
-    <input  onchange="changImg(event,'image1')" name="file"  type="file" class="file"><br>
-    <img id="image1" src="../images/sc.jpg"><br><br>
-    <input  onchange="changImg(event,'image2')" name="file"  type="file" class="file"><br>
-    <img id="image2" src="../images/sc.jpg"><br><br>
-    <input  onchange="changImg(event,'image3')" name="file"  type="file" class="file"><br>
-    <img id="image3" src="../images/sc.jpg"><br><br>
-    <input  onchange="changImg(event,'image4')" name="file"  type="file" class="file"><br>
-    <img id="image4" src="../images/sc.jpg"><br><br>
+    选择图片：<input type="button" value="点击添加图片" onclick='uploadImgs()'>
+                   <div id="uploadImg1" class="easyui-dialog" data-options="closed:true" >
+                    <section id="wrap">
+                        <h1>图片拖拽上传示范</h1>
+                        <section class="area">
+                            <article id="upload" draggable="true">
+                                <span></span>
+                                <div class="file">选择图片<form id="form" runat="server" method="post" enctype="multipart/form-data" ><input type="file"  multiple="multiple" id="imges1" name="imges1" class="upimages" enctype="multipart/form-data"/></form></div>
+                            </article>
+                            <article id="drag">请将图片拖到此区域</article>
+                        </section>
+                        <section class="info">
+                            <p>已选中<span class="num" id='picLen'>0</span>张图片，共<span class="size" id='picSize'>0</span>MB</p>
+                            <article>
+                                <div class="file">继续选择<input multiple="multiple" type="file" id="imges2" name="imges1" class="upimages" enctype="multipart/form-data"/></div>
+                                <div class="upload" id='btn'>开始上传</div>
+                            </article>
+                        </section>
+                        <section class="list">
+                            <ul id="ul1">
+                            </ul>
+                        </section>
+                    </section>
+                       <script th:src="@{js/addpro.js}" type="text/javascript" charset="utf-8"></script>
 
-  =
+                   </div>
+
+
+
+
     Keyword：<input name="proMetaKeyWord" id="proMetaKeyWord"><br>
     Description：<input name="proMetaDescription" id="proMetaDescription"><br>
     Title：<input name="proMetaTitle" id="proMetaTitle"><br>
 
 </form>
 
-        <script type="text/javascript">
+  <script type="text/javascript">
+      $(function(){
+          $("#uploadImg1").window({
+              title:"添加图片",
+              width:1200,
+              height:800,
+              cache: false,
+              closed:true,
+              modal:true,
+          });
+      })
+          function uploadImgs(){
+              $("#uploadImg1").window({
+                  closed:false
+              })
+          }
+       /* function addImg(){
+
+        }*/
+
+
+
+
+
+
 
     show()
     function show() {
@@ -231,20 +273,12 @@
             var proTypeId=$('#type_select option:selected').val();
             var proSeriesId=$('#series_select option:selected').val();
             var centerId=$('#texture_select option:selected').val();
-            var modleCodeId=$('modelCode_select option:selected').val();
-            var sizeId=$("#size_select option:selected").val();
+            var modleCodeId=$('#modelCode_select option:selected').val();
+            var sizeId=$('#size_select option:selected').val();
             var proMsg=getContent();
-            var pageViews=$('#pageViews').val();
+         //   var pageViews=$('#pageViews').val();
             var proSrc=$('#proSrc').val();
             var proPutaway=$('#proPutaway').val();
-          //获取图片
-            var list=new ArrayList();
-            list.add($('#image1').val());
-            list.add($('#image2').val());
-            list.add($('#image3').val());
-            list.add($('#image4').val());
-            var proImgs=list;
-
             var proMetaKeyWord=$('#proMetaKeyWord').val();
             var proMetaDescription=$('#proMetaDescription').val();
             var proMetaTitle=$('#proMetaTitle').val();
@@ -257,24 +291,23 @@
             formdata.append("proSeries.proSeriesId",proSeriesId);
             formdata.append("modleCode.modleCodeId",modleCodeId);
             formdata.append("size.sizeId",sizeId);
-            formdata.append(" center.centerId",centerId);
+            formdata.append("center.centerId",centerId);
 
             formdata.append("proMsg",proMsg);
-            formdata.append("pageViews",pageViews);
+          //  formdata.append("pageViews",pageViews);
             formdata.append("proSrc",proSrc);
             formdata.append("proPutaway",proPutaway);
-            formdata.append("files",proImgs);
             formdata.append("proMetaKeyWord",proMetaKeyWord);
             formdata.append("proMetaDescription",proMetaDescription);
             formdata.append("proMetaTitle",proMetaTitle);
 
-            console.log(formdata)
 
 
           $.ajax({
                 type: 'post',
                 url: 'http://localhost:9999/visney-manager/product/addProduct',
                 data: formdata,
+                async: false,
                 processData: false,// 告诉jQuery不要去处理发送的数据
                 contentType: false,// 告诉jQuery不要去设置Content-Type请求头
                 success: function (data) {
@@ -287,15 +320,15 @@
 
                 }
             })
-        }
 
+        }
 
     </script>
     <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
 </div>
 <div id="btns">
     <div>
-        <button onclick="articleAdd()">确认提交</button>
+        <button onclick="productAdd()">确认提交</button>
         <button onclick="getContent()">获得内容</button>
         <button onclick="setContent()">写入内容</button>
         <button onclick="hasContent()">判断是否有内容</button>
@@ -367,19 +400,8 @@
 
     // 图片回显
   //添加图片回显
-/*function changImg(){
-    var img = new Image();//构造JS的Image对象
-    img.src = document.imageForm.file.value;//将本地图片赋给image对象
-    img.onreadystatechange=function(){
-        if (img.readyState=="complete"){
-            alert(["图片大小是:",img.width,img.height]);
-            document.productImgForm.width.value =200;
-            document.productImgForm.height.value = 200;
 
-        }
-    }
-}*/
-    function changImg(e,name) {
+  /* function changImg(e,name) {
         for (var i = 0; i < e.target.files.length; i++) {
             var file = e.target.files.item(i);
             if (!(/^image\/.*$/i.test(file.type))) {
@@ -393,7 +415,7 @@
                 $("#"+ name).attr("src", e.target.result);
             }
         }
-}
+}*/
 
 
 
