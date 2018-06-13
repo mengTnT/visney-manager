@@ -109,7 +109,7 @@ if (text_value){
     /* 根据文章id编辑文章*/
     function updateArticle() {
     $.ajax({
-    url:'http://localhost:9999/visney-manager/article/getArticleDetails/'+id,
+    url:'http://192.168.100.250:9999/visney-manager/article/getArticleDetails/'+id,
     type:"get",
     async: false,
     success:function(data){
@@ -201,7 +201,7 @@ if (text_value){
                 $.ajax({
                     type: 'get',
                     async: false,/*设置为同步，不出结果的话，不往下执行*/
-                    url: 'http://localhost:9999/visney-manager/article/getArticleDetails/'+id,
+                    url: 'http://192.168.100.250:9999/visney-manager/article/getArticleDetails/'+id,
                     success: function (value) {
                         title_value=value.articleName;
                         category_id=value.articleCategory.articleCategoryId;
@@ -247,7 +247,7 @@ if (text_value){
                 /* 展示可供选择的文章类别*/
                 $.ajax({
                     type: 'get',
-                    url: 'http://localhost:9999/visney-manager/articleCategory/getAll',
+                    url: 'http://192.168.100.250:9999/visney-manager/articleCategory/getAll',
                     success: function (value) {
                         var content = "<select id=\"category_select\">"
                         for (var i = 0; i < value.length; i++) {
@@ -265,7 +265,7 @@ if (text_value){
                 /*展示作者*/
                 $.ajax({
                     type: 'post',
-                    url: 'http://localhost:9999/visney-manager/articleEditor/getAllArticleEditor',
+                    url: 'http://192.168.100.250:9999/visney-manager/articleEditor/getAllArticleEditor',
                     data:{
                         page:0,
                         rows:0
@@ -287,7 +287,7 @@ if (text_value){
                 /*展示标签*/
                 $.ajax({
                     type: 'post',
-                    url: 'http://localhost:9999/visney-manager/articleLabel/getAllArticleLabel',
+                    url: 'http://192.168.100.250:9999/visney-manager/articleLabel/getAllArticleLabel',
                     data:{
                         page:0,
                         rows:0
@@ -367,7 +367,7 @@ if (text_value){
                     formdata.append("articleImg.articleImgSrc",img_src_value);
                     $.ajax({
                         type: 'post',
-                        url: 'http://localhost:9999/visney-manager/article/articleUpdate',
+                        url: 'http://192.168.100.250:9999/visney-manager/article/articleUpdate',
                         data: formdata,
                         async: false,/*设置为同步，不出结果的话，不往下执行*/
 
@@ -390,7 +390,7 @@ if (!id) {
                 /*添加*/
                 $.ajax({
                     type: 'post',
-                    url: 'http://localhost:9999/visney-manager/article/articleAdd',
+                    url: 'http://192.168.100.250:9999/visney-manager/article/articleAdd',
                     data: formdata,
                     processData: false,// 告诉jQuery不要去处理发送的数据
                     contentType: false,// 告诉jQuery不要去设置Content-Type请求头
@@ -412,7 +412,7 @@ if (!id) {
             /* 根据文章id编辑文章*/
             /*  function updateArticle() {
                   $.ajax({
-                      url:'http://localhost:9999/visney-manager/article/getArticleDetails/'+id,
+                      url:'http://192.168.100.250:9999/visney-manager/article/getArticleDetails/'+id,
                       type:"get",
                       dataType:"json",
                       async: false,

@@ -51,7 +51,7 @@
         $("#showAllProduct")
             .datagrid(
                 {
-                    url: 'http://localhost:9999/visney-manager/product/getAll',
+                    url: 'http://192.168.100.250:9999/visney-manager/product/getAll',
                     fitColumns: true,
 
                     columns: [[{
@@ -334,7 +334,7 @@
                                             })
                                             $.ajax({
                                                 type: 'post',
-                                                url: 'http://localhost:9999/visney-manager/NavigationMeta/metaDelete',
+                                                url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaDelete',
                                                 data: 'ids=' + ids,
                                                 success: function (data) {
                                                     if (data != 0) {
@@ -363,7 +363,7 @@
         var formData = new FormData($("#addProductInformation")[0]);
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaAdd',
+            url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaAdd',
             data: formData,
             contentType: false,
             processData: false,
@@ -387,7 +387,7 @@
         var formData = new FormData($("#updateProductInformation")[0]);
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaUpdate',
+            url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaUpdate',
             data: formData,
             cache: false,
             contentType: false,

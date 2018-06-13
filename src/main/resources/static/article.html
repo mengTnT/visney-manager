@@ -88,7 +88,7 @@
         $("#showAllArticle")
             .datagrid(
                 {
-                    url: 'http://localhost:9999/visney-manager/article/getArticles',
+                    url: 'http://192.168.100.250:9999/visney-manager/article/getArticles',
                     fitColumns: true,
 
                     columns: [[{
@@ -305,7 +305,7 @@
                                             })
                                             $.ajax({
                                                 type: 'post',
-                                                url: 'http://localhost:9999/visney-manager/article/articleDelete',
+                                                url: 'http://192.168.100.250:9999/visney-manager/article/articleDelete',
                                                 /*传递数组需要加上这个参数，不然默认在后面加上[]*/
                                                 traditional: true,
                                                 data: {
@@ -345,7 +345,7 @@
         var formData = new FormData($("#addArticleInformation")[0]);
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaAdd',
+            url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaAdd',
             data: formData,
             contentType: false,
             processData: false,
@@ -369,7 +369,7 @@
         var formData = new FormData($("#updateArticleInformation")[0]);
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaUpdate',
+            url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaUpdate',
             data: formData,
             cache: false,
             contentType: false,

@@ -83,7 +83,7 @@
         $("#showAllbanner")
             .datagrid(
                 {
-                    url: 'http://localhost:9999/visney-manager/banner/getAll',
+                    url: 'http://192.168.100.250:9999/visney-manager/banner/getAll',
                     fitColumns: true,
 
                     columns: [[{
@@ -220,7 +220,7 @@
                                             })
                                             $.ajax({
                                                 type: 'post',
-                                                url: 'http://localhost:9999/visney-manager/banner/delete',
+                                                url: 'http://192.168.100.250:9999/visney-manager/banner/delete',
                                                 data: 'ids=' + ids,
                                                 success: function (data) {
                                                     if (data != 0) {
@@ -251,7 +251,7 @@
         var formData = new FormData($("#addBannerInformation")[0]);
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/banner/add',
+            url: 'http://192.168.100.250:9999/visney-manager/banner/add',
             data: formData,
             contentType: false,
             processData: false,
@@ -277,7 +277,7 @@
         var formData = new FormData($("#updateBannerInformation")[0]);
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/banner/update',
+            url: 'http://192.168.100.250:9999/visney-manager/banner/update',
             data: formData,
             cache: false,
             contentType: false,
