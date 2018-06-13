@@ -1,7 +1,7 @@
 <!DOCTYPE>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>文本编辑器</title>
+    <title>产品编辑</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <script type="text/javascript" charset="utf-8" th:src="@{ueditor.config.js}"></script>
     <script type="text/javascript" charset="utf-8" th:src="@{ueditor.all.js}"></script>
@@ -24,13 +24,13 @@
 </head>
 <html>
 <body>
-<div id="uploadImgdiv">
+<div id="updateImg_win">
 
 </div>
 
 
 
-<form id="product_form" name="productImgForm" enctype="multipart/form-data" method="post">
+
     产品名：<input name="proName" id="proName" type="text"><br>
     价格：<input name="proPrice" id="proPrice"><br>
     位置： <span id="proPosition"></span><br>
@@ -48,7 +48,7 @@
                 <option value="1">是</option>
                 <option value="0">否</option>
             </select><br>
-    选择图片：<input type="button" value="点击添加图片" onclick='uploadImgs()'>
+<font color="red">选择图片：</font>：<input type="button" value="点击我选择图片" onclick='uploadImgs()'>
                    <div id="uploadImg1" class="easyui-dialog" data-options="closed:true" >
                     <section id="wrap">
                         <h1>图片拖拽上传示范</h1>
@@ -57,7 +57,7 @@
                                 <span></span>
                                 <div class="file">选择图片<form id="form" runat="server" method="post" enctype="multipart/form-data" ><input type="file"  multiple="multiple" id="imges1" name="imges1" class="upimages" enctype="multipart/form-data"/></form></div>
                             </article>
-                            <article id="drag">请将图片拖到此区域</article>
+                            <article id="drag">请将图片拖到此区域,<font color="red">第一张为封面图片</font></article>
                         </section>
                         <section class="info">
                             <p>已选中<span class="num" id='picLen'>0</span>张图片，共<span class="size" id='picSize'>0</span>MB</p>
@@ -77,12 +77,12 @@
 
 
 
-    图片名称：<input name="proImgAlt" id="proImgAlt"><br>
+    图片alt：<input name="proImgAlt" id="proImgAlt"><br>
     Keyword：<input name="proMetaKeyWord" id="proMetaKeyWord"><br>
     Description：<input name="proMetaDescription" id="proMetaDescription"><br>
     Title：<input name="proMetaTitle" id="proMetaTitle"><br>
 
-</form>
+
 
   <script type="text/javascript">
       $(function(){
@@ -94,14 +94,19 @@
               closed:true,
               modal:true,
           });
+
+          $('#updateImg_win').window({
+              title:"图片编辑",
+              width:1200,
+              height:800,
+              closed:true,
+
+
+
+          });
+
+
       })
-          function uploadImgs(){
-              $("#uploadImg1").window({
-                  left:100,
-                  top:100,
-                  closed:false
-              })
-          }
 
  //截取url后的参数
       function GetRequest() {
@@ -117,10 +122,39 @@
           return theRequest;
       }
 
-      //获取修改文章的id
+      //id
       var Request = new Object();
       Request = GetRequest();
       var id=Request["id"]
+        alert(id)
+
+      function uploadImgs(){
+          if(id){
+              var src="/visney-manager/proImg.html?id="+id;
+
+              var iframe="<iframe id='product_form' src='";
+              var append=src+"'"+ "width='100%' height='100%'>"
+
+              var result=iframe+append+"</iframe>"
+
+              $("#updateImg_win").window({
+                  left:100,
+                  top:100,
+                  closed:false,
+                  content: result
+
+              })
+
+          }
+          else {
+              $("#uploadImg1").window({
+                  left:100,
+                  top:100,
+              closed:false
+                })
+          }
+
+      }
 
       if (id) {
           alert(id)
@@ -356,18 +390,12 @@
             var modleCodeId=$('#modelCode_select option:selected').val();
             var sizeId=$('#size_select option:selected').val();
             var proMsg=getContent();
-            //var pageViews=$('#pageViews').val();
             var proSrc=$('#proSrc').val();
             var proPutaway=$('#proPutaway').val();
             var proMetaKeyWord=$('#proMetaKeyWord').val();
             var proMetaDescription=$('#proMetaDescription').val();
             var proMetaTitle=$('#proMetaTitle').val();
             var proImgAlt=$('#proImgAlt').val()
-
-            console.log(modleCodeId+'3333_______________')
-            console.log(bannerId+'__________3333____________________')
-            console.log(centerId+'__________4444____________________')
-            console.log(proPositionId+'______________________________')
 
             formdata.append("proName",proName);
             formdata.append("proPrice",proPrice);
@@ -381,7 +409,6 @@
             formdata.append("proTexture.proTextureId",centerId);
             formdata.append("proImg.proImgAlt",proImgAlt)
             formdata.append("proMsg",proMsg);
-            //formdata.append("pageViews",pageViews);
             formdata.append("proSrc",proSrc);
             formdata.append("proPutaway",proPutaway);
             formdata.append("proMetaKeyWord",proMetaKeyWord);
@@ -400,9 +427,11 @@
                 success: function (data) {
                     if (data==1){
                         alert("添加成功")
+                      formdata = new  FormData();
                     }
                     else{
                         alert("添加失败")
+                       formdata = new  FormData();
                     }
 
                 }
@@ -415,10 +444,7 @@
 </div>
 <div id="btns">
     <div>
-        <button onclick="productAdd()">确认提交</button>
-        <button onclick="getContent()">获得内容</button>
-        <button onclick="setContent()">写入内容</button>
-        <button onclick="hasContent()">判断是否有内容</button>
+        <button onclick="productAdd()"><font color="red">确认提交</font></button>
 
     </div>
 

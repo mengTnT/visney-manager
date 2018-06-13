@@ -64,7 +64,7 @@
                         		</div>
                             </div>
                             <div class="form-bottom">
-			                    <form role="form"  class="login-form" id="login" method="post" action="http://localhost:9999/visney-manager/login">
+			                    <form role="form"  class="login-form" id="login" method="post" action="http://192.168.100.250:9999/visney-manager/login">
 			                    	<div class="form-group">
 			                    		<label class="sr-only" for="form-username">Username</label>
 			                        	<input type="text" name="username" placeholder="Username..." class="form-username form-control" id="form-username">
@@ -99,7 +99,7 @@
                 alert("000")
                 var formData = new FormData($("#login")[0]);
                 $.ajax({
-                    url:"http://localhost:9999/visney-manager/userLogin/login",
+                    url:"http://192.168.100.250:9999/visney-manager/userLogin/login",
                     type:'post',
                     data:formData,
                     dataType:"json",

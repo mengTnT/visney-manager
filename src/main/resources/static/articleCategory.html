@@ -61,7 +61,7 @@
         /*分页 展示所有*/
         //1.2把table转换成一个datagrid效果
         $("#showAllArticleCategory").datagrid({
-            url:"http://localhost:9999/visney-manager/articleCategory/getAllpageArticleCategory",//请求路径
+            url:"http://192.168.100.250:9999/visney-manager/articleCategory/getAllpageArticleCategory",//请求路径
             //在底部显示分页工具栏，设置为true之后，datagrid再发生ajax的时候就会发送两个参数
             pagination:true,//如果为true，则在DataGrid控件底部显示分页工具栏。
             border:true,
@@ -109,7 +109,7 @@
     function pro1(){
         //点击form表单 用ajax提交
         $("#updateArticleCategoryInformation").form("submit",{
-            url:"http://localhost:9999/visney-manager/articleCategory/updateArticleCategory",
+            url:"http://192.168.100.250:9999/visney-manager/articleCategory/updateArticleCategory",
 
             success:function(data){
                 var da=eval('(' + data + ')');
@@ -153,7 +153,7 @@
 //              发送ajxs请求
 
         $("#addArticleCategoryInformation").form('submit',{
-            url:"http://localhost:9999/visney-manager/articleCategory/addArticleCategory",
+            url:"http://192.168.100.250:9999/visney-manager/articleCategory/addArticleCategory",
             type:"post",
             success:function (data) {
                 var da = eval('('+ data + ')');

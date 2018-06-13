@@ -51,7 +51,7 @@
         $("#showAllmeta")
             .datagrid(
                 {
-                    url: 'http://localhost:9999/visney-manager/NavigationMeta/metaGetAll',
+                    url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaGetAll',
                     fitColumns: true,
 
                     columns: [[{
@@ -170,7 +170,7 @@
                                             })
                                             $.ajax({
                                                 type: 'post',
-                                                url: 'http://localhost:9999/visney-manager/NavigationMeta/metaDelete',
+                                                url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaDelete',
                                                 data: 'ids=' + ids,
                                                 success: function (data) {
                                                     if (data != 0) {
@@ -199,7 +199,7 @@
         var formData = new FormData($("#addMetaInformation")[0]);
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaAdd',
+            url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaAdd',
             data: formData,
             contentType: false,
             processData: false,
@@ -223,7 +223,7 @@
         var formData = new FormData($("#updateMetaInformation")[0]);
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/NavigationMeta/metaUpdate',
+            url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaUpdate',
             data: formData,
             cache: false,
             contentType: false,

@@ -33,6 +33,7 @@ public class BannerController {
     }
     @PostMapping("/getAll")
     public List<Banner> getAll() {
+
         return bannerService.getAll();
     }
     @PostMapping("/delete")
