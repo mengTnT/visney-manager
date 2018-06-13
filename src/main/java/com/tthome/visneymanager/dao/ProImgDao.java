@@ -10,7 +10,7 @@ import java.util.List;
  * @date 2018-06-04 9:34
  */
 public interface ProImgDao {
-    public List<ProImg> getAllProImg(@Param("start")int start,@Param("end")int end);
+    public List<ProImg> getAllProImg(@Param("start")int start,@Param("end")int end,@Param("proId")int proId);
     public int getAllCount();
     public int addProImg(ProImg proImg);
     public int updateProImg(ProImg proImg);

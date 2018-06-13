@@ -7,10 +7,10 @@ import java.util.Map;
  * @date 2018-06-04 9:54
  */
 public interface ProImgService {
-    public Map getAllProImg(int pageIndex,int pageSize);
-    public Map addProImg(ProImg proImg);
-    public Map deleteProImg(int[] proImgIds);
-    public Map updateProImg(ProImg proImg);
+    public Map getAllProImg(int pageIndex,int pageSize,int proId);
+    public int addProImg(ProImg proImg);
+    public int deleteProImg(int[] proImgIds);
+    public int updateProImg(ProImg proImg);
     public int  deleteProImgbyProId(int[] proIds);
 
 }

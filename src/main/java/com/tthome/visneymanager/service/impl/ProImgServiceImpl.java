@@ -21,11 +21,11 @@ public class ProImgServiceImpl implements ProImgService {
     @Autowired
     private ProImgDao proImgDao;
     @Override
-    public Map getAllProImg(int pageIndex, int pageSize) {
+    public Map getAllProImg(int pageIndex, int pageSize,int proId) {
         int start=(pageIndex-1)*pageSize;
         int end=pageSize;
         Map map=new HashMap();
-        List<ProImg> allProImg = proImgDao.getAllProImg(start, end);
+        List<ProImg> allProImg = proImgDao.getAllProImg(start, end,proId);
         int i = proImgDao.getAllCount();
         map.put("total",i);
         map.put("rows",allProImg);
@@ -33,39 +33,24 @@ public class ProImgServiceImpl implements ProImgService {
     }
 
     @Override
-    public Map addProImg(ProImg proImg) {
+    public int addProImg(ProImg proImg) {
         Map map=new HashMap();
         int i = proImgDao.addProImg(proImg);
-        if(i!=0){
-            map.put("msg",true);
-        }else{
-            map.put("msg",false);
-        }
-        return map;
+        return i;
     }
 
     @Override
-    public Map deleteProImg(int[] proImgIds) {
+    public int deleteProImg(int[] proImgIds) {
         Map map=new HashMap();
         int i = proImgDao.deleteProImg(proImgIds);
-        if(i!=0){
-            map.put("msg",true);
-        }else{
-            map.put("msg",false);
-        }
-        return map;
+        return i;
     }
 
     @Override
-    public Map updateProImg(ProImg proImg) {
+    public int updateProImg(ProImg proImg) {
         Map map=new HashMap();
         int i = proImgDao.updateProImg(proImg);
-        if(i!=0){
-            map.put("msg",true);
-        }else{
-            map.put("msg",false);
-        }
-        return map;
+        return i;
     }
 
     @Override
