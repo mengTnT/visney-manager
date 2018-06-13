@@ -276,25 +276,32 @@
             var modleCodeId=$('#modelCode_select option:selected').val();
             var sizeId=$('#size_select option:selected').val();
             var proMsg=getContent();
-         //   var pageViews=$('#pageViews').val();
+            //var pageViews=$('#pageViews').val();
             var proSrc=$('#proSrc').val();
             var proPutaway=$('#proPutaway').val();
             var proMetaKeyWord=$('#proMetaKeyWord').val();
             var proMetaDescription=$('#proMetaDescription').val();
             var proMetaTitle=$('#proMetaTitle').val();
+
+
+            console.log(modleCodeId+'3333_______________')
+            console.log(bannerId+'__________3333____________________')
+            console.log(centerId+'__________4444____________________')
+            console.log(proPositionId+'______________________________')
+
             formdata.append("proName",proName);
             formdata.append("proPrice",proPrice);
             formdata.append("brand.brandId",bannerId);
-            formdata.append("proPosition.bannerId",proPositionId);
+            formdata.append("proPosition.proPositionId",proPositionId);
             formdata.append("proStyle.proStyleId",proStyleId);
             formdata.append("proType.proTypeId",proTypeId);
             formdata.append("proSeries.proSeriesId",proSeriesId);
-            formdata.append("modleCode.modleCodeId",modleCodeId);
+            formdata.append("modleCode.modelCodeId",modleCodeId);
             formdata.append("size.sizeId",sizeId);
-            formdata.append("center.centerId",centerId);
+            formdata.append("proTexture.proTextureId",centerId);
 
             formdata.append("proMsg",proMsg);
-          //  formdata.append("pageViews",pageViews);
+            //formdata.append("pageViews",pageViews);
             formdata.append("proSrc",proSrc);
             formdata.append("proPutaway",proPutaway);
             formdata.append("proMetaKeyWord",proMetaKeyWord);

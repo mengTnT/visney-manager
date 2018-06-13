@@ -12,7 +12,7 @@
      SELECT * FROM pro_category limit #{start},#{end}
     </select>
 
-    <select id="getProCategoryCount" resultType="int">
+    <select id="getAllProCategoryCount" resultType="int">
         select count(0) from pro_category
     </select>
 

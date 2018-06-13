@@ -27,7 +27,8 @@ public class ProductServiceImpl implements ProductService {
     private ModleCodeDao modleCodeDao;
     @Autowired
     private BrandDao brandDao;
-
+    @Autowired
+    private PageViewsDao pageViewsDao;
     @Override
     public Map selectAll(int page,int rows,String proName, String brandName, String proStyleName, String proTypeName, String proSeriesName, String proTextureName, String proPositionName) {
         Map map = new HashMap();
@@ -42,8 +43,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int addProduct(Product product) {
        /* 风格 类型 系列 材质
-          品牌 型号 尺寸 图片*/
-        //添加品牌id
+          品牌 型号 尺寸 图片
+          浏览量*/
+//添加浏览量Id
+        PageViews pageViews=new PageViews();
+        int pageViewsAdd = pageViewsDao.pageViewsAdd(pageViews);
+        product.setPageViews(pageViews);
+/*
 //先添加尺寸Size 在获取ID
         Size size=new Size();
         int addsize=sizeDao.addSize(size);
@@ -56,19 +62,32 @@ public class ProductServiceImpl implements ProductService {
         Brand brand=new Brand();
         int addBrand=brandDao.addBrand(brand);
 
-
+        product.setPageViews(pageViews);
         product.setSize(size);
         product.setModleCode(modleCode);
         product.setBrand(brand);
+*/
 //先添加产品Id
+
+
         int addProduct = productDao.addProduct(product);
         Integer proId=product.getProId();
 
         // 根据产品ID 添加图片
-        ProImg proImg=new ProImg();
-        proImg.setProId(proId);
-        int addProImg = proImgDao.addProImg(proImg);
-        if(addsize==1&&addModleCode==1&&addProImg==1&&addProduct==1&&addBrand==1){
+        List<ProImg> proImgs = product.getProImgs();
+        ProImg proImg=null;
+        int addProImg=0;
+
+        for(int i=0;i<proImgs.size();i++){
+           proImg=proImgs.get(i);
+           proImg.setProId(proId);
+           addProImg = proImgDao.addProImg(proImg);
+        }
+
+
+
+
+        if(addProImg==1&&addProduct==1&&pageViewsAdd==1){
             return 1;
         }else{
            return 0;

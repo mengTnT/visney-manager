@@ -74,9 +74,9 @@ public class ProductController {
         }
         //第一张图是封面图
                ProImg proImg=proImgList.get(0);
-               proImg.setProImgCover('1');
+               proImg.setProImgCover(1);
                proImgList.set(0,proImg);
-        product.setProImgs(proImgList);
+
         int result =productService.addProduct(product);
         return result;
 

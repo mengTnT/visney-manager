@@ -7,6 +7,6 @@ import java.io.Serializable;
 @Data
 public class PageViews implements Serializable {
     private static final long serialVersionUID = 3350598890141945168L;
-    private int pageViewsId;
-    private int pageViewsCount;
+    private Integer pageViewsId;
+    private int pageViewsCount=0;
 }
