@@ -77,66 +77,6 @@
     }
 </script>
 
-<!--添加产品-->
-<div id="addProduct" class="easyui-dialog" data-options="closed:true">
-    <form id="addProductInformation" enctype="multipart/form-data" method="post">
-        <input name="proId" type="hidden"><br>
-        产品名：<input name="proName" ><br>
-        价格：<input name="proPrice"  ><br>
-        位置：<input name="proPosition" ><br>
-        风格：<input name="proStyle" ><br>
-        类型：<input name="proType" ><br>
-        系列：<input name="proSeries" ><br>
-        材质：<input name="center" ><br>
-        品牌：<input name="brand" ><br>
-        型号：<input name="modleCode" ><br>
-        尺寸：<input name="size" ><br>
-        介绍：<input name="proMsg" ><br>
-        浏览量<input name="pageViews"><br>
-        网店地址：<input name="proSrc"><br>
-        添加时间：<input name="proAddTime" ><br>
-        修改时间：<input name="proUpdateTime" ><br>
-        是否上架：<input name="proPutaway" ><br>
-        图片：<input name="proImgs" ><br>
-        Keyword：<input name="proMetaKeyWord"><br>
-        Description：<input name="proMetaDescription" ><br>
-        Title：<input name="proMetaTitle"><br>
-
-        <center>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro1()">确认</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()"></a>
-        </center>
-
-    </form>
-</div>
-<!--修改meta标签内容-->
-<div id="updateProduct" class="easyui-dialog" data-options="closed:true">
-    <form id="updateProductInformation" enctype="multipart/form-data" method="post">
-        <input name="proId" id="proId" type="hidden"><br>
-        产品名：<input name="proName" id="proName"><br>
-        价格：<input name="proPrice" id="proPrice"><br>
-        位置：<input name="proPosition" id="proPosition"><br>
-        风格：<input name="proStyle" id="proStyle"><br>
-        类型：<input name="proType" id="proType"><br>
-        系列：<input name="proSeries" id="proSeries"><br>
-        材质：<input name="center" id="center"><br>
-        品牌：<input name="brand" id="brand"><br>
-        型号：<input name="modleCode" id="modleCode"><br>
-        尺寸：<input name="size" id="size"><br>
-        介绍：<input name="proMsg" id="proMsg"><br>
-        浏览量：<input name="pageViews" id="pageViews"><br>
-        网店地址：<input name="proSrc" id="proSrc"><br>
-       <!-- 添加时间：<input name="proAddTime" id="proAddTime"><br>
-        修改时间：<input name="proUpdateTime" id="proUpdateTime"><br>-->
-        是否上架：<input name="proPutaway" id="proPutaway"><br>
-        图片：<input name="proImgs" id="proImgs"><br>
-        Keyword：<input name="proMetaKeyWord" id="proMetaKeyWord"><br>
-        Description：<input name="proMetaDescription" id="proMetaDescription"><br>
-        Title：<input name="proMetaTitle" id="proMetaTitle"><br>
-        <center>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">确认</a>
-        </center>
-    </form>
 
 </div>
 <script type="text/javascript">
@@ -154,7 +94,17 @@
                 $("#showAllProduct").datagrid('reload');
             }
         });
+    $('#win_update').window({
+            title:"文本编辑器",
+            width:600,
+            height:400,
+            closed:true,
+            maximized:true,
+            onClose:function () {
 
+                $("#showAllProduct").datagrid('reload');
+            }
+        });
 
 
 
@@ -375,6 +325,84 @@
                                     });
                                 }
                             },
+                            {
+                                iconCls: 'icon-edit',
+                                handler: function () {
+                                    var checks= $("#showAllProduct").datagrid('getChecked');
+                                    if (checks.length > 1
+                                        || checks.length < 1) {
+                                        $.messager.alert("消息",
+                                            "请选择一条数据修改", 'warning');
+                                    }else {
+                                        var aid= $("#showAllProduct").datagrid('getChecked')[0].proId ;
+                                        console.log(aid+"=================")
+                                        var src="/visney-manager/pro?id="+aid;
+
+                                        var iframe="<iframe id='product_form' src='";
+                                        var append=src+"'"+ "width='100%' height='100%'>"
+
+                                        var result=iframe+append+"</iframe>"
+
+                                        console.log(result)
+
+                                        $('#win_update').window({
+                                            closed:false,
+                                            content: result,
+                                        });
+
+                                    }
+
+                                }
+                            },
+
+                            {
+                                iconCls: 'icon-remove',
+                                handler: function () {
+                                    var cates = $("#showAllProduct").datagrid('getChecked');
+                                    if (cates.length < 1) {
+                                        $.messager.alert("消息", "请选择一条数据修改", 'warning');
+                                    } else {
+                                        $.messager.confirm("消息", "您确定要删除吗？", function (x) {
+                                            if (x) {
+                                                var proIds = [];
+                                                var pageViewsIds = [];
+
+                                                var cateIds = $("#showAllProduct").datagrid('getChecked');
+                                                $.each(cateIds, function (index, ii) {
+                                                    proIds.push(ii.proId);
+                                                    pageViewsIds.push(ii.pageViews.pageViewsId);
+                                                })
+                                                $.ajax({
+                                                    type: 'post',
+                                                    url: 'http://localhost:9999/visney-manager/product/deleteProduct',
+                                                    /*传递数组需要加上这个参数，不然默认在后面加上[]*/
+                                                    traditional: true,
+                                                    data: {
+                                                        "proIds":proIds,
+                                                        "pageViewsIds":pageViewsIds,
+
+                                                    },
+
+                                                    success: function (data) {
+                                                        console.log(data.msg)
+                                                        if (data.msg==true) {
+                                                            $.messager.alert("消息", "删除成功", 'info');
+                                                            $("#showAllProduct").datagrid('reload');
+                                                        } else {
+                                                            $.messager.alert("消息", "删除失败", 'error');
+                                                            $("#showAllProduct").datagrid('reload');
+                                                        }
+                                                    }
+                                                })
+                                            } else {
+                                                $("#showAllProduct").datagrid('reload');
+                                            }
+                                        })
+
+                                    }
+                                }
+
+                            },
                         ]
 
 
@@ -386,8 +414,9 @@
 
 
 </script>
-</body>
 
+</div>
+</body>
 
 
 </html>

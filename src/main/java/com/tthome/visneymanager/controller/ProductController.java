@@ -37,48 +37,60 @@ public class ProductController {
         return productService.selectAll(page, rows,proName,brandName,proStyleName,proTypeName,proSeriesName,proTextureName,proPositionName);
     }
 
-    @PostMapping("/addProduct")
-    public int addProduct( Product product, HttpServletRequest req, @RequestParam("files") MultipartFile[] files){
-        String proImgSrc=null;
-        List<ProImg> proImgList=new ArrayList<>();
-        if (files.length == 0) {
-            return 0;
-        }
-        try {
-            for (MultipartFile file : files) {
-                //生成文件名
-                String fileName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) +
-                        UUID.randomUUID().toString().replace("-", "") +
-                        "." + FilenameUtils.getExtension(file.getOriginalFilename());
-                //生成上传的地址
-                String url="http://192.168.100.250:8099/img/product_img/"+fileName;
-                //上传客户端对象
-                Client client=new Client();
-                WebResource resource = client.resource(url);
-                //文件上传到指定地址
-                resource.put(String.class,file.getBytes());
-                proImgSrc = url;
-                ProImg proImg=new ProImg();
-                proImg.setProImgSrc(proImgSrc);
-                proImgList.add(proImg);
 
 
+    @GetMapping("/selectProductById/{proId}")
+    public Product selectProductById(@PathVariable("proId") int proId){
+        return productService.selectProductById(proId);
+    }
+  @PostMapping("/addProduct")
+    public int addProduct(Product product, HttpServletRequest req, @RequestParam("files") MultipartFile[] files){
+            String proImgSrc=null;
+            List<ProImg> proImgList=new ArrayList<>();
+            if (files.length == 0) {
+                return 0;
             }
+            try {
+                for (MultipartFile file : files) {
+                    //生成文件名
+                    String fileName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) +
+                            UUID.randomUUID().toString().replace("-", "") +
+                            "." + FilenameUtils.getExtension(file.getOriginalFilename());
+                    //生成上传的地址
+                    String url="http://192.168.100.250:8099/img/product_img/"+fileName;
+                    //上传客户端对象
+                    Client client=new Client();
+                    WebResource resource = client.resource(url);
+                    //文件上传到指定地址
+                    resource.put(String.class,file.getBytes());
+                    proImgSrc = url;
+                    ProImg proImg=new ProImg();
+                    proImg.setProImgSrc(proImgSrc);
+                    proImgList.add(proImg);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return 0;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return 0;
-        }
-        //第一张图是封面图
-               ProImg proImg=proImgList.get(0);
-               proImg.setProImgCover(1);
-               proImgList.set(0,proImg);
 
-        int result =productService.addProduct(product);
-        return result;
+                }
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return 0;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return 0;
+            }
+            //第一张图是封面图
+                   ProImg proImg=proImgList.get(0);
+                   proImg.setProImgCover(1);
+                   proImgList.set(0,proImg);
+                   product.setProImgs(proImgList);
+            int result =productService.addProduct(product);
+            return result;
 
     }
+    @PostMapping("/deleteProduct")
+    public Map deleteProduct(int[] proIds,int[] pageViewsIds){
+        return productService.deleteProduct(proIds,pageViewsIds);
+    }
+
+
 }

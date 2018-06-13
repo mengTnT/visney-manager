@@ -77,38 +77,48 @@ public class ProductServiceImpl implements ProductService {
         List<ProImg> proImgs = product.getProImgs();
         ProImg proImg=null;
         int addProImg=0;
-
+        int count=0;
         for(int i=0;i<proImgs.size();i++){
            proImg=proImgs.get(i);
            proImg.setProId(proId);
            addProImg = proImgDao.addProImg(proImg);
+           if(addProImg==1){
+                 count++;
+           }
         }
-
-
-
-
-        if(addProImg==1&&addProduct==1&&pageViewsAdd==1){
+        if(count==proImgs.size()&&addProduct==1&&pageViewsAdd==1){
             return 1;
         }else{
            return 0;
         }
 
     }
-
-
-
-
-
-
+    @Override
+    public Map  deleteProduct(int[] proIds, int[] pageViewsIds) {
+        Map map = new HashMap();
+        //先删除图片 和浏览量  再删除其他的
+        int i = proImgDao.deleteProImgbyProId(proIds);
+        int i1 = pageViewsDao.pageViewsDelete(pageViewsIds);
+        int i2 = productDao.deleteProduct(proIds);
+        if(i==1&&i1==1&&i2==1){
+            map.put("msg",true);
+        }else{
+            map.put("msg",false);
+        }
+        return map;
+    }
 
     @Override
     public Map updateProduct(Product product) {
         return null;
     }
 
+
+
+
     @Override
-    public Map deleteProduct(int[] proIds) {
-        return null;
+   public Product selectProductById(int proId) {
+        return productDao.selectProductById(proId);
     }
 }
 

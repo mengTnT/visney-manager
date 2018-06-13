@@ -33,5 +33,14 @@
                  item="id">#{id}
         </foreach>
     </delete>
+    <delete id="deleteProImgbyProId">
+        delete  from pro_img
+        where pro_id in
+        <foreach collection="array" open="(" close=")" separator=","
+                 item="id">#{id}
+        </foreach>
+    </delete>
+
+
 
 </mapper>

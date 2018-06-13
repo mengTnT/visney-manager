@@ -15,5 +15,6 @@ public interface ProImgDao {
     public int addProImg(ProImg proImg);
     public int updateProImg(ProImg proImg);
     public int deleteProImg(int [] proImgIds);
+    public int deleteProImgbyProId(int[] proIds);
 
 }

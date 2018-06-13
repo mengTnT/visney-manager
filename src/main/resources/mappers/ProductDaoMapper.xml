@@ -151,6 +151,12 @@ LEFT JOIN modle_code t11 ON t1.model_code_id=t11.model_code_id
                pro_meta_keyword=#{proMetaKeyWord},#{proMetaDescription},
                pro_meta_title=#{proMetaTitle}
     </update>
-
+    <delete id="deleteProduct">
+        delete from product where
+        pro_id in
+        <foreach collection="array" open="(" close=")" separator=","
+                 item="id">#{id}
+        </foreach>
+    </delete>
 
 </mapper>

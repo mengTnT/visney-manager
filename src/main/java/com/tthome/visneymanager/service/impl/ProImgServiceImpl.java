@@ -67,4 +67,9 @@ public class ProImgServiceImpl implements ProImgService {
         }
         return map;
     }
+
+    @Override
+    public int deleteProImgbyProId(int[] proIds) {
+        return proImgDao.deleteProImgbyProId(proIds);
+    }
 }

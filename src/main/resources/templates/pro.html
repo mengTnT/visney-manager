@@ -42,7 +42,7 @@
     型号：<span id="modleCode"></span><br>
     尺寸：<span id="size"></span><br>
     <input name="proMsg" id="proMsg"  type="hidden" ><br>
-   <input name="pageViews" id="pageViews" type="hidden">
+    <input name="pageViews" id="pageViews" type="hidden">
     网店地址：<input name="proSrc" id="proSrc"><br>
     是否上架： <select id="proPutaway">
                 <option value="1">是</option>
@@ -77,7 +77,7 @@
 
 
 
-
+    图片名称：<input name="proImgAlt" id="proImgAlt"><br>
     Keyword：<input name="proMetaKeyWord" id="proMetaKeyWord"><br>
     Description：<input name="proMetaDescription" id="proMetaDescription"><br>
     Title：<input name="proMetaTitle" id="proMetaTitle"><br>
@@ -100,17 +100,95 @@
                   closed:false
               })
           }
-       /* function addImg(){
 
-        }*/
+ //截取url后的参数
+      function GetRequest() {
+          var url = location.search; //获取url中"?"符后的字串
+          var theRequest = new Object();
+          if (url.indexOf("?") != -1) {
+              var str = url.substr(1);
+              strs = str.split("&");
+              for(var i = 0; i < strs.length; i ++) {
+                  theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+              }
+          }
+          return theRequest;
+      }
+
+      //获取修改文章的id
+      var Request = new Object();
+      Request = GetRequest();
+      var id=Request["id"]
+
+      if (id) {
+          alert(id)
+
+          var pro_id;
+          var pro_name;
+          var brand_id;
+          var pro_price;
+          var position_id;
+          var model_code_id;
+          var style_id;
+          var type_id;
+          var series_id;
+          var texture_id;
+          var size_id;
+          var pro_msg;
+          var page_views_id;
+          var pro_src;
+          var pro_putaway;
+          var pro_meta_keyword;
+          var pro_meta_description;
+          var pro_meta_title;
 
 
+          $.ajax({
+              type: 'get',
+              async: false,/*设置为同步，不出结果的话，不往下执行*/
+              url: 'http://localhost:9999/visney-manager/product/selectProductById/'+id,
+              success: function (value) {
 
+                  pro_name=value.proName;
+                  brand_id=value.brand.brandId;
+                  pro_price=value.proPrice;
+                  position_id=value.proPosition.proPositionId;
+                  model_code_id=value.modleCode.modelCodeId;
+                  style_id=value.proStyle.proStyleId;
+                  type_id=value.proType.proTypeId;
+                  series_id=value.proSeries.proSeriesId;
+                  texture_id=value.proTexture.proTextureId;
+                  size_id=value.size.sizeId;
+                  pro_msg=value.proMsg;
+                  page_views_id=value.pageViews.pageViewsId;
+                  pro_src=value.proSrc
+                  pro_putaway=value.proPutaway;
+                  pro_meta_keyword=value.proMetaKeyWord;
+                  pro_meta_description=value.proMetaDescription
+                  pro_meta_title=value.proMetaTitle
 
+                  $("#proPutaway").find("option[value = '"+pro_putaway+"']").attr("selected","selected");
+                  $("#proName").val(pro_name);
+                  $("#proPrice").val(pro_price);
+                  $("#proSrc").val(pro_price);
+                  $("#proPrice").val(pro_src);
+                  $("#proMetaKeyWord").val(pro_meta_keyword);
+                  $("#proMetaDescription").val(pro_meta_description);
+                  $("#proMetaTitle").val(pro_meta_title);
 
+                  /* 查询结束后，再去查询其他的内容*/
+                  show();
 
+              }
+          })
+          ue.addListener("ready", function () {
+              ue.setContent(text_value);
+          });
 
-    show()
+      }else {
+          show();
+      }
+
     function show() {
         /* 展示可供选择的产品系列*/
         $.ajax({
@@ -124,7 +202,7 @@
                 var result = content + "</select>";
 
                 $("#proSeries").html(result)
-             //   $("#series_select").find("option[value = '"+series_id+"']").attr("selected","selected");
+                $("#series_select").find("option[value = '"+series_id+"']").attr("selected","selected");
             }
         })
 
@@ -141,7 +219,7 @@
                 var result = content + "</select>";
 
                 $("#proType").html(result)
-                // $("#type_select").find("option[value = '"+type_id+"']").attr("selected","selected");
+                $("#type_select").find("option[value = '"+type_id+"']").attr("selected","selected");
             }
         })
         /*展示可供选择的产品位置*/
@@ -157,7 +235,7 @@
                 var result = content + "</select>";
 
                 $("#proPosition").html(result)
-                //$("#position_select").find("option[value = '"+position_id+"']").attr("selected","selected");
+                $("#position_select").find("option[value = '"+position_id+"']").attr("selected","selected");
             }
         })
         /*展示可供选择的产品风格*/
@@ -173,7 +251,7 @@
                 var result = content + "</select>";
 
                 $("#proStyle").html(result)
-                // $("#style_select").find("option[value = '"+style_id+"']").attr("selected","selected");
+                 $("#style_select").find("option[value = '"+style_id+"']").attr("selected","selected");
             }
         })
         /*展示可供选择的产品材质*/
@@ -189,7 +267,7 @@
                 var result = content + "</select>";
 
                 $("#center").html(result)
-                //$("#texture_select").find("option[value = '"+texture_id+"']").attr("selected","selected");
+                $("#texture_select").find("option[value = '"+texture_id+"']").attr("selected","selected");
             }
         })
         /*展示品牌*/
@@ -210,7 +288,7 @@
                 var result = content1 + "</select>";
 
                 $("#brand").html(result)
-                // $("#brand_select").find("option[value = '"+brand_id+"']").attr("selected","selected");
+                 $("#brand_select").find("option[value = '"+brand_id+"']").attr("selected","selected");
 
             }
         })
@@ -233,7 +311,7 @@
                 var result = content1 + "</select>";
 
                 $("#modleCode").html(result)
-                //$("#modelCode_select").find("option[value = '"+model_code_id+"']").attr("selected","selected");
+                $("#modelCode_select").find("option[value = '"+model_code_id+"']").attr("selected","selected");
 
             }
         })
@@ -255,7 +333,7 @@
                 var result = content1 + "</select>";
                 $("#size").html(result)
 
-              //  $("#size_select").find("option[value = '"+size_id+"']").attr("selected","selected");
+               $("#size_select").find("option[value = '"+size_id+"']").attr("selected","selected");
 
             }
         })
@@ -282,7 +360,7 @@
             var proMetaKeyWord=$('#proMetaKeyWord').val();
             var proMetaDescription=$('#proMetaDescription').val();
             var proMetaTitle=$('#proMetaTitle').val();
-
+            var proImgAlt=$('#proImgAlt').val()
 
             console.log(modleCodeId+'3333_______________')
             console.log(bannerId+'__________3333____________________')
@@ -299,7 +377,7 @@
             formdata.append("modleCode.modelCodeId",modleCodeId);
             formdata.append("size.sizeId",sizeId);
             formdata.append("proTexture.proTextureId",centerId);
-
+            formdata.append("proImg.proImgAlt",proImgAlt)
             formdata.append("proMsg",proMsg);
             //formdata.append("pageViews",pageViews);
             formdata.append("proSrc",proSrc);

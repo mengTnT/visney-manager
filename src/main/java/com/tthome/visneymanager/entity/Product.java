@@ -56,7 +56,6 @@ public class Product implements Serializable {
     private String proMetaDescription;
 
     private String proMetaTitle;
-
-
+    private ProImg proImg;
 
 }

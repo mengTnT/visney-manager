@@ -33,4 +33,8 @@ public class ProImgContrller {
     public Map deleteProImg(int [] ids){
         return  proImgService.deleteProImg(ids);
     }
+    @PostMapping("/deleteProImgbyProIds")
+    public int  deleteProImgbyProId(int[] proIds){
+        return proImgService.deleteProImgbyProId(proIds);
+    }
 }

@@ -27,6 +27,7 @@ public interface ProductService {
 
     public Map updateProduct(Product product);
 
-    public Map deleteProduct(int[] proIds);
+    public Map deleteProduct(int[] proIds,int[] pageViewsIds);
 
+    public Product selectProductById(int proId);
 }

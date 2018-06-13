@@ -11,5 +11,6 @@ public interface ProImgService {
     public Map addProImg(ProImg proImg);
     public Map deleteProImg(int[] proImgIds);
     public Map updateProImg(ProImg proImg);
+    public int  deleteProImgbyProId(int[] proIds);
 
 }
