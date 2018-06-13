@@ -87,9 +87,76 @@ LEFT JOIN pro_category t6 ON t1.series_id=t6.pro_category_id
 LEFT JOIN pro_category t7 ON t1.texture_id=t7.pro_category_id
 LEFT JOIN size t8 ON t1.size_id=t8.size_id
 LEFT JOIN page_views t9 ON t1.page_views_id=t9.page_views_id
-
 LEFT JOIN modle_code t11 ON t1.model_code_id=t11.model_code_id
+        <where>
+        <if test="brandName!=null and brandName!=''">
+            t2.brand_name LIKE "%"#{brandName}"%"
+        </if>
+        <if test="proName!=null and proName!=''">
+            and t1.pro_name LIKE "%"#{proName}"%"
+        </if>
+        <if test="proStyleName!=null and proStyleName!=''">
+            and t4.pro_category_name LIKE "%"#{proStyleName}"%"
+        </if>
+        <if test="proTypeName!=null and proTypeName!=''">
+            and t5.pro_category_name LIKE "%"#{proTypeName}"%"
+        </if>
+        <if test="proSeriesName!=null and proSeriesName!=''">
+            and t6.pro_category_name LIKE "%"#{proSeriesName}"%"
+        </if>
+        <if test="proTextureName!=null and proTextureName!=''">
+            and t7.pro_category_name LIKE "%"#{proTextureName}"%"
+        </if>
+        <if test="proPositionName!=null and proPositionName!=''">
+            and t3.pro_category_name LIKE "%"#{proPositionName}"%"
+        </if>
+    </where>
+    order by t1.pro_add_time desc
 
     </select>
+
+        <select id="selectProductById" resultMap="BaseResultMap">
+             SELECT t1.*,t2.brand_name,t3.pro_category_name pname,t4.pro_category_name sname,t5.pro_category_name tname,t6.pro_category_name srname,t7.pro_category_name txname,t8.size_msg,t9.page_views_count,t11.model_code_name
+                from product t1
+                LEFT JOIN brand t2 ON t1.brand_id=t2.brand_id
+                LEFT JOIN pro_category t3 ON t1.position_id=t3.pro_category_id
+                LEFT JOIN pro_category t4 ON t1.style_id=t4.pro_category_id
+                LEFT JOIN pro_category t5 ON t1.type_id=t5.pro_category_id
+                LEFT JOIN pro_category t6 ON t1.series_id=t6.pro_category_id
+                LEFT JOIN pro_category t7 ON t1.texture_id=t7.pro_category_id
+                LEFT JOIN size t8 ON t1.size_id=t8.size_id
+                LEFT JOIN page_views t9 ON t1.page_views_id=t9.page_views_id
+                LEFT JOIN modle_code t11 ON t1.model_code_id=t11.model_code_id
+                where t1.pro_id=#{proId}
+
+        </select>
+
+
+
+
+
+
+    <insert id="addProduct" useGeneratedKeys="true" keyProperty="proId">
+        insert into product
+               values(0,#{proName},#{brand.brandId},#{proPrice},#{proPosition.proPositionId},#{modleCode.modelCodeId},#{proStyle.proStyleId},#{proType.proTypeId},#{proSeries.proSeriesId},
+               #{proTexture.proTextureId},#{size.sizeId},#{proMsg},#{pageViews.pageViewsId},#{proSrc},NOW(),NOW(),#{proPutaway},#{proMetaKeyWord},#{proMetaDescription},
+               #{proMetaTitle})
+
+    </insert>
+
+    <update id="updateProduct">
+        update product set pro_name=#{proName},brand_id=#{brand.brandId},pro_price=#{proPrice},position_id=#{proPosition.proPositionId},model_code_id=#{modleCode.modelCodeId},
+               style_id=#{proStyle.proStyleId},type_id=#{proType.proTypeId},series_id=#{proSeries.proSeriesId}, texture_id=#{proTexture.proTextureId},size_id=#{size.sizeId},
+               pro_msg=#{proMsg},page_views_id=#{pageViews.pageViewsId},pro_src=#{proSrc},pro_update_time=now(),pro_putaway=#{proPutaway},
+               pro_meta_keyword=#{proMetaKeyWord},#{proMetaDescription},
+               pro_meta_title=#{proMetaTitle}
+    </update>
+    <delete id="deleteProduct">
+        delete from product where
+        pro_id in
+        <foreach collection="array" open="(" close=")" separator=","
+                 item="id">#{id}
+        </foreach>
+    </delete>
 
 </mapper>

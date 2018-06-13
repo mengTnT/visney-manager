@@ -68,4 +68,44 @@ public class ProCategoryServiceImpl implements ProCategoryService {
         }
         return map;
     }
+
+    @Override
+    public Map getProCategoryByPosition() {
+        Map map=new HashMap();
+        List<ProCategory> proCategoryByPosition = proCategoryDao.getProCategoryByPosition();
+        map.put("pro",proCategoryByPosition);
+        return map;
+    }
+
+    @Override
+    public Map getProCategoryByStyle() {
+        Map map=new HashMap();
+        List<ProCategory> proCategoryByStyle = proCategoryDao.getProCategoryByStyle();
+        map.put("pro",proCategoryByStyle);
+        return map;
+    }
+
+    @Override
+    public Map getProCategoryBySeries() {
+        Map map=new HashMap();
+        List<ProCategory> proCategoryBySeries = proCategoryDao.getProCategoryBySeries();
+        map.put("pro",proCategoryBySeries);
+        return map;
+    }
+
+    @Override
+    public Map getProCategoryByTexture() {
+        Map map=new HashMap();
+        List<ProCategory> proCategoryByTexture = proCategoryDao.getProCategoryByTexture();
+        map.put("pro",proCategoryByTexture);
+        return map;
+    }
+
+    @Override
+    public Map getProCategoryByType() {
+        Map map=new HashMap();
+        List<ProCategory> proCategoryByType = proCategoryDao.getProCategoryByType();
+            map.put("pro",proCategoryByType);
+        return map;
+    }
 }

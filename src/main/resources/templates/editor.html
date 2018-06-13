@@ -37,8 +37,11 @@
         封面图片：<input type="file" onchange="changImg(event)" name="articleImgSrc" id="article_Img">
         图片alt属性<input type="text" id="img_alt"><br>
 
-            <img id="imghead" border="0" src="img/photo_icon.png" height="100px",width="100px">
-        </br>
+        <div id="preview">
+            <img id="imghead" border="0" src="img/photo_icon.png" width="90"
+                 height="90">
+        </div>
+
         meta标签title：<input type="text" id="article_meta_title">
         meta标签description：<input type="text" id="article_meta_description">
         meta标签keyword：<input type="text" id="article_meta_keyword">
@@ -62,16 +65,22 @@
     </script>
     <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
 </div>
+
 <div id="btns">
     <div>
+
+        <button onclick="articleAdd()">添加内容</button>
+        <button onclick="getContent()">获得内容</button>
+        <button onclick="setContent()">写入内容</button>
+        <button onclick="hasContent()">判断是否有内容</button>
+
         <button onclick="articleAdd()">确认提交</button>
+
 
     </div>
 
 </div>
-<div>
 
-</div>
 
 
 <script type="text/javascript">
@@ -340,6 +349,7 @@ if (text_value){
                 var articletext=getContent();
 
                 var articleimg=document.getElementById("article_Img").files[0];
+                console.log(articleimg+"----------------------------------------------------")
 
                 var imgalt = $("#img_alt").val();
 

@@ -15,4 +15,12 @@ public interface ProCategoryDao {
     public int addProCategory(ProCategory proCategory);
     public int updateProCategory(ProCategory proCategory);
     public int deleteProCategory(int[] proCategoryId);
+
+    public List<ProCategory> getProCategoryByPosition();
+    public List<ProCategory> getProCategoryByStyle();
+    public List<ProCategory> getProCategoryBySeries();
+    public List<ProCategory> getProCategoryByTexture();
+    public List<ProCategory> getProCategoryByType();
+
+
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tthome.visneymanager.dao.BrandDao">
+
+    <resultMap id="brand" type="com.tthome.visneymanager.entity.Brand">
+        <result column="brand_id" property="brandId"></result>
+        <result column="brand_name" property="brandName"></result>
+    </resultMap>
+
+    <select id="getAllBrand" resultMap="brand">
+     SELECT * FROM brand
+    <if test="end!=0 and start!=0">
+        limit #{start}，#{end}
+    </if>
+    </select>
+
+
+    <select id="getAllCount" resultType="int">
+        select count(0) from brand
+    </select>
+    <!--add-->
+    <insert id="addBrand" >
+        insert into brand values (0,#{brandName})
+    </insert>
+    <!--update-->
+    <update id="updateBrand">
+        update brand set brand_name=#{brandName}
+        where brand_id=#{brandId}
+    </update>
+    <delete id="deleteBrand">
+        delete  from brand
+        where brand_id in
+        <foreach collection="array" open="(" close=")" separator=","
+                 item="id">#{id}
+        </foreach>
+    </delete>
+
+</mapper>

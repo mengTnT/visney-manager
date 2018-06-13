@@ -1,6 +1,6 @@
 
 // input file文件上传控件
-var aInput = document.getElementsByTagName('input');
+var aInput = document.getElementsByName('imges1');
 // 图片列表
 var oUl = document.getElementById('ul1');
 // 拖拽区域
@@ -13,10 +13,11 @@ var arr = [];
 var aSize = [];
 // 文件名称
 var aTitle = [];
+var formdata = new  FormData();
     for( var i=0;i<aInput.length;i++ ){
         aInput[i].onchange = function () {
             var This = this;
-            if( this.files.length ){
+            if(this.files.length){
                 for( var i=0;i<this.files.length;i++ ){
                     (function (i) {// 用了闭包 里面的this指向window，在外面定义 This
                         // 每个文件的详细信息，push到数组
@@ -146,18 +147,25 @@ var aTitle = [];
     }
 
     // 点击上传多文件
-    oBtn.addEventListener('click',function () {
-        var oFormData = new  FormData();
+  oBtn.addEventListener('click',function () {
+
         for ( var i=0;i<arr.length;i++ ){
             (function (i) {
-                oFormData.append('files',arr[i]);
+                formdata.append('files',arr[i]);
+
             })(i);
+
         };
 
+      $("#uploadImg1").window({
+          closed:true
+      })
+  })
 
+/*
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/article/articleCover_img_upload',
+            url: 'http://localhost:9999/visney-manager/product/addproduct',
             data:oFormData,
             async: false,
             processData: false,
@@ -175,7 +183,7 @@ var aTitle = [];
 
             }
         })
-    });
+    });*/
 
 
 

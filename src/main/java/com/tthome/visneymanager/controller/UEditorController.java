@@ -20,6 +20,14 @@ public class UEditorController {
     private String showPage() {
         return "editor";
     }
+    @RequestMapping("/img_upload")
+    private String showPage2() {
+        return "img_upload";
+    }
+    @RequestMapping("/pro")
+    private String showPage1() {
+        return "pro";
+    }
 
     @RequestMapping(value = "/config")
     public void config(HttpServletRequest request, HttpServletResponse response)throws Exception {

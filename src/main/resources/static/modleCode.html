@@ -13,23 +13,22 @@
 
 </head>
 <body>
-<!--展示数据-->
-<table id="showAllArticleEditor"></table>
-<!--工具栏-->
+
+<table id="showModleCode"></table>
+
 <div id="toolBar">
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="addE()"></a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" onclick="updateE()"></a>
-  <!--  <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="deleteE()"></a>
--->
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="deleteE()"></a>
 </div>
 
 
-<!--修改文章-->
-<div id="updateArticleEditor" class="easyui-dialog" data-options="closed:true">
-    <form id="updateArticleEditorInformation" enctype="multipart/form-data" method="post">
 
-        <input name="articleEditorId" id="articleEditorId" type="hidden"><br>
-        编辑姓名：<input name="articleEditorName" id="articleEditorName" ><br>
+<div id="updateModleCode" class="easyui-dialog" data-options="closed:true">
+    <form id="updateModleCodeInformation" enctype="multipart/form-data" method="post">
+
+        <input name="modelCodeId" id="modelCodeId" type="hidden"><br>
+        产品型号：<input name="modelCodeName" id="modelCodeName" ><br>
 
         <center>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro1()">确认</a>
@@ -39,11 +38,11 @@
     </form>
 
 </div>
-<div id="addArticleEditor" class="easyui-dialog" data-options="closed:true">
-    <form id="addArticleEditorInformation" enctype="multipart/form-data" method="post">
+<div id="addModleCode" class="easyui-dialog" data-options="closed:true">
+    <form id="addModleCodeInformation" enctype="multipart/form-data" method="post">
 
-        <input name="articleEditorId"  type="hidden"><br>
-        编辑姓名：<input name="articleEditorName"  ><br>
+        <input name="modelCodeId"  type="hidden"><br>
+        产品型号：<input name="modelCodeName"  ><br>
 
         <center>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro3()">确认</a>
@@ -53,12 +52,13 @@
     </form>
 
 </div>
+
 <script type="text/javascript">
     $(function () {
     /*分页 展示所有*/
         //1.2把table转换成一个datagrid效果
-        $("#showAllArticleEditor").datagrid({
-            url:"http://192.168.100.250:9999/visney-manager/articleEditor/getAllArticleEditor",//请求路径
+        $("#showModleCode").datagrid({
+            url:"http://localhost:9999/visney-manager/modleCode/getAllModleCode",//请求路径
             //在底部显示分页工具栏，设置为true之后，datagrid再发生ajax的时候就会发送两个参数
             pagination:true,//如果为true，则在DataGrid控件底部显示分页工具栏。
             border:true,
@@ -67,8 +67,8 @@
             toolbar:"#toolBar",//顶部添加工具栏
             columns:[[
                 {checkbox: true},
-                {title:"编号",field:"articleEditorId",width:200},//每一列是一个对象
-                {title:"编辑姓名",field:"articleEditorName", width:200},
+                {title:"型号ID",field:"modelCodeId",width:200},//每一列是一个对象
+                {title:"产品型号",field:"modelCodeName", width:200},
             ]],
         })
 
@@ -76,7 +76,7 @@
 /*update*/
     //加载修改页面。。。。。。。。。。。。
     $(function(){
-        $("#updateArticleEditor").dialog({
+        $("#updateModleCode").dialog({
 
             title:"修改页面",
             width:860,
@@ -91,22 +91,22 @@
     function updateE(){
         //返回第一个被选中的行或如果没有选中的行则返回null。
 
-        var va=$("#showAllArticleEditor").datagrid("getChecked");
-        var vas=$("#showAllArticleEditor").datagrid("getSelected");
-        if(va.length>1||va.length<1){
+        var vas=$("#showModleCode").datagrid("getChecked");
+        var va=$("#showModleCode").datagrid("getSelected");
+        if(vas.length>1||vas.length<1||vas==null){
             $.messager.alert("提示框","请选择一个要修改的数据","warming");
         }else{
-            $("#updateArticleEditorInformation input" ).val("");
-            $("#updateArticleEditor").dialog("open");
-            $("#articleEditorId").val(vas.articleEditorId);
-            $("#articleEditorName").val(vas.articleEditorName);
+            $("#updateModleCodeInformation input" ).val("");
+            $("#updateModleCode").dialog("open");
+            $("#modelCodeId").val(va.modelCodeId);
+            $("#modelCodeName").val(va.modelCodeName);
         }
     }
     //在修改页面 点击修改 修改
     function pro1(){
         //点击form表单 用ajax提交
-        $("#updateArticleEditorInformation").form("submit",{
-            url:"http://192.168.100.250:9999/visney-manager/articleEditor/updateArticleEditor",
+        $("#updateModleCodeInformation").form("submit",{
+            url:"http://localhost:9999/visney-manager/modleCode/updateModleCode",
 
             success:function(data){
                 var da=eval('(' + data + ')');
@@ -115,10 +115,10 @@
                     $.messager.alert("提示框"," 修改成功","info");//提示框
                     //关闭添加  对话框
 
-                    $("#updateArticleEditor").dialog("close");
+                    $("#updateModleCode").dialog("close");
 
                     //表格重新加载
-                    $("#showAllArticleEditor").datagrid("reload");
+                    $("#showModleCode").datagrid("reload");
                 }else{
                     $.messager.alert("提示框","修改失败，请确认","warming");
                 }
@@ -127,12 +127,12 @@
     }
     //点击取消 取消修改
     function pro2(){
-        $("#updateArticleEditor").dialog("close");
+        $("#updateModleCode").dialog("close");
     }
     /*添加界面开始*/
     //添加页面
     $(function(){
-        $("#addArticleEditor").dialog({
+        $("#addModleCode").dialog({
             title:"添加页面",
             width:860,
             height: 400,
@@ -143,23 +143,23 @@
     })
     //显示添加 页面
     function addE(){
-        $("#addArticleEditor").dialog("open");
+        $("#addModleCode").dialog("open");
     }
     //点击添加按钮添加
     function pro3(){
 //              发送ajxs请求
 
-        $("#addArticleEditorInformation").form('submit',{
-            url:"http://192.168.100.250:9999/visney-manager/articleEditor/addArticleEditor",
+        $("#addModleCodeInformation").form('submit',{
+            url:"http://localhost:9999/visney-manager/modleCode/addModleCode",
             type:"post",
             success:function (data) {
                 var da = eval('(' + data + ')');
                 if(da.msg){
                     $.messager.alert("提示框","添加成功","info")
                     //	关闭对话框
-                    $("#addArticleEditor").dialog("close")
+                    $("#addModleCode").dialog("close")
                     //表格重新加载
-                    $("#showAllArticleEditor").datagrid("reload");
+                    $("#showModleCode").datagrid("reload");
                 }else{
                     $.messager.alert("提示框","添加失败","warming");
                 }
@@ -168,12 +168,12 @@
     }
     //点击取消按钮 取消添加
     function pro4(){
-        $("#addArticleEditor").dialog("close");
+        $("#addModleCode").dialog("close");
     }
 
-    /*//点击删除按钮执行  删除操作
+    //点击删除按钮执行  删除操作
     function  deleteE(){
-        var rows = $("#showAllArticleEditor").datagrid("getSelections");//返回所有被选中的行，当没有记录被选中的时候将返回一个空数组。
+        var rows = $("#showModleCode").datagrid("getSelections");//返回所有被选中的行，当没有记录被选中的时候将返回一个空数组。
 
         if(rows.length==0){
             $.messager.alert("提示框","请删除要选择的内容","warning");
@@ -182,32 +182,31 @@
                 if(r){
                     var ids = new Array();//创建一个数组
                     for(var i = 0;i<rows.length;i++){
-                        ids[i]= rows[i].articleEditorId;//这里是（对象.属性）
-                        alert(ids[1]);              }
-
-
+                        ids[i]= rows[i].modelCodeId;//这里是（对象.属性）
+                    }
                     $.ajax({
-                        url:"http://192.168.100.250:9999/visney-manager/articleEditor/deleteArticleEditor",
+                        url:"http://localhost:9999/visney-manager/modleCode/deleteModleCode",
                         type:"post",
                         data:"ids="+ids,//data:{"ids":ids}
                         success:function(data){
-                            data=eval('(' + data + ')');
                             if(data.msg){
-                                $.messager.alert("提示框","删除成功","info");
-                                $("#showAllArticleEditor").datagrid("reload");//刷新表格
+                                $.messager.alert("提示框","删除成功","info");//提示框
+                                //关闭添加  对话框
+
+                                $("#updateModleCode").dialog("close");
+
+                                //表格重新加载
+                                $("#showModleCode").datagrid("reload");
                             }else{
-                                $.messager.alert("提示框","删除失败","warning");
-
+                                $.messager.alert("提示框","删除失败，请确认","warming");
                             }
-
-                        },
-
+                        }
                     });
 
                 }
             });
         }
-    }*/
+    }
 </script>
 </body>
 

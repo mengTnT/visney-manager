@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tthome.visneymanager.dao.ModleCodeDao">
+
+    <resultMap id="size" type="com.tthome.visneymanager.entity.ModleCode">
+        <result column="model_code_id" property="modelCodeId"></result>
+        <result column="model_code_name" property="modelCodeName"></result>
+    </resultMap>
+
+    <select id="getAllModleCode" resultMap="size">
+     SELECT * FROM modle_code
+        <if test="end!=0 and start!=0">
+            limit #{start}，#{end}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="int">
+        select count(0) from modle_code
+    </select>
+    <!--add-->
+    <insert id="addModleCode" >
+        insert into modle_code values (0,#{modelCodeName})
+    </insert>
+    <!--update-->
+    <update id="updateModleCode">
+        update modle_code set model_code_name=#{modelCodeName}
+        where model_code_id=#{modelCodeId}
+    </update>
+    <delete id="deleteModleCode">
+        delete  from modle_code
+        where model_code_id in
+        <foreach collection="array" open="(" close=")" separator=","
+                 item="id">#{id}
+        </foreach>
+    </delete>
+
+</mapper>

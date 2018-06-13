@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tthome.visneymanager.dao.SizeDao">
+<mapper namespace="com.tthome.visneymanager.dao.ProCategoryDao">
 
-    <resultMap id="ProCategory" type="com.tthome.visneymanager.dao.ProCategoryDao">
+    <resultMap id="proCategory" type="com.tthome.visneymanager.entity.ProCategory">
         <result column="pro_category_id" property="proCategoryId"></result>
         <result column="pro_category_name" property="proCategoryName"></result>
         <result column="parent_id" property="parentId"></result>
     </resultMap>
 
-    <select id="getAllProCategory" resultMap="ProCategory">
+    <select id="getAllProCategory" resultMap="proCategory">
      SELECT * FROM pro_category limit #{start},#{end}
     </select>
 
@@ -16,6 +16,27 @@
         select count(0) from pro_category
     </select>
 
+    <select id="getProCategoryByPosition" resultMap="proCategory">
+        select * from pro_category where parent_id is null and pro_category_id &lt;5
+    </select>
+    <select id="getProCategoryByStyle" resultMap="proCategory">
+        select * from pro_category where parent_id=7
+    </select>
+    <select id="getProCategoryBySeries" resultMap="proCategory">
+        select * from pro_category where parent_id=6
+    </select>
+    <select id="getProCategoryByTexture" resultMap="proCategory">
+        select * from pro_category where parent_id=5
+    </select>
+    <select id="getProCategoryByType" resultMap="proCategory">
+        select * from pro_category where parent_id &lt;4
+    </select>
+
+
+    <!--add-->
+    <insert id="addProCategory" >
+        insert into pro_category values (0,#{proCategoryName},#{parentId})
+    </insert>
     <!--update-->
     <update id="updateProCategory">
         update pro_category set pro_category_name=#{proCategoryName},parent_id=#{parentId}

@@ -14,4 +14,10 @@ public interface ProCategoryService {
     public Map addProCategory(ProCategory proCategory);
     public Map updateProCategory(ProCategory proCategory);
     public Map deleteProCategory(int[] proCategoryId);
+
+    public Map getProCategoryByPosition();
+    public Map getProCategoryByStyle();
+    public Map getProCategoryBySeries();
+    public Map getProCategoryByTexture();
+    public Map getProCategoryByType();
 }

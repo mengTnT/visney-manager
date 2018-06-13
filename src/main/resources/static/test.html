@@ -13,31 +13,64 @@
     <link type="text/css" rel="stylesheet" href="css/easyui.css">
     <link type="text/css" rel="stylesheet" href="css/icon.css">
 </head>
-<body>
-
-
-    <div id="win">
+</head>
+<body>  <table>
+    <div id="ProductImg" class="easyui-dialog" data-options="closed:true">
+        <section id="wrap">
+            <h1>图片拖拽上传示范</h1>
+            <section class="area">
+                <article id="upload" draggable="true">
+                    <span></span>
+                    <div class="file">选择图片<form id="form" runat="server" method="post" enctype="multipart/form-data" ><input type="file"  multiple="multiple" id="imges1" name="imges1" class="upimages" enctype="multipart/form-data"/></form></div>
+                </article>
+                <article id="drag">请将图片拖到此区域</article>
+            </section>
+            <section class="info">
+                <p>已选中<span class="num" id='picLen'>0</span>张图片，共<span class="size" id='picSize'>0</span>MB</p>
+                <article>
+                    <div class="file">继续选择<input multiple="multiple" type="file" id="imges2" name="imges1" class="upimages" enctype="multipart/form-data"/></div>
+                    <div class="upload" id='btn'>开始上传</div>
+                </article>
+            </section>
+            <section class="list">
+                <ul id="ul1">
+                </ul>
+            </section>
+        </section>
+        <script type="text/javascript" th:src="@{js/jquery-3.3.1.min.js}"></script>
+        <script type="text/javascript" th:src="@{js/jquery-3.3.1.min.js}"></script>
 
     </div>
-</div>
-<script type="text/javascript" >
-    $(function () {
+    <a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" ONCLICK="pro1()">easyui</a>
 
-        $('#win').window({
-            title:"文本编辑器",
-            width:600,
-            height:400,
-            closed:true,
-            maximized:true,
-            content:"<iframe id=\"myArticleIframe\" src=\"/visney-manager/editor\" width=\"100%\" height=\"100%\"></iframe>"
-        });
+</table>
+
+    <script type="text/javascript" >
+
+        function pro1(){
+             $.ajax({
+                type: 'post',
+                url: 'http://localhost:9999/visney-manager/brand/getAllBrand',
+
+            success: function (value) {
+                var content1 = "<select id=\"brand_select\">"
+                console.log(value.rows+"222");
+                for (var i = 0; i < value.rows.length; i++) {
+                    content1 += "<option value=" + value.rows[i].brandId + ">" + value.rows[i].brandName + "</option>";
+                }
+                var result = content1 + "</select>";
+
+                $("#brand").html(result)
 
 
+                // $("#brand_select").find("option[value = '"+brand_id+"']").attr("selected","selected");
 
-    })
+            }
+        })
+
+        }
+
 
 </script>
-
-
 </body>
 </html>

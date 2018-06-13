@@ -9,415 +9,414 @@
     <link type="text/css" rel="stylesheet" href="css/css.css">
     <link type="text/css" rel="stylesheet" href="css/easyui.css">
     <link type="text/css" rel="stylesheet" href="css/icon.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
 </head>
 <body>
+
 <!--展示数据-->
-<table id="showAllProduct"></table>
-<!--添加导航meta标签-->
-<div id="addProduct" class="easyui-dialog" data-options="closed:true">
-    <form id="addProductInformation" enctype="multipart/form-data" method="post">
-        导航名称：<input name="navigationName"><br>
-        Title：<input name="navigationTitle"><br>
-        Description：<input name="navigationDescription"><br>
-        Keyword：<input name="navigationKeyword"><br>
-        <center>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro1()">确认</a>
-        </center>
 
-    </form>
+<!--<div id="toolBar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="addE()"></a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" onclick="updateE()"></a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="deleteE()"></a>
+</div>-->
+<table id="showAllProduct">
+    <div id="tb1">
+
+        <input name="proName" id="ss1" class="easyui-searchbox" style="width:200px"
+               data-options="searcher:search,prompt:'所属产品名搜索'"></input>
+        <input name="brandName" id="ss2" class="easyui-searchbox" style="width:200px"
+               data-options="searcher:search,prompt:'根据品牌名搜索'"></input>
+        <input name="proStyleName" id="ss3" class="easyui-searchbox" style="width:200px"
+               data-options="searcher:search,prompt:'根据产品风格搜索'"></input>
+        <input name="proTypeName" id="ss4" class="easyui-searchbox" style="width:200px"
+               data-options="searcher:search,prompt:'根据产品类型搜索'"></input>
+        <input name="proSeriesName" id="ss5" class="easyui-searchbox" style="width:200px"
+               data-options="searcher:search,prompt:'根据产品系列搜索'"></input>
+        <input name="proTextureName" id="ss6" class="easyui-searchbox" style="width:200px"
+               data-options="searcher:search,prompt:'根据产品材质搜索'"></input>
+        <input name="proPositionName" id="ss7" class="easyui-searchbox" style="width:200px"
+               data-options="searcher:search,prompt:'根据产品位置搜索'"></input>
+    </div>
+
+</table>
+<div id="win_add">
+
 </div>
-<!--修改meta标签内容-->
-<div id="updateProduct" class="easyui-dialog" data-options="closed:true">
-    <form id="updateProductInformation" enctype="multipart/form-data" method="post">
 
-        <input name="navigationId" id="navigationId" type="hidden"><br>
-        导航名：<input name="navigationName" id="navigationName"><br>
-        Title：<input name="navigationTitle" id="navigationTitle"><br>
-        Description：<input name="navigationDescription" id="navigationDescription"><br>
-        Keyword：<input name="navigationKeyword" id="navigationKeyword"><br>
+<div id="win_update">
 
-        <center>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro2()">确认</a>
-        </center>
-    </form>
+<script type="text/javascript">
+    /*关键词搜索*/
+    function search(value,name){
+
+        var ca1 = $("#ss1").searchbox('getValue');
+        var ca2 = $("#ss2").searchbox('getValue');
+        var ca3 = $("#ss3").searchbox('getValue');
+        var ca4 = $("#ss4").searchbox('getValue');
+        var ca5 = $("#ss5").searchbox('getValue');
+        var ca6 = $("#ss6").searchbox('getValue');
+        var ca7 = $("#ss7").searchbox('getValue');
+
+        alert(value+":"+name)
+        $('#showAllProduct').datagrid({
+            queryParams: {
+                proName:ca1,
+                brandName:ca2,
+                proStyleName:ca3,
+                proTypeName:ca4,
+                proSeriesName:ca5,
+                proTextureName:ca6,
+                proPositionName:ca7,
+            }
+
+        });
+
+    }
+</script>
+
 
 </div>
 <script type="text/javascript">
+
     $(function () {
+        $('#win_add').window({
+            title:"文本编辑器",
+            width:600,
+            height:400,
+            closed:true,
+            maximized:true,
+            content:"<iframe id=\"myProductframe\" src=\"/visney-manager/pro\" width=\"100%\" height=\"100%\"></iframe>",
+            onClose:function () {
+
+                $("#showAllProduct").datagrid('reload');
+            }
+        });
+    $('#win_update').window({
+            title:"文本编辑器",
+            width:600,
+            height:400,
+            closed:true,
+            maximized:true,
+            onClose:function () {
+
+                $("#showAllProduct").datagrid('reload');
+            }
+        });
+
 
 
         $("#showAllProduct")
-            .datagrid(
-                {
-                    url: 'http://192.168.100.250:9999/visney-manager/product/getAll',
-                    fitColumns: true,
+                .datagrid(
+                    {
+                        url: 'http://localhost:9999/visney-manager/product/getAll',
+                        fitColumns: true,
 
-                    columns: [[{
-                        /* field: '',*/
-                        checkbox: true
-                    }, {
-                        field: 'proId',
-                        align: 'center',
-                        title: 'Id',
-                        width: 200,
+                        columns: [[{
+                            /* field: '',*/
+                            checkbox: true
+                        }, {
+                            field: 'proId',
+                            align: 'center',
+                            title: 'Id',
+                            width: 200,
 
-                    },{
-                        field: 'proName',
-                        align: 'center',
-                        title: '产品名',
-                        width: 200,
+                        }, {
+                            field: 'proName',
+                            align: 'center',
+                            title: '产品名',
+                            width: 200,
 
-                    },{
-                        field: 'proPrice',
-                        align: 'center',
-                        title: '价格',
-                        width: 200,
+                        }, {
+                            field: 'proPrice',
+                            align: 'center',
+                            title: '价格',
+                            width: 200,
 
-                    },{
-                        field: 'proPosition',
-                        align: 'center',
-                        title: '位置',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                          return value.proPositionName
-
-                        }
-
-                    },{
-                        field: 'proStyle',
-                        align: 'center',
-                        title: '风格',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                            return value.proStyleName
-
-                        }
-
-                    },{
-                        field: 'proType',
-                        align: 'center',
-                        title: '类型',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                            return value.proTypeName
-
-                        }
-
-                    },{
-                        field: 'proSeries',
-                        align: 'center',
-                        title: '系列',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                            return value.proSeriesName
-
-                        }
-
-                    },{
-                        field: 'proTexture',
-                        align: 'center',
-                        title: '材质',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                            return value.proTextureName
-
-                        }
-
-                    },{
-                        field: 'brand',
-                        align: 'center',
-                        title: '品牌',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                            return value.brandName
-
-                        }
-
-                    },{
-                        field: 'modleCode',
-                        align: 'center',
-                        title: '型号',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                            return value.modelCodeName
-
-                        }
-
-                    },{
-                        field: 'size',
-                        align: 'center',
-                        title: '尺寸',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                            return value.siziMsg
-
-                        }
-
-                    },{
-                        field: 'proMsg',
-                        align: 'center',
-                        title: '介绍',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                            if(value!=null) {
-                                return value.replace(/<\/?.+?>/g, "").substring(0, 20)
-                            }
-                        }
-
-                    },{
-                        field: 'pageViews',
-                        align: 'center',
-                        title: '浏览量',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                            return value.pageViewsCount
-
-                        }
-
-
-                    },{
-                        field: 'proSrc',
-                        align: 'center',
-                        title: '网店地址',
-                        width: 200,
-
-                    },{
-                        field: 'proAddTime',
-                        align: 'center',
-                        title: '添加时间',
-                        width: 200,
-
-                    },{
-                        field: 'proUpdateTime',
-                        align: 'center',
-                        title: '修改时间',
-                        width: 200,
-
-                    },{
-                        field: 'proPutaway',
-                        align: 'center',
-                        title: '是否上架',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                            // value  当前列值
-                            // row 当前行对象
-                            // index  行数据下标
-                            if (value==1) {
-                                return "是";
+                        }, {
+                            field: 'proPosition',
+                            align: 'center',
+                            title: '位置',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                return value.proPositionName;
 
                             }
-                            else{
-                                return "否";
+
+                        }, {
+                            field: 'proStyle',
+                            align: 'center',
+                            title: '风格',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                return value.proStyleName
+
                             }
 
-                        }
+                        }, {
+                            field: 'proType',
+                            align: 'center',
+                            title: '类型',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                return value.proTypeName
 
-                    },{
-                        field: 'proImgs',
-                        align: 'center',
-                        title: '封面图片',
-                        width: 200,
-                        formatter: function (value, row, index) {
-                            // value  当前列值
-                            // row 当前行对象
-                            // index  行数据下标
-                            if (value) {
-                                for(var i=0;i<value.length;i++) {
-                                    if(i==0) {
-                                        return "<img width=50px height=50px src='" + value[i].proImgSrc + "'>";
+                            }
+
+                        }, {
+                            field: 'proSeries',
+                            align: 'center',
+                            title: '系列',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                return value.proSeriesName
+
+                            }
+
+                        }, {
+                            field: 'proTexture',
+                            align: 'center',
+                            title: '材质',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                return value.proTextureName
+
+                            }
+
+                        }, {
+                            field: 'brand',
+                            align: 'center',
+                            title: '品牌',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                return value.brandName
+
+                            }
+
+                        }, {
+                            field: 'modleCode',
+                            align: 'center',
+                            title: '型号',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                return value.modelCodeName
+
+                            }
+
+                        }, {
+                            field: 'size',
+                            align: 'center',
+                            title: '尺寸',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                return value.siziMsg
+
+                            }
+
+                        }, {
+                            field: 'proMsg',
+                            align: 'center',
+                            title: '介绍',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                if (value != null) {
+                                    return value.replace(/<\/?.+?>/g, "").substring(0, 20)
+                                }
+                            }
+
+                        }, {
+                            field: 'pageViews',
+                            align: 'center',
+                            title: '浏览量',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                return value.pageViewsCount
+
+                            }
+
+
+                        }, {
+                            field: 'proSrc',
+                            align: 'center',
+                            title: '网店地址',
+                            width: 200,
+
+                        }, {
+                            field: 'proAddTime',
+                            align: 'center',
+                            title: '添加时间',
+                            width: 200,
+
+                        }, {
+                            field: 'proUpdateTime',
+                            align: 'center',
+                            title: '修改时间',
+                            width: 200,
+
+                        }, {
+                            field: 'proPutaway',
+                            align: 'center',
+                            title: '是否上架',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                // value  当前列值
+                                // row 当前行对象
+                                // index  行数据下标
+                                if (value == 1) {
+                                    return "是";
+
+                                }
+                                else {
+                                    return "否";
+                                }
+
+                            }
+
+                        }, {
+                            field: 'proImgs',
+                            align: 'center',
+                            title: '封面图片',
+                            width: 200,
+                            formatter: function (value, row, index) {
+                                // value  当前列值
+                                // row 当前行对象
+                                // index  行数据下标
+                                if (value) {
+                                    for (var i = 0; i < value.length; i++) {
+                                        if (i == 0) {
+                                            /* console.log(value[i].proImgSrc+"zzzzzzzzzzzzzzzzzzzz")*/
+                                            return "<img width=50px height=50px src='" + value[i].proImgSrc + "'>";
+                                        }
                                     }
                                 }
                             }
+                        }, {
+                            field: 'proMetaKeyWord',
+                            align: 'center',
+                            title: 'Keyword',
+                            width: 200,
+
+                        }, {
+                            field: 'proMetaDescription',
+                            align: 'center',
+                            title: 'Description',
+                            width: 200,
+
+                        }, {
+                            field: 'proMetaTitle',
+                            align: 'center',
+                            title: 'Title',
+                            width: 200,
 
                         }
+                        ]],
+                        striped: true,
+                        pagination: true,
+                        pageSize: 20,
+                        /* pageList: [10,20,30,40],*/
+                        toolbar: [
+                            {
+                                iconCls: 'icon-add',
+                                handler: function () {
+                                    $('#win_add').window({
+                                        closed: false
+                                    });
+                                }
+                            },
+                            {
+                                iconCls: 'icon-edit',
+                                handler: function () {
+                                    var checks= $("#showAllProduct").datagrid('getChecked');
+                                    if (checks.length > 1
+                                        || checks.length < 1) {
+                                        $.messager.alert("消息",
+                                            "请选择一条数据修改", 'warning');
+                                    }else {
+                                        var aid= $("#showAllProduct").datagrid('getChecked')[0].proId ;
+                                        console.log(aid+"=================")
+                                        var src="/visney-manager/pro?id="+aid;
 
-                    },{
-                        field: 'proMetaKeyWord',
-                        align: 'center',
-                        title: 'Keyword',
-                        width: 200,
+                                        var iframe="<iframe id='product_form' src='";
+                                        var append=src+"'"+ "width='100%' height='100%'>"
 
-                    },{
-                        field: 'proMetaDescription',
-                        align: 'center',
-                        title: 'Description',
-                        width: 200,
+                                        var result=iframe+append+"</iframe>"
 
-                    },{
-                        field: 'proMetaTitle',
-                        align: 'center',
-                        title: 'Title',
-                        width: 200,
+                                        console.log(result)
 
-                    }
-                    ]],
-                    striped: true,
-                    pagination: true,
-                    pageSize:20,
-                    /* pageList: [10,20,30,40],*/
-                    toolbar: [
-                        {
-                            iconCls: 'icon-add',
-                            handler: function () {
-                                $("#addProduct").dialog({
-                                    title: '添加导航meta',
-                                    width: 400,
-                                    modal: true,
-                                    closed: false
-                                })
+                                        $('#win_update').window({
+                                            closed:false,
+                                            content: result,
+                                        });
 
-                            }
-                        },
-                        '-',
-                        {
-                            iconCls: 'icon-edit',
-                            handler: function () {
-                                var cates = $("#showAllProduct")
-                                    .datagrid('getChecked');
-                                if (cates.length > 1
-                                    || cates.length < 1) {
-                                    $.messager.alert("消息",
-                                        "请选择一条数据修改", 'warning');
-                                } else {
-                                    $("#updateProduct").dialog(
-                                        {
-                                            title: '修改meta',
-                                            width: 400,
-                                            modal: true,
-                                            closed: false,
-
-                                        })
-                                    var navigationId;
-                                    var navigationName;
-                                    var navigationTitle;
-                                    var navigationDescription;
-                                    var navigationKeyword;
-                                    var navigationgetChecked = $("#showAllProduct").datagrid('getChecked');
-                                    $.each(navigationgetChecked, function (index,
-                                                                           cate) {
-                                        console.log(cate)
-
-
-                                        navigationId = cate.navigationId;
-                                        navigationName = cate.navigationName;
-                                        navigationTitle = cate.navigationTitle;
-                                        navigationDescription = cate.navigationDescription;
-                                        navigationKeyword = cate.navigationKeyword;
-
-                                    })
-
-                                    $("#navigationId").val(navigationId);
-                                    $("#navigationName").val(navigationName);
-                                    $("#navigationTitle").val(navigationTitle);
-                                    $("#navigationDescription").val(navigationDescription);
-                                    $("#navigationKeyword").val(navigationKeyword);
+                                    }
 
                                 }
-                            }
-                        },
-                        '-',
-                        {
-                            iconCls: 'icon-remove',
-                            handler: function () {
-                                var cates = $("#showAllProduct").datagrid('getChecked');
-                                if (cates.length < 1) {
-                                    $.messager.alert("消息", "请选择一条数据修改", 'warning');
-                                } else {
-                                    $.messager.confirm("消息", "您确定要删除吗？", function (x) {
-                                        if (x) {
-                                            var ids = [];
-                                            var cateIds = $("#showAllProduct").datagrid('getChecked');
-                                            $.each(cateIds, function (index, ii) {
-                                                ids.push(ii.navigationId);
-                                            })
-                                            $.ajax({
-                                                type: 'post',
-                                                url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaDelete',
-                                                data: 'ids=' + ids,
-                                                success: function (data) {
-                                                    if (data != 0) {
-                                                        $.messager.alert("消息", "删除成功", 'info');
-                                                        $("#showAllProduct").datagrid('reload');
-                                                    } else {
-                                                        $.messager.alert("消息", "删除失败", 'error');
-                                                        $("#showAllProduct").datagrid('reload');
+                            },
+
+                            {
+                                iconCls: 'icon-remove',
+                                handler: function () {
+                                    var cates = $("#showAllProduct").datagrid('getChecked');
+                                    if (cates.length < 1) {
+                                        $.messager.alert("消息", "请选择一条数据修改", 'warning');
+                                    } else {
+                                        $.messager.confirm("消息", "您确定要删除吗？", function (x) {
+                                            if (x) {
+                                                var proIds = [];
+                                                var pageViewsIds = [];
+
+                                                var cateIds = $("#showAllProduct").datagrid('getChecked');
+                                                $.each(cateIds, function (index, ii) {
+                                                    proIds.push(ii.proId);
+                                                    pageViewsIds.push(ii.pageViews.pageViewsId);
+                                                })
+                                                $.ajax({
+                                                    type: 'post',
+                                                    url: 'http://localhost:9999/visney-manager/product/deleteProduct',
+                                                    /*传递数组需要加上这个参数，不然默认在后面加上[]*/
+                                                    traditional: true,
+                                                    data: {
+                                                        "proIds":proIds,
+                                                        "pageViewsIds":pageViewsIds,
+
+                                                    },
+
+                                                    success: function (data) {
+                                                        console.log(data.msg)
+                                                        if (data.msg==true) {
+                                                            $.messager.alert("消息", "删除成功", 'info');
+                                                            $("#showAllProduct").datagrid('reload');
+                                                        } else {
+                                                            $.messager.alert("消息", "删除失败", 'error');
+                                                            $("#showAllProduct").datagrid('reload');
+                                                        }
                                                     }
-                                                }
-                                            })
-                                        } else {
-                                            $("#showAllProduct").datagrid('reload');
-                                        }
-                                    })
+                                                })
+                                            } else {
+                                                $("#showAllProduct").datagrid('reload');
+                                            }
+                                        })
 
+                                    }
                                 }
-                            }
-                        }]
 
-                })
-    })
+                            },
+                        ]
 
 
-    $("#addProductInformation").submit(function () {
-        var formData = new FormData($("#addProductInformation")[0]);
-        $.ajax({
-            type: 'post',
-            url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaAdd',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (dada) {
-                if (dada == 1) {
-                    $.messager.alert("消息", "添加成功", 'info');
-                    $("#addProduct").dialog('close');
-                    $("#showAllProduct").datagrid('reload');
+                    })
 
-                } else if (dada == 0) {
-                    $.messager.alert("消息", "添加失败", 'error');
-                    $("#addProduct").dialog('close');
-                    $("#showAllProduct").datagrid('reload');
+                    })
 
-                }
-            }
-        })
-        return false;
-    })
-    $("#updateProductInformation").submit(function () {
-        var formData = new FormData($("#updateProductInformation")[0]);
-        $.ajax({
-            type: 'post',
-            url: 'http://192.168.100.250:9999/visney-manager/NavigationMeta/metaUpdate',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (dada) {
-                if (dada == 1) {
-                    $.messager.alert("消息", "修改成功", 'info');
-                    $("#updateProduct").dialog('close');
-                    $("#showAllProduct").datagrid('reload');
-                } else {
-                    $.messager.alert("消息", "修改失败", 'error');
-                    $("#updateProduct").dialog('close');
-                    $("#showAllProduct").datagrid('reload');
-                }
-            }
-        })
-        return false;
-    })
+    //
 
 
-    function pro2() {
-        $("#updateProductInformation").submit();
-    }
-
-    function pro1() {
-        $("#addProductInformation").submit();
-    }
 </script>
-</body>
 
+</div>
+</body>
 
 
 </html>
