@@ -11,7 +11,13 @@
     </resultMap>
 
     <select id="getAllProImg" resultMap="ProImg">
-     SELECT * FROM pro_img limit #{start},#{end}
+     SELECT * FROM pro_img
+        <if test="proId!=0">
+            where pro_id=#{proId}
+
+        </if>
+     limit #{start},#{end}
+
     </select>
 
     <select id="getAllCount" resultType="int">
@@ -23,7 +29,7 @@
     </insert>
     <!--update-->
     <update id="updateProImg">
-        update pro_img set pro_img_alt=#{proImgAlt},pro_img_src=#{proImgSrc},pro_img_cover=#{proImgCover},pro_id=#{proId}
+        update pro_img set pro_img_alt=#{proImgAlt},pro_img_src=#{proImgSrc},pro_img_cover=#{proImgCover}
         where pro_img_id=#{proImgId}
     </update>
     <delete id="deleteProImg">

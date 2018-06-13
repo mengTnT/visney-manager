@@ -110,7 +110,7 @@
     </dependencies>
 
     <build>
-        <finalName>visney-v1.0</finalName>
+        <finalName>visney-manager-v1.0</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

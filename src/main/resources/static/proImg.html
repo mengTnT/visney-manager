@@ -4,7 +4,7 @@
 
 
         <meta charset="UTF-8">
-       <title>article</title>
+       <title>product</title>
         <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
         <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
@@ -23,17 +23,43 @@
          <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" onclick="updateE()"></a>
          <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="deleteE()"></a>
      </div>
- 
- 
- 
+
+
+ <!--图片回显js-->
+ <script type="text/javascript">
+
+     function changImg(e,name) {
+         for (var i = 0; i < e.target.files.length; i++) {
+             var file = e.target.files.item(i);
+             if (!(/^image\/.*$/i.test(file.type))) {
+                 continue; //不是图片 就跳出这一次循环
+             }
+             //实例化FileReader API
+             var freader = new FileReader();
+             freader.readAsDataURL(file);
+             freader.onload = function (e) {
+                 console.log(e.target.result);
+                 $("#"+ name).attr("src", e.target.result);
+             }
+         }
+     }
+
+ </script>
  <div id="updateProImg" class="easyui-dialog" data-options="closed:true">
          <form id="updateProImgInformation" enctype="multipart/form-data" method="post">
      
              <input name="proImgId" id="proImgId" type="hidden"><br>
              proImgAlt：<input name="proImgAlt" id="proImgAlt" ><br>
-             proImgSrc：<input name="proImgSrc" id="proImgSrc" ><br>
-             proImgCover：<input name="proImgCover" id="proImgCover" ><br>
-             proId：<input name="proId" id="proId" ><br>
+             选择图片：<input type="file" name="files" onchange="changImg(event,'updateimg')" ><br>
+             <img alt="" id="updateimg" src="img/photo_icon.png" height="100px",width="100px"><br>
+             图片类型选择：
+             <select id="proimg_update_select">
+                 <option value="1">封面</option>
+                 <option value="0">配图</option>
+             </select>
+             <input type="hidden" id="proimg_src" name="proImgSrc">
+             <input name="proId" id="proId" type="hidden">
+             <input name="proImgCover" id="proImgCover" type="hidden">
      
              <center>
                  <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onClick="pro1()">确认</a>
@@ -63,6 +89,27 @@
  
  <script type="text/javascript">
          $(function () {
+             function GetRequest() {
+                 var url = location.search; //获取url中"?"符后的字串
+                 var theRequest = new Object();
+                 if (url.indexOf("?") != -1) {
+                     var str = url.substr(1);
+                     strs = str.split("&");
+                     for(var i = 0; i < strs.length; i ++) {
+                         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                     }
+                 }
+                 return theRequest;
+             }
+
+             //id
+             var Request = new Object();
+             Request = GetRequest();
+             var id=Request["id"]
+             if (!id){
+                 id=0;
+             }
+
              /*分页 展示所有*/
                      //1.2把table转换成一个datagrid效果
                          $("#showAllProImg").datagrid({
@@ -71,6 +118,9 @@
                              pagination:true,//如果为true，则在DataGrid控件底部显示分页工具栏。
                          border:true,
                          maximizable:true,
+                             queryParams: {
+                                 proId:id,
+                             },
              
                              toolbar:"#toolBar",//顶部添加工具栏
                          columns:[[
@@ -99,7 +149,7 @@
 
                                  }
                                  else{
-                                     return "插图";
+                                     return "配图";
                                  }
 
                              }},
@@ -132,21 +182,48 @@
                              $.messager.alert("提示框","请选择一个要修改的数据","warming");
                          }else{
                              $("#updateProImgInformation input" ).val("");
-                             $("#updateProImg").dialog("open");
                              $("#sizeId").val(vas.sizeId);
                              $("#siziMsg").val(vas.siziMsg);
+
+                         var proImgId;
+                         var proImgAlt;
+                         var updateimg;
+                         var proimg_type_select;
+                         var Checked = $("#showAllProImg").datagrid('getChecked');
+                         $.each(Checked, function (index,
+                                                   cate) {
+
+                             proImgId = cate.proImgId;
+                             proImgAlt = cate.proImgAlt;
+                             updateimg = cate.proImgSrc;
+                             proimg_type_select = cate.proImgCover;
+
+                         })
+                         $("#proImgId").val(proImgId);
+                         $("#proImgAlt").val(proImgAlt);
+                         $("#updateimg").prop("src",updateimg);
+                         $("#proimg_src").val(updateimg)
+                         $("#proimg_update_select").find("option[value = '"+proimg_type_select+"']").attr("selected","selected");
+
+                         $("#updateProImg").dialog("open");
+
                          }
                  }
          //在修改页面 点击修改 修改
          function pro1(){
                  //点击form表单 用ajax提交
+             var btype2=$('#proimg_update_select option:selected').val();
+             $("#proImgCover").val(btype2)
+             var formData = new FormData($("#updateProImg")[0]);
                      $("#updateProImgInformation").form("submit",{
                              url:"http://localhost:9999/visney-manager/proImg/updateProImg",
-             
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                             processData: false,
                              success:function(data){
-                             var da=eval('(' + data + ')');
-                             console.log(data)
-                             if(da.msg){
+
+                             if(data==1){
                                      $.messager.alert("提示框"," 修改成功","info");//提示框
                                      //关闭添加  对话框
                      
@@ -220,7 +297,7 @@
                                                      ids[i]= rows[i].sizeId;//这里是（对象.属性）
                                                  }
                                              $.ajax({
-                                                     url:"http://localhost:9999/visney-manager/proImg/deleteSize",
+                                                     url:"http://localhost:9999/visney-manager/proImg/deleteProImg",
                                                      type:"post",
                                                      data:"ids="+ids,//data:{"ids":ids}
                                                      success:function(data){

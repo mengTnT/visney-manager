@@ -14,6 +14,7 @@ var aSize = [];
 // 文件名称
 var aTitle = [];
 var formdata = new  FormData();
+
     for( var i=0;i<aInput.length;i++ ){
         aInput[i].onchange = function () {
             var This = this;
@@ -55,7 +56,7 @@ var formdata = new  FormData();
         obj.addEventListener('load',function () {
             //console.log( this.result )
             var oLi = document.createElement('li');
-            oLi.innerHTML = '<img src="'+this.result+'" width="100%" height="100%" alt=""><p></p>';
+            oLi.innerHTML = '<img src="'+this.result+'" width="100px" height="100px" alt=""><p></p>';
             oUl.appendChild(oLi);
             // =等p标签生成后 ，再去获取p元素
             conut();
@@ -149,6 +150,7 @@ var formdata = new  FormData();
     // 点击上传多文件
   oBtn.addEventListener('click',function () {
 
+
         for ( var i=0;i<arr.length;i++ ){
             (function (i) {
                 formdata.append('files',arr[i]);
@@ -162,28 +164,7 @@ var formdata = new  FormData();
       })
   })
 
-/*
-        $.ajax({
-            type: 'post',
-            url: 'http://localhost:9999/visney-manager/product/addproduct',
-            data:oFormData,
-            async: false,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                console.log(data+"+++++++")
-             if (data=="ok") {
 
-                 oDrag.innerHTML = '恭喜你上传成功';
-             }
-             else{
-                 oDrag.innerHTML = '上传失败';
-
-           }
-
-            }
-        })
-    });*/
 
 
 
