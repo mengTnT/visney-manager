@@ -147,9 +147,9 @@ LEFT JOIN modle_code t11 ON t1.model_code_id=t11.model_code_id
     <update id="updateProduct">
         update product set pro_name=#{proName},brand_id=#{brand.brandId},pro_price=#{proPrice},position_id=#{proPosition.proPositionId},model_code_id=#{modleCode.modelCodeId},
                style_id=#{proStyle.proStyleId},type_id=#{proType.proTypeId},series_id=#{proSeries.proSeriesId}, texture_id=#{proTexture.proTextureId},size_id=#{size.sizeId},
-               pro_msg=#{proMsg},page_views_id=#{pageViews.pageViewsId},pro_src=#{proSrc},pro_update_time=now(),pro_putaway=#{proPutaway},
-               pro_meta_keyword=#{proMetaKeyWord},#{proMetaDescription},
+               pro_msg=#{proMsg},pro_src=#{proSrc},pro_update_time=now(),pro_putaway=#{proPutaway},pro_meta_keyword=#{proMetaKeyWord},pro_meta_description=#{proMetaDescription},
                pro_meta_title=#{proMetaTitle}
+               where pro_id=#{proId}
     </update>
     <delete id="deleteProduct">
         delete from product where

@@ -19,9 +19,9 @@
  <table id="showAllProImg"></table>
  
  <div id="toolBar">
-         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="addE()"></a>
+       <!--  <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="addE()"></a>-->
          <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" onclick="updateE()"></a>
-         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="deleteE()"></a>
+         <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="deleteE()"></a>-->
      </div>
 
 
@@ -243,7 +243,7 @@
              }
          /*添加界面开始*/
          //添加页面
-             $(function(){
+            /* $(function(){
                      $("#addProImg").dialog({
                              title:"添加页面",
                              width:860,
@@ -256,8 +256,8 @@
          //显示添加 页面
          function addE(){
                  $("#addProImg").dialog("open");
-             }
-         //点击添加按钮添加
+             }*/
+       /*  //点击添加按钮添加
          function pro3(){
          //              发送ajxs请求
              
@@ -277,14 +277,14 @@
                                  }
                          }
                  })
-             }
-         //点击取消按钮 取消添加
+             }*/
+        /* //点击取消按钮 取消添加
          function prof4(){
                  $("#addProImg").dialog("close");
              }
-     
+     */
          //点击删除按钮执行  删除操作
-             function  deleteE(){
+            /* function  deleteE(){
                      var rows = $("#showAllProImg").datagrid("getSelections");//返回所有被选中的行，当没有记录被选中的时候将返回一个空数组。
              
                          if(rows.length==0){
@@ -320,7 +320,7 @@
                                              }
                                  });
                          }
-                 }
+                 }*/
      </script>
  </body>
  

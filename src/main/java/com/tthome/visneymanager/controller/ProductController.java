@@ -44,7 +44,7 @@ public class ProductController {
         return productService.selectProductById(proId);
     }
   @PostMapping("/addProduct")
-    public int addProduct(Product product, HttpServletRequest req, @RequestParam("files") MultipartFile[] files){
+    public int addProduct(String alt,Product product, HttpServletRequest req, @RequestParam("files") MultipartFile[] files){
             String proImgSrc=null;
             List<ProImg> proImgList=new ArrayList<>();
             if (files.length == 0) {
@@ -66,6 +66,7 @@ public class ProductController {
                     proImgSrc = url;
                     ProImg proImg=new ProImg();
                     proImg.setProImgSrc(proImgSrc);
+                    proImg.setProImgAlt(alt);
                     proImgList.add(proImg);
 
 
@@ -91,6 +92,9 @@ public class ProductController {
     public Map deleteProduct(int[] proIds,int[] pageViewsIds){
         return productService.deleteProduct(proIds,pageViewsIds);
     }
-
+    @PostMapping("/updateProduct")
+    public Map updateProduct(Product product){
+        return productService.updateProduct(product);
+    }
 
 }

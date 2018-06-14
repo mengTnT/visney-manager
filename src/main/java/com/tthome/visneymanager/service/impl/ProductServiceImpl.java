@@ -100,7 +100,7 @@ public class ProductServiceImpl implements ProductService {
         int i = proImgDao.deleteProImgbyProId(proIds);
         int i1 = pageViewsDao.pageViewsDelete(pageViewsIds);
         int i2 = productDao.deleteProduct(proIds);
-        if(i==1&&i1==1&&i2==1){
+        if(i!=0&&i1!=0&&i2!=0){
             map.put("msg",true);
         }else{
             map.put("msg",false);
@@ -110,7 +110,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Map updateProduct(Product product) {
-        return null;
+        Map map = new HashMap();
+        int i = productDao.updateProduct(product);
+        if(i==1){
+            map.put("msg",true);
+        }else{
+            map.put("msg",false);
+        }
+        return map;
     }
 
 

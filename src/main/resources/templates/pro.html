@@ -24,6 +24,7 @@
 </head>
 <html>
 <body>
+
 <div id="updateImg_win">
 
 </div>
@@ -83,6 +84,99 @@
     Title：<input name="proMetaTitle" id="proMetaTitle"><br>
 
 
+<script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+</div>
+<div id="btns">
+    <div>
+    <button onclick="productAdd()"><font color="red">确认提交</font></button>
+
+</div>
+
+</div>
+
+<script type="text/javascript">
+
+//实例化编辑器
+//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+var ue = UE.getEditor('editor');
+/*获得编辑器的内容*/
+function getContent() {
+    var text = [];
+    /* arr.push("使用editor.getContent()方法可以获得编辑器的内容");*/
+    text.push(UE.getEditor('editor').getContent());
+    return text;
+}
+
+/*  function setContent(isAppendTo) {
+if (text_value){
+          var arr = [];
+          arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
+          UE.getEditor('editor').setContent(text_value, isAppendTo);
+}
+  }*/
+
+
+
+/* 判断编辑器里是否有内容*/
+function hasContent() {
+    var arr = [];
+    arr.push("使用editor.hasContents()方法判断编辑器里是否有内容");
+    arr.push("判断结果为：");
+    arr.push(UE.getEditor('editor').hasContents());
+    alert(arr.join("\n"));
+}
+
+/* 根据文章id编辑文章*/
+function updateArticle() {
+    $.ajax({
+        url:'http://192.168.100.250:9999/visney-manager/article/getArticleDetails/'+id,
+        type:"get",
+        async: false,
+        success:function(data){
+            if(data!=null){
+                console.log(data)
+                UE.getEditor('editor').addListener("ready", function () {
+                    // editor准备好之后才可以使用
+                    UE.getEditor('editor').setContent(data.articleText);
+
+
+                });
+
+
+            }
+        },
+        error:function (data) {
+            alert("添加失败")
+        }
+    });
+}
+
+// 图片回显
+//添加图片回显
+function previewImage(file) {
+    var MAXWIDTH = 90;
+    var MAXHEIGHT = 90;
+    var div = document.getElementById('preview');
+    if (file.files && file.files[0]) {
+        div.innerHTML = '<img id=imghead onclick=$("#previewImg").click()>';
+        var img = document.getElementById('imghead');
+        img.onload = function () {
+            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+            img.width = rect.width;
+            img.height = rect.height;
+            img.style.marginTop = rect.top + 'px';
+        }
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            img.src = evt.target.result;
+        }
+        reader.readAsDataURL(file.files[0]);
+    }
+
+}
+
+
+</script>
 
   <script type="text/javascript">
       $(function(){
@@ -206,8 +300,8 @@
                   $("#proPutaway").find("option[value = '"+pro_putaway+"']").attr("selected","selected");
                   $("#proName").val(pro_name);
                   $("#proPrice").val(pro_price);
-                  $("#proSrc").val(pro_price);
-                  $("#proPrice").val(pro_src);
+                  $("#proSrc").val(pro_src);
+                  $("#proPrice").val(pro_price);
                   $("#proMetaKeyWord").val(pro_meta_keyword);
                   $("#proMetaDescription").val(pro_meta_description);
                   $("#proMetaTitle").val(pro_meta_title);
@@ -217,8 +311,9 @@
 
               }
           })
+          //文本编辑监听器 得到文本框的值
           ue.addListener("ready", function () {
-              ue.setContent(text_value);
+              ue.setContent(pro_msg);
           });
 
       }else {
@@ -397,6 +492,7 @@
             var proMetaTitle=$('#proMetaTitle').val();
             var proImgAlt=$('#proImgAlt').val()
 
+            formdata.append("alt",proImgAlt);
             formdata.append("proName",proName);
             formdata.append("proPrice",proPrice);
             formdata.append("brand.brandId",bannerId);
@@ -414,9 +510,30 @@
             formdata.append("proMetaKeyWord",proMetaKeyWord);
             formdata.append("proMetaDescription",proMetaDescription);
             formdata.append("proMetaTitle",proMetaTitle);
+            //如果ID存在则进行修改
+            if(id){
+                formdata.append("proId",id);
+                $.ajax({
+                    type: 'post',
+                    url: 'http://localhost:9999/visney-manager/product/updateProduct',
+                    data: formdata,
+                    async: false,
+                    processData: false,// 告诉jQuery不要去处理发送的数据
+                    contentType: false,// 告诉jQuery不要去设置Content-Type请求头
+                    success: function (data) {
+                        if (data.msg==true){
+                            alert("修改成功")
+                            formdata = new  FormData();
+                        }
+                        else{
+                            alert("修改成功")
+                            formdata = new  FormData();
+                        }
 
-
-
+                    }
+                })
+            }
+          if(!id){
           $.ajax({
                 type: 'post',
                 url: 'http://localhost:9999/visney-manager/product/addProduct',
@@ -436,103 +553,15 @@
 
                 }
             })
+            }
 
         }
 
     </script>
-    <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
-</div>
-<div id="btns">
-    <div>
-        <button onclick="productAdd()"><font color="red">确认提交</font></button>
-
-    </div>
-
-</div>
-<div>
-
-</div>
-
-
-<script type="text/javascript">
-
-    //实例化编辑器
-    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var ue = UE.getEditor('editor');
-    /*获得编辑器的内容*/
-    function getContent() {
-    var text = [];
-    /* arr.push("使用editor.getContent()方法可以获得编辑器的内容");*/
-    text.push(UE.getEditor('editor').getContent());
-     return text;
-    }
-
-    function setContent(isAppendTo) {
-    var arr = [];
-    arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
-    UE.getEditor('editor').setContent('欢迎使用ueditor', isAppendTo);
-    alert(arr.join("\n"));
-    }
-
-    /* 判断编辑器里是否有内容*/
-    function hasContent() {
-    var arr = [];
-    arr.push("使用editor.hasContents()方法判断编辑器里是否有内容");
-    arr.push("判断结果为：");
-    arr.push(UE.getEditor('editor').hasContents());
-    alert(arr.join("\n"));
-    }
-
-    /* 根据文章id编辑文章*/
-    function updateArticle() {
-    var idd=1;
-    $.ajax({
-    url:"http://localhost:9999/getArticle",
-    type:"post",
-    data:'id='+idd,
-    dataType:"json",
-    async: false,
-    success:function(data){
-    if(data!=null){
-    console.log(data)
-    UE.getEditor('editor').addListener("ready", function () {
-    // editor准备好之后才可以使用
-    UE.getEditor('editor').setContent(data.text);
-    /* setContent(data.text)*/
-
-    });
-
-
-    }
-    },
-    error:function (data) {
-    alert("添加失败")
-    }
-    });
-    }
-
-    // 图片回显
-  //添加图片回显
-
-  /* function changImg(e,name) {
-        for (var i = 0; i < e.target.files.length; i++) {
-            var file = e.target.files.item(i);
-            if (!(/^image\/.*$/i.test(file.type))) {
-                continue; //不是图片 就跳出这一次循环
-            }
-            //实例化FileReader API
-            var freader = new FileReader();
-            freader.readAsDataURL(file);
-            freader.onload = function (e) {
-                console.log(e.target.result);
-                $("#"+ name).attr("src", e.target.result);
-            }
-        }
-}*/
 
 
 
-</script>
+
 </body>
 </html>
 
