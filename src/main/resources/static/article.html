@@ -264,7 +264,7 @@
                                         "请选择一条数据修改", 'warning');
                                 }else {
                                     var aid= $("#showAllArticle").datagrid('getChecked')[0].articleId;
-                                    console.log(aid+"=================")
+
                                     var src="/visney-manager/editor?id="+aid;
 
                                 var iframe="<iframe id='myArticleIframe' src='";
@@ -272,7 +272,6 @@
 
                                         var result=iframe+append+"</iframe>"
 
-                                 console.log(result)
 
                                      $('#win_update').window({
                                           closed:false,
