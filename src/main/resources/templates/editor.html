@@ -34,7 +34,7 @@
 
         </br>
         <input type="hidden" name="articleText">
-        封面图片：<input type="file" onchange="changImg(event)" name="articleImgSrc" id="article_Img">
+        <font color="red">选择封面图片：</font>：<input type="file" onchange="changImg(event)" name="articleImgSrc" id="article_Img">
         图片alt属性<input type="text" id="img_alt"><br>
 
         <div id="preview">
@@ -69,12 +69,8 @@
 <div id="btns">
     <div>
 
-        <button onclick="articleAdd()">添加内容</button>
-        <button onclick="getContent()">获得内容</button>
-        <button onclick="setContent()">写入内容</button>
-        <button onclick="hasContent()">判断是否有内容</button>
+        <button onclick="articleAdd()"><font color="red">确认提交</font></button>
 
-        <button onclick="articleAdd()">确认提交</button>
 
 
     </div>
@@ -123,7 +119,7 @@ if (text_value){
     async: false,
     success:function(data){
     if(data!=null){
-    console.log(data)
+
     UE.getEditor('editor').addListener("ready", function () {
     // editor准备好之后才可以使用
     UE.getEditor('editor').setContent(data.articleText);
@@ -190,7 +186,7 @@ if (text_value){
             var id=Request["id"]
 
             if (id) {
-                alert(id)
+
                 var id_value;
                 var title_value;
                 var category_id;
@@ -226,9 +222,9 @@ if (text_value){
                         img_src_value=value.articleImg.articleImgSrc;
                         img_alt_value=value.articleImg.articleImgAlt;
                         text_value=value.articleText;
-                        meta_titile_value=value.articleName;
-                        meta_description_value=value.articleName;
-                        meta_keyword_value=value.articleName;
+                        meta_titile_value=value.articleMetaTitle;
+                        meta_description_value=value.articleMetaDescription;
+                        meta_keyword_value=value.articleKeyWord;
 
                         $("#recommend").find("option[value = '"+recommend_value+"']").attr("selected","selected");
                         $("#img_alt").val(img_alt_value);
@@ -349,7 +345,7 @@ if (text_value){
                 var articletext=getContent();
 
                 var articleimg=document.getElementById("article_Img").files[0];
-                console.log(articleimg+"----------------------------------------------------")
+
 
                 var imgalt = $("#img_alt").val();
 
@@ -419,31 +415,7 @@ if (!id) {
 
             }
 
-            /* 根据文章id编辑文章*/
-            /*  function updateArticle() {
-                  $.ajax({
-                      url:'http://192.168.100.250:9999/visney-manager/article/getArticleDetails/'+id,
-                      type:"get",
-                      dataType:"json",
-                      async: false,
-                      success:function(data){
-                          if(data!=null){
-                              console.log(data)
-                              UE.getEditor('editor').addListener("ready", function () {
-                                  // editor准备好之后才可以使用
-                                  UE.getEditor('editor').setContent(data.articleText);
-                                  /!* setContent(data.text)*!/
 
-                              });
-
-
-                          }
-                      },
-                      error:function (data) {
-                          alert("添加失败")
-                      }
-                  });
-              }*/
 
     </script>
 </body>
