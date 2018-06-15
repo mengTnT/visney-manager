@@ -111,54 +111,7 @@ if (text_value){
     alert(arr.join("\n"));
     }
 
-    /* 根据文章id编辑文章*/
-    function updateArticle() {
-    $.ajax({
-    url:'http://192.168.100.250:9999/visney-manager/article/getArticleDetails/'+id,
-    type:"get",
-    async: false,
-    success:function(data){
-    if(data!=null){
 
-    UE.getEditor('editor').addListener("ready", function () {
-    // editor准备好之后才可以使用
-    UE.getEditor('editor').setContent(data.articleText);
-
-
-    });
-
-
-    }
-    },
-    error:function (data) {
-    alert("添加失败")
-    }
-    });
-    }
-
-    // 图片回显
-    //添加图片回显
-    function previewImage(file) {
-    var MAXWIDTH = 90;
-    var MAXHEIGHT = 90;
-    var div = document.getElementById('preview');
-    if (file.files && file.files[0]) {
-    div.innerHTML = '<img id=imghead onclick=$("#previewImg").click()>';
-    var img = document.getElementById('imghead');
-    img.onload = function () {
-    var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-    img.width = rect.width;
-    img.height = rect.height;
-    img.style.marginTop = rect.top + 'px';
-    }
-    var reader = new FileReader();
-    reader.onload = function (evt) {
-    img.src = evt.target.result;
-    }
-    reader.readAsDataURL(file.files[0]);
-    }
-
-    }
 
 
 </script>

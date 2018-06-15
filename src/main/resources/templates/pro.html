@@ -126,54 +126,6 @@ function hasContent() {
     alert(arr.join("\n"));
 }
 
-/* 根据文章id编辑文章*/
-function updateArticle() {
-    $.ajax({
-        url:'http://192.168.100.250:9999/visney-manager/article/getArticleDetails/'+id,
-        type:"get",
-        async: false,
-        success:function(data){
-            if(data!=null){
-                console.log(data)
-                UE.getEditor('editor').addListener("ready", function () {
-                    // editor准备好之后才可以使用
-                    UE.getEditor('editor').setContent(data.articleText);
-
-
-                });
-
-
-            }
-        },
-        error:function (data) {
-            alert("添加失败")
-        }
-    });
-}
-
-// 图片回显
-//添加图片回显
-function previewImage(file) {
-    var MAXWIDTH = 90;
-    var MAXHEIGHT = 90;
-    var div = document.getElementById('preview');
-    if (file.files && file.files[0]) {
-        div.innerHTML = '<img id=imghead onclick=$("#previewImg").click()>';
-        var img = document.getElementById('imghead');
-        img.onload = function () {
-            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-            img.width = rect.width;
-            img.height = rect.height;
-            img.style.marginTop = rect.top + 'px';
-        }
-        var reader = new FileReader();
-        reader.onload = function (evt) {
-            img.src = evt.target.result;
-        }
-        reader.readAsDataURL(file.files[0]);
-    }
-
-}
 
 
 </script>
@@ -220,7 +172,7 @@ function previewImage(file) {
       var Request = new Object();
       Request = GetRequest();
       var id=Request["id"]
-        alert(id)
+
 
       function uploadImgs(){
           if(id){
@@ -251,7 +203,7 @@ function previewImage(file) {
       }
 
       if (id) {
-          alert(id)
+
 
           var pro_id;
           var pro_name;
@@ -276,7 +228,7 @@ function previewImage(file) {
           $.ajax({
               type: 'get',
               async: false,/*设置为同步，不出结果的话，不往下执行*/
-              url: 'http://localhost:9999/visney-manager/product/selectProductById/'+id,
+              url: 'http://192.168.100.250:9999/visney-manager/product/selectProductById/'+id,
               success: function (value) {
 
                   pro_name=value.proName;
@@ -324,7 +276,7 @@ function previewImage(file) {
         /* 展示可供选择的产品系列*/
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryBySeries',
+            url: 'http://192.168.100.250:9999/visney-manager/proCategory/getProCategoryBySeries',
             success: function (value) {
                 var content = "<select id=\"series_select\">"
                 for (var i = 0; i < value.pro.length; i++) {
@@ -340,7 +292,7 @@ function previewImage(file) {
         /*展示可供选择的产品类型*/
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByType',
+            url: 'http://192.168.100.250:9999/visney-manager/proCategory/getProCategoryByType',
             success: function (value) {
 
                 var content = "<select id=\"type_select\">"
@@ -356,7 +308,7 @@ function previewImage(file) {
         /*展示可供选择的产品位置*/
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByPosition',
+            url: 'http://192.168.100.250:9999/visney-manager/proCategory/getProCategoryByPosition',
             success: function (value) {
 
                 var content = "<select id=\"position_select\">"
@@ -372,7 +324,7 @@ function previewImage(file) {
         /*展示可供选择的产品风格*/
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByStyle',
+            url: 'http://192.168.100.250:9999/visney-manager/proCategory/getProCategoryByStyle',
             success: function (value) {
 
                 var content = "<select id=\"style_select\">"
@@ -388,7 +340,7 @@ function previewImage(file) {
         /*展示可供选择的产品材质*/
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByTexture',
+            url: 'http://192.168.100.250:9999/visney-manager/proCategory/getProCategoryByTexture',
             success: function (value) {
 
                 var content = "<select id=\"texture_select\">"
@@ -404,7 +356,7 @@ function previewImage(file) {
         /*展示品牌*/
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/brand/getAllBrand',
+            url: 'http://192.168.100.250:9999/visney-manager/brand/getAllBrand',
             data: {
                 page: 0,
                 rows: 0
@@ -427,7 +379,7 @@ function previewImage(file) {
         型号*/
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/modleCode/getAllModleCode',
+            url: 'http://192.168.100.250:9999/visney-manager/modleCode/getAllModleCode',
             data: {
                 page: 0,
                 rows: 0
@@ -449,7 +401,7 @@ function previewImage(file) {
         /*展示尺寸*/
         $.ajax({
             type: 'post',
-            url: 'http://localhost:9999/visney-manager/size/getAllSize',
+            url: 'http://192.168.100.250:9999/visney-manager/size/getAllSize',
             data: {
                 page: 0,
                 rows: 0
@@ -515,7 +467,7 @@ function previewImage(file) {
                 formdata.append("proId",id);
                 $.ajax({
                     type: 'post',
-                    url: 'http://localhost:9999/visney-manager/product/updateProduct',
+                    url: 'http://192.168.100.250:9999/visney-manager/product/updateProduct',
                     data: formdata,
                     async: false,
                     processData: false,// 告诉jQuery不要去处理发送的数据
@@ -536,7 +488,7 @@ function previewImage(file) {
           if(!id){
           $.ajax({
                 type: 'post',
-                url: 'http://localhost:9999/visney-manager/product/addProduct',
+                url: 'http://192.168.100.250:9999/visney-manager/product/addProduct',
                 data: formdata,
                 async: false,
                 processData: false,// 告诉jQuery不要去处理发送的数据

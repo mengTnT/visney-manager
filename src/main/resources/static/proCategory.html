@@ -61,7 +61,7 @@
     /*分页 展示所有*/
         //1.2把table转换成一个datagrid效果
         $("#showAllProCategory").datagrid({
-            url:"http://localhost:9999/visney-manager/proCategory/getAllProCategory",//请求路径
+            url:"http://192.168.100.250:9999/visney-manager/proCategory/getAllProCategory",//请求路径
             //在底部显示分页工具栏，设置为true之后，datagrid再发生ajax的时候就会发送两个参数
             pagination:true,//如果为true，则在DataGrid控件底部显示分页工具栏。
             border:true,
@@ -111,11 +111,11 @@
     function pro1(){
         //点击form表单 用ajax提交
         $("#updateProCategoryInformation").form("submit",{
-            url:"http://localhost:9999/visney-manager/proCategory/updateProCategory",
+            url:"http://192.168.100.250:9999/visney-manager/proCategory/updateProCategory",
 
             success:function(data){
                 var da=eval('(' + data + ')');
-                console.log(data)
+
                 if(da.msg){
                     $.messager.alert("提示框"," 修改成功","info");//提示框
                     //关闭添加  对话框
@@ -155,7 +155,7 @@
 //              发送ajxs请求
 
         $("#addProCategoryInformation").form('submit',{
-            url:"http://localhost:9999/visney-manager/proCategory/addProCategory",
+            url:"http://192.168.100.250:9999/visney-manager/proCategory/addProCategory",
             type:"post",
             date:"json",
             success:function (data) {
@@ -191,12 +191,11 @@
                         ids[i]= rows[i].proCategoryId;//这里是（对象.属性）
                     }
                     $.ajax({
-                        url:"http://localhost:9999/visney-manager/proCategory/deleteProCategorys",
+                        url:"http://192.168.100.250:9999/visney-manager/proCategory/deleteProCategorys",
                         type:"post",
                         data:"ids="+ids,//data:{"ids":ids}
                         success:function(data){
-                            alert(2);
-                            console.log(data);
+
                             if(data.msg==true){
                                 $.messager.alert("提示框"," 修改成功","info");//提示框
                                 //关闭添加  对话框

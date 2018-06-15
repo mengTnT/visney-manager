@@ -60,7 +60,7 @@
         var ca6 = $("#ss6").searchbox('getValue');
         var ca7 = $("#ss7").searchbox('getValue');
 
-        alert(value+":"+name)
+
         $('#showAllProduct').datagrid({
             queryParams: {
                 proName:ca1,
@@ -111,7 +111,7 @@
         $("#showAllProduct")
                 .datagrid(
                     {
-                        url: 'http://localhost:9999/visney-manager/product/getAll',
+                        url: 'http://192.168.100.250:9999/visney-manager/product/getAll',
                         fitColumns: true,
 
                         columns: [[{
@@ -286,7 +286,7 @@
                                 if (value) {
                                     for (var i = 0; i < value.length; i++) {
                                         if (i == 0) {
-                                            /* console.log(value[i].proImgSrc+"zzzzzzzzzzzzzzzzzzzz")*/
+
                                             return "<img width=50px height=50px src='" + value[i].proImgSrc + "'>";
                                         }
                                     }
@@ -335,7 +335,7 @@
                                             "请选择一条数据修改", 'warning');
                                     }else {
                                         var aid= $("#showAllProduct").datagrid('getChecked')[0].proId ;
-                                        console.log(aid+"=================")
+
                                         var src="/visney-manager/pro?id="+aid;
 
                                         var iframe="<iframe id='product_form' src='";
@@ -373,7 +373,7 @@
                                                 })
                                                 $.ajax({
                                                     type: 'post',
-                                                    url: 'http://localhost:9999/visney-manager/product/deleteProduct',
+                                                    url: 'http://192.168.100.250:9999/visney-manager/product/deleteProduct',
                                                     /*传递数组需要加上这个参数，不然默认在后面加上[]*/
                                                     traditional: true,
                                                     data: {
@@ -383,7 +383,7 @@
                                                     },
 
                                                     success: function (data) {
-                                                        console.log(data.msg)
+
                                                         if (data.msg==true) {
                                                             $.messager.alert("消息", "删除成功", 'info');
                                                             $("#showAllProduct").datagrid('reload');

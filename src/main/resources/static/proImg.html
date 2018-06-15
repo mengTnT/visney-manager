@@ -38,7 +38,7 @@
              var freader = new FileReader();
              freader.readAsDataURL(file);
              freader.onload = function (e) {
-                 console.log(e.target.result);
+
                  $("#"+ name).attr("src", e.target.result);
              }
          }
@@ -113,7 +113,7 @@
              /*分页 展示所有*/
                      //1.2把table转换成一个datagrid效果
                          $("#showAllProImg").datagrid({
-                                 url:"http://localhost:9999/visney-manager/proImg/getAllProImg",//请求路径
+                                 url:"http://192.168.100.250:9999/visney-manager/proImg/getAllProImg",//请求路径
                          //在底部显示分页工具栏，设置为true之后，datagrid再发生ajax的时候就会发送两个参数
                              pagination:true,//如果为true，则在DataGrid控件底部显示分页工具栏。
                          border:true,
@@ -216,7 +216,7 @@
              $("#proImgCover").val(btype2)
              var formData = new FormData($("#updateProImg")[0]);
                      $("#updateProImgInformation").form("submit",{
-                             url:"http://localhost:9999/visney-manager/proImg/updateProImg",
+                             url:"http://192.168.100.250:9999/visney-manager/proImg/updateProImg",
                             data: formData,
                             cache: false,
                             contentType: false,
@@ -262,7 +262,7 @@
          //              发送ajxs请求
              
                          $("#addProImgInformation").form('submit',{
-                                 url:"http://localhost:9999/visney-manager/proImg/addProImg",
+                                 url:"http://192.168.100.250:9999/visney-manager/proImg/addProImg",
                          type:"post",
                          success:function (data) {
                              var da = eval('('+  data  + ')');
@@ -297,7 +297,7 @@
                                                      ids[i]= rows[i].sizeId;//这里是（对象.属性）
                                                  }
                                              $.ajax({
-                                                     url:"http://localhost:9999/visney-manager/proImg/deleteProImg",
+                                                     url:"http://192.168.100.250:9999/visney-manager/proImg/deleteProImg",
                                                      type:"post",
                                                      data:"ids="+ids,//data:{"ids":ids}
                                                      success:function(data){

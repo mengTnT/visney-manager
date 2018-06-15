@@ -110,7 +110,7 @@
 
             success:function(data){
                 var da=eval('(' + data + ')');
-                console.log(data)
+
                 if(da.msg){
                     $.messager.alert("提示框"," 修改成功","info");//提示框
                     //关闭添加  对话框
@@ -171,43 +171,7 @@
         $("#addArticleEditor").dialog("close");
     }
 
-    /*//点击删除按钮执行  删除操作
-    function  deleteE(){
-        var rows = $("#showAllArticleEditor").datagrid("getSelections");//返回所有被选中的行，当没有记录被选中的时候将返回一个空数组。
 
-        if(rows.length==0){
-            $.messager.alert("提示框","请删除要选择的内容","warning");
-        }else{
-            $.messager.confirm("确认删除","确定要删除选中的所有内容吗？",function(r){
-                if(r){
-                    var ids = new Array();//创建一个数组
-                    for(var i = 0;i<rows.length;i++){
-                        ids[i]= rows[i].articleEditorId;//这里是（对象.属性）
-                        alert(ids[1]);              }
-
-
-                    $.ajax({
-                        url:"http://192.168.100.250:9999/visney-manager/articleEditor/deleteArticleEditor",
-                        type:"post",
-                        data:"ids="+ids,//data:{"ids":ids}
-                        success:function(data){
-                            data=eval('(' + data + ')');
-                            if(data.msg){
-                                $.messager.alert("提示框","删除成功","info");
-                                $("#showAllArticleEditor").datagrid("reload");//刷新表格
-                            }else{
-                                $.messager.alert("提示框","删除失败","warning");
-
-                            }
-
-                        },
-
-                    });
-
-                }
-            });
-        }
-    }*/
 </script>
 </body>
 

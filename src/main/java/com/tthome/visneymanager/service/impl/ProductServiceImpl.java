@@ -42,32 +42,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public int addProduct(Product product) {
-       /* 风格 类型 系列 材质
-          品牌 型号 尺寸 图片
-          浏览量*/
-//添加浏览量Id
+
         PageViews pageViews=new PageViews();
         int pageViewsAdd = pageViewsDao.pageViewsAdd(pageViews);
         product.setPageViews(pageViews);
-/*
-//先添加尺寸Size 在获取ID
-        Size size=new Size();
-        int addsize=sizeDao.addSize(size);
-        int sizeId=size.getSizeId();
-//先添加型号 在获取ID
-        ModleCode modleCode=new ModleCode();
-        int addModleCode = modleCodeDao.addModleCode(modleCode);
-        int modleCodeId=modleCode.getModelCodeId();
-//添加品牌
-        Brand brand=new Brand();
-        int addBrand=brandDao.addBrand(brand);
-
-        product.setPageViews(pageViews);
-        product.setSize(size);
-        product.setModleCode(modleCode);
-        product.setBrand(brand);
-*/
-//先添加产品Id
 
 
         int addProduct = productDao.addProduct(product);
