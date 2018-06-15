@@ -32,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Map selectAll(int page,int rows,String proName, String brandName, String proStyleName, String proTypeName, String proSeriesName, String proTextureName, String proPositionName) {
         Map map = new HashMap();
-        int total = productDao.getTotal();
+        int total = productDao.getTotal(proName,brandName,proStyleName,proTypeName,proSeriesName,proTextureName,proPositionName);
         PageHelper.startPage(page, rows);
         List<Product> products = productDao.selectAll(proName,brandName,proStyleName,proTypeName,proSeriesName,proTextureName,proPositionName);
         map.put("total", total);

@@ -22,7 +22,7 @@
     </style>
 
 </head>
-<html>
+
 <body>
 
 <div id="updateImg_win">
@@ -73,12 +73,10 @@
                         </section>
                     </section>
                        <script th:src="@{js/addpro.js}" type="text/javascript" charset="utf-8"></script>
-
                    </div>
-
-
-
-    图片alt：<input name="proImgAlt" id="proImgAlt"><br>
+<div id="hiddenInput">
+    图片alt：<input name="proImgAlt" id="proImgAlt">
+</div>
     Keyword：<input name="proMetaKeyWord" id="proMetaKeyWord"><br>
     Description：<input name="proMetaDescription" id="proMetaDescription"><br>
     Title：<input name="proMetaTitle" id="proMetaTitle"><br>
@@ -126,6 +124,53 @@ function hasContent() {
     alert(arr.join("\n"));
 }
 
+/* 根据文章id编辑文章*/
+function updateArticle() {
+    $.ajax({
+        url:'http://192.168.100.250:9999/visney-manager/article/getArticleDetails/'+id,
+        type:"get",
+        async: false,
+        success:function(data){
+            if(data!=null){
+                UE.getEditor('editor').addListener("ready", function () {
+                    // editor准备好之后才可以使用
+                    UE.getEditor('editor').setContent(data.articleText);
+
+
+                });
+
+
+            }
+        },
+        error:function (data) {
+            alert("添加失败")
+        }
+    });
+}
+
+// 图片回显
+//添加图片回显
+function previewImage(file) {
+    var MAXWIDTH = 90;
+    var MAXHEIGHT = 90;
+    var div = document.getElementById('preview');
+    if (file.files && file.files[0]) {
+        div.innerHTML = '<img id=imghead onclick=$("#previewImg").click()>';
+        var img = document.getElementById('imghead');
+        img.onload = function () {
+            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+            img.width = rect.width;
+            img.height = rect.height;
+            img.style.marginTop = rect.top + 'px';
+        }
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            img.src = evt.target.result;
+        }
+        reader.readAsDataURL(file.files[0]);
+    }
+
+}
 
 
 </script>
@@ -173,7 +218,6 @@ function hasContent() {
       Request = GetRequest();
       var id=Request["id"]
 
-
       function uploadImgs(){
           if(id){
               var src="/visney-manager/proImg.html?id="+id;
@@ -203,70 +247,65 @@ function hasContent() {
       }
 
       if (id) {
+              document.getElementById("hiddenInput").style.visibility="hidden";//隐藏
+              var pro_id;
+              var pro_name;
+              var brand_id;
+              var pro_price;
+              var position_id;
+              var model_code_id;
+              var style_id;
+              var type_id;
+              var series_id;
+              var texture_id;
+              var size_id;
+              var pro_msg;
+              var page_views_id;
+              var pro_src;
+              var pro_putaway;
+              var pro_meta_keyword;
+              var pro_meta_description;
+              var pro_meta_title;
+              $.ajax({
+                  type: 'get',
+                  async: false,/*设置为同步，不出结果的话，不往下执行*/
+                  url: 'http://localhost:9999/visney-manager/product/selectProductById/'+id,
+                  success: function (value) {
 
+                      pro_name=value.proName;
+                      brand_id=value.brand.brandId;
+                      pro_price=value.proPrice;
+                      position_id=value.proPosition.proPositionId;
+                      model_code_id=value.modleCode.modelCodeId;
+                      style_id=value.proStyle.proStyleId;
+                      type_id=value.proType.proTypeId;
+                      series_id=value.proSeries.proSeriesId;
+                      texture_id=value.proTexture.proTextureId;
+                      size_id=value.size.sizeId;
+                      pro_msg=value.proMsg;
+                      page_views_id=value.pageViews.pageViewsId;
+                      pro_src=value.proSrc
+                      pro_putaway=value.proPutaway;
+                      pro_meta_keyword=value.proMetaKeyWord;
+                      pro_meta_description=value.proMetaDescription
+                      pro_meta_title=value.proMetaTitle
+                      $("#proPutaway").find("option[value = '"+pro_putaway+"']").attr("selected","selected");
+                      $("#proName").val(pro_name);
+                      $("#proPrice").val(pro_price);
+                      $("#proSrc").val(pro_src);
+                      $("#proPrice").val(pro_price);
+                      $("#proMetaKeyWord").val(pro_meta_keyword);
+                      $("#proMetaDescription").val(pro_meta_description);
+                      $("#proMetaTitle").val(pro_meta_title);
+                      /* 查询结束后，再去查询其他的内容*/
+                      show();
 
-          var pro_id;
-          var pro_name;
-          var brand_id;
-          var pro_price;
-          var position_id;
-          var model_code_id;
-          var style_id;
-          var type_id;
-          var series_id;
-          var texture_id;
-          var size_id;
-          var pro_msg;
-          var page_views_id;
-          var pro_src;
-          var pro_putaway;
-          var pro_meta_keyword;
-          var pro_meta_description;
-          var pro_meta_title;
-
-
-          $.ajax({
-              type: 'get',
-              async: false,/*设置为同步，不出结果的话，不往下执行*/
-              url: 'http://192.168.100.250:9999/visney-manager/product/selectProductById/'+id,
-              success: function (value) {
-
-                  pro_name=value.proName;
-                  brand_id=value.brand.brandId;
-                  pro_price=value.proPrice;
-                  position_id=value.proPosition.proPositionId;
-                  model_code_id=value.modleCode.modelCodeId;
-                  style_id=value.proStyle.proStyleId;
-                  type_id=value.proType.proTypeId;
-                  series_id=value.proSeries.proSeriesId;
-                  texture_id=value.proTexture.proTextureId;
-                  size_id=value.size.sizeId;
-                  pro_msg=value.proMsg;
-                  page_views_id=value.pageViews.pageViewsId;
-                  pro_src=value.proSrc
-                  pro_putaway=value.proPutaway;
-                  pro_meta_keyword=value.proMetaKeyWord;
-                  pro_meta_description=value.proMetaDescription
-                  pro_meta_title=value.proMetaTitle
-
-                  $("#proPutaway").find("option[value = '"+pro_putaway+"']").attr("selected","selected");
-                  $("#proName").val(pro_name);
-                  $("#proPrice").val(pro_price);
-                  $("#proSrc").val(pro_src);
-                  $("#proPrice").val(pro_price);
-                  $("#proMetaKeyWord").val(pro_meta_keyword);
-                  $("#proMetaDescription").val(pro_meta_description);
-                  $("#proMetaTitle").val(pro_meta_title);
-
-                  /* 查询结束后，再去查询其他的内容*/
-                  show();
-
-              }
-          })
-          //文本编辑监听器 得到文本框的值
-          ue.addListener("ready", function () {
-              ue.setContent(pro_msg);
-          });
+                  }
+              })
+              //文本编辑监听器 得到文本框的值
+              ue.addListener("ready", function () {
+                  ue.setContent(pro_msg);
+              });
 
       }else {
           show();
@@ -276,7 +315,7 @@ function hasContent() {
         /* 展示可供选择的产品系列*/
         $.ajax({
             type: 'post',
-            url: 'http://192.168.100.250:9999/visney-manager/proCategory/getProCategoryBySeries',
+            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryBySeries',
             success: function (value) {
                 var content = "<select id=\"series_select\">"
                 for (var i = 0; i < value.pro.length; i++) {
@@ -292,7 +331,7 @@ function hasContent() {
         /*展示可供选择的产品类型*/
         $.ajax({
             type: 'post',
-            url: 'http://192.168.100.250:9999/visney-manager/proCategory/getProCategoryByType',
+            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByType',
             success: function (value) {
 
                 var content = "<select id=\"type_select\">"
@@ -308,7 +347,7 @@ function hasContent() {
         /*展示可供选择的产品位置*/
         $.ajax({
             type: 'post',
-            url: 'http://192.168.100.250:9999/visney-manager/proCategory/getProCategoryByPosition',
+            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByPosition',
             success: function (value) {
 
                 var content = "<select id=\"position_select\">"
@@ -324,7 +363,7 @@ function hasContent() {
         /*展示可供选择的产品风格*/
         $.ajax({
             type: 'post',
-            url: 'http://192.168.100.250:9999/visney-manager/proCategory/getProCategoryByStyle',
+            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByStyle',
             success: function (value) {
 
                 var content = "<select id=\"style_select\">"
@@ -340,7 +379,7 @@ function hasContent() {
         /*展示可供选择的产品材质*/
         $.ajax({
             type: 'post',
-            url: 'http://192.168.100.250:9999/visney-manager/proCategory/getProCategoryByTexture',
+            url: 'http://localhost:9999/visney-manager/proCategory/getProCategoryByTexture',
             success: function (value) {
 
                 var content = "<select id=\"texture_select\">"
@@ -356,7 +395,7 @@ function hasContent() {
         /*展示品牌*/
         $.ajax({
             type: 'post',
-            url: 'http://192.168.100.250:9999/visney-manager/brand/getAllBrand',
+            url: 'http://localhost:9999/visney-manager/brand/getAllBrand',
             data: {
                 page: 0,
                 rows: 0
@@ -379,7 +418,7 @@ function hasContent() {
         型号*/
         $.ajax({
             type: 'post',
-            url: 'http://192.168.100.250:9999/visney-manager/modleCode/getAllModleCode',
+            url: 'http://localhost:9999/visney-manager/modleCode/getAllModleCode',
             data: {
                 page: 0,
                 rows: 0
@@ -401,7 +440,7 @@ function hasContent() {
         /*展示尺寸*/
         $.ajax({
             type: 'post',
-            url: 'http://192.168.100.250:9999/visney-manager/size/getAllSize',
+            url: 'http://localhost:9999/visney-manager/size/getAllSize',
             data: {
                 page: 0,
                 rows: 0
@@ -467,7 +506,7 @@ function hasContent() {
                 formdata.append("proId",id);
                 $.ajax({
                     type: 'post',
-                    url: 'http://192.168.100.250:9999/visney-manager/product/updateProduct',
+                    url: 'http://localhost:9999/visney-manager/product/updateProduct',
                     data: formdata,
                     async: false,
                     processData: false,// 告诉jQuery不要去处理发送的数据
@@ -488,7 +527,7 @@ function hasContent() {
           if(!id){
           $.ajax({
                 type: 'post',
-                url: 'http://192.168.100.250:9999/visney-manager/product/addProduct',
+                url: 'http://localhost:9999/visney-manager/product/addProduct',
                 data: formdata,
                 async: false,
                 processData: false,// 告诉jQuery不要去处理发送的数据

@@ -14,7 +14,9 @@ public interface ProductDao {
     @Param("proTypeName")String proTypeName, @Param("proSeriesName")String proSeriesName, @Param("proTextureName")String proTextureName,
     @Param("proPositionName")String proPositionName);
 
-    public int getTotal();
+    public int getTotal(@Param("proName")String proName,@Param("brandName")String brandName,@Param("proStyleName")String proStyleName,
+                        @Param("proTypeName")String proTypeName, @Param("proSeriesName")String proSeriesName, @Param("proTextureName")String proTextureName,
+                        @Param("proPositionName")String proPositionName);
 
     public int addProduct(Product product);
 
