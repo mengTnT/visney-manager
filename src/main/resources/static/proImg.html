@@ -260,7 +260,7 @@
        /*  //点击添加按钮添加
          function pro3(){
          //              发送ajxs请求
-             
+
                          $("#addProImgInformation").form('submit',{
                                  url:"http://localhost:9999/visney-manager/proImg/addProImg",
                          type:"post",
@@ -286,7 +286,7 @@
          //点击删除按钮执行  删除操作
             /* function  deleteE(){
                      var rows = $("#showAllProImg").datagrid("getSelections");//返回所有被选中的行，当没有记录被选中的时候将返回一个空数组。
-             
+
                          if(rows.length==0){
                              $.messager.alert("提示框","请删除要选择的内容","warning");
                          }else{
@@ -306,9 +306,9 @@
                                                          if(data.msg){
                                                                  $.messager.alert("提示框"," 修改成功","info");//提示框
                                                                  //关闭添加  对话框
-                                     
+
                                                                          $("#updateProImg").dialog("close");
-                                 
+
                                                                      //表格重新加载
                                                                          $("#showAllProImg").datagrid("reload");
                                                              }else{
@@ -316,7 +316,7 @@
                                                              }
                                                      }
                                              });
-                         
+
                                              }
                                  });
                          }

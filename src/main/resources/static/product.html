@@ -286,7 +286,6 @@
                                 if (value) {
                                     for (var i = 0; i < value.length; i++) {
                                         if (i == 0) {
-                                            /* console.log(value[i].proImgSrc+"zzzzzzzzzzzzzzzzzzzz")*/
                                             return "<img width=50px height=50px src='" + value[i].proImgSrc + "'>";
                                         }
                                     }
@@ -335,7 +334,6 @@
                                             "请选择一条数据修改", 'warning');
                                     }else {
                                         var aid= $("#showAllProduct").datagrid('getChecked')[0].proId ;
-                                        console.log(aid+"=================")
                                         var src="/visney-manager/pro?id="+aid;
 
                                         var iframe="<iframe id='product_form' src='";
@@ -383,7 +381,6 @@
                                                     },
 
                                                     success: function (data) {
-                                                        console.log(data.msg)
                                                         if (data.msg==true) {
                                                             $.messager.alert("消息", "删除成功", 'info');
                                                             $("#showAllProduct").datagrid('reload');
