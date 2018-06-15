@@ -19,21 +19,43 @@ public class MyInterceptorConfig extends WebMvcConfigurerAdapter {
     @Override
     public  void addInterceptors(InterceptorRegistry registry) {
        //注册拦截器
-       /* InterceptorRegistration interceptorRegistration = registry.addInterceptor(myInterceptor);
-        *//*设置拦截器规则*//*
-        *//*方法*//*
-        interceptorRegistration.addPathPatterns("/test/*");
+       InterceptorRegistration interceptorRegistration = registry.addInterceptor(myInterceptor);
+        //*设置拦截器规则*//*
+        //*方法*//*
         interceptorRegistration.addPathPatterns("/articleCategory/*");
         interceptorRegistration.addPathPatterns("/article/*");
         interceptorRegistration.addPathPatterns("/NavigationMeta/*");
         interceptorRegistration.addPathPatterns("/editor/*");
-        *//*静态资源*//*
-        interceptorRegistration.addPathPatterns("/main.html");
+        interceptorRegistration.addPathPatterns("/articleEditor/*");
+        interceptorRegistration.addPathPatterns("/articleLabel/*");
+        interceptorRegistration.addPathPatterns("/banner/*");
+        interceptorRegistration.addPathPatterns("/brand/*");
+        interceptorRegistration.addPathPatterns("/modleCode/*");
+        interceptorRegistration.addPathPatterns("/proCategory/*");
+        interceptorRegistration.addPathPatterns("/product/*");
+        interceptorRegistration.addPathPatterns("/proImg/*");
+        interceptorRegistration.addPathPatterns("/size/*");
+
+
+        interceptorRegistration.addPathPatterns("/editor");
+        interceptorRegistration.addPathPatterns("/pro");
+        //*静态资源*//*
         interceptorRegistration.addPathPatterns("/article.html");
+        interceptorRegistration.addPathPatterns("/articleCategory.html");
+        interceptorRegistration.addPathPatterns("/articleEditor.html");
+        interceptorRegistration.addPathPatterns("/articleLable.html");
+        interceptorRegistration.addPathPatterns("/banner.html");
+        interceptorRegistration.addPathPatterns("/main.html");
         interceptorRegistration.addPathPatterns("/meta.html");
+        interceptorRegistration.addPathPatterns("/modleCode.html");
+        interceptorRegistration.addPathPatterns("/proCategory.html");
+        interceptorRegistration.addPathPatterns("/product.html");
+        interceptorRegistration.addPathPatterns("/proImg.html");
+        interceptorRegistration.addPathPatterns("/size.html");
+
         interceptorRegistration.excludePathPatterns("/login");
         interceptorRegistration.excludePathPatterns("/visney-manager");
 
-        super.addInterceptors(registry);*/
+        super.addInterceptors(registry);
     }
 }

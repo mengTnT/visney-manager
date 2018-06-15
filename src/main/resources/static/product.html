@@ -109,7 +109,7 @@
         $("#showAllProduct")
                 .datagrid(
                     {
-                        url: 'http://localhost:9999/visney-manager/product/getAll',
+                        url: 'http://192.168.100.250:9999/visney-manager/product/getAll',
                         fitColumns: true,
 
                         columns: [[{
@@ -369,7 +369,7 @@
                                                 })
                                                 $.ajax({
                                                     type: 'post',
-                                                    url: 'http://localhost:9999/visney-manager/product/deleteProduct',
+                                                    url: 'http://192.168.100.250:9999/visney-manager/product/deleteProduct',
                                                     /*传递数组需要加上这个参数，不然默认在后面加上[]*/
                                                     traditional: true,
                                                     data: {
