@@ -26,6 +26,7 @@ public class ArticleEditorController {
         return articleEditorService.getArticleAllByPage(page, rows);
     }
     @PostMapping("/getAllArticleEditor")
+
     public Map GetAllArticleEditor() {
         return articleEditorService.getArticleAll();
     }

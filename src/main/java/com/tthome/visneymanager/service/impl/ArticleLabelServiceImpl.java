@@ -40,8 +40,9 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
     @Override
     public Map getAllArticleLabel() {
         Map map=new HashMap();
-        map.put("msg",articleLabelDao.getAllArticleLabel());
-        return null;
+        List<ArticleLabel> allArticleLabel = articleLabelDao.getAllArticleLabel();
+        map.put("msg",allArticleLabel);
+        return map;
     }
 
     @Override

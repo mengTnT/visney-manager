@@ -419,16 +419,16 @@ function previewImage(file) {
         $.ajax({
             type: 'post',
             url: 'http://192.168.100.250:9999/visney-manager/modleCode/getAllModleCode',
-            data: {
+           /* data: {
                 page: 0,
                 rows: 0
 
-            },
+            },*/
             success: function (value) {
                 var content1 = "<select id=\"modelCode_select\">"
 
-                for (var i = 0; i < value.rows.length; i++) {
-                    content1 += "<option value=" + value.rows[i].modelCodeId + ">" + value.rows[i].modelCodeName + "</option>";
+                for (var i = 0; i < value.msg.length; i++) {
+                    content1 += "<option value=" + value.msg[i].modelCodeId + ">" + value.msg[i].modelCodeName + "</option>";
                 }
                 var result = content1 + "</select>";
 
@@ -441,16 +441,16 @@ function previewImage(file) {
         $.ajax({
             type: 'post',
             url: 'http://192.168.100.250:9999/visney-manager/size/getAllSize',
-            data: {
+          /*  data: {
                 page: 0,
                 rows: 0
 
-            },
+            },*/
             success: function (value) {
                 var content1 = "<select id=\"size_select\">"
 
-                for (var i = 0; i < value.rows.length; i++) {
-                    content1 += "<option value=" + value.rows[i].sizeId + ">" + value.rows[i].siziMsg + "</option>";
+                for (var i = 0; i < value.msg.length; i++) {
+                    content1 += "<option value=" + value.msg[i].sizeId + ">" + value.msg[i].siziMsg + "</option>";
                 }
                 var result = content1 + "</select>";
                 $("#size").html(result)

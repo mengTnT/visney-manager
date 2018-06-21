@@ -22,13 +22,17 @@
     <!--分页-->
     <select id="getAllArticleLabelCount" resultType="int">
         select count(0) from article_label t1
-         GROUP BY t1.article_label_name
+        /* GROUP BY t1.article_label_name*/
     </select>
     <select id="getAllArticleLabelByPage" resultMap="ArticleLabel">
         SELECT * from article_label t1
-        GROUP BY t1.article_label_name
+      /*  GROUP BY t1.article_label_name*/
          limit #{start},#{end}
 
+    </select>
+    <select id="getAllArticleLabel" resultMap="ArticleLabel">
+        SELECT * from article_label t1
+        GROUP BY t1.article_label_name
     </select>
     <!--add-->
     <insert id="addArticleLabel">

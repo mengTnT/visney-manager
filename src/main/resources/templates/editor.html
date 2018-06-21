@@ -224,16 +224,12 @@ if (text_value){
                 $.ajax({
                     type: 'post',
                     url: 'http://192.168.100.250:9999/visney-manager/articleEditor/getAllArticleEditor',
-                    data:{
-                        page:0,
-                        rows:0
 
-                    },
                     success: function (value) {
 
                         var content = "<select id=\"editor_select\">"
-                        for (var i = 0; i < value.rows.length; i++) {
-                            content += "<option value=" + value.rows[i].articleEditorId + ">" + value.rows[i].articleEditorName + "</option>";
+                        for (var i = 0; i < value.msg.length; i++) {
+                            content += "<option value=" + value.msg[i].articleEditorId + ">" + value.msg[i].articleEditorName + "</option>";
                         }
                         var result = content + "</select>";
 
@@ -254,11 +250,11 @@ if (text_value){
                     success: function (value) {
                         var content1 = "<select id=\"label_select1\">"
                         var content2 = "<select id=\"label_select2\">"
-                        for (var i = 0; i < value.rows.length; i++) {
-                            content1 += "<option value=" + value.rows[i].articleLabelId +' '+'text='+'"'+value.rows[i].articleLabelName +'"'+">" + value.rows[i].articleLabelName + "</option>";
+                        for (var i = 0; i < value.msg.length; i++) {
+                            content1 += "<option value=" + value.msg[i].articleLabelId +' '+'text='+'"'+value.msg[i].articleLabelName +'"'+">" + value.msg[i].articleLabelName + "</option>";
                         }
-                        for (var i = 0; i < value.rows.length; i++) {
-                            content2 += "<option value=" + value.rows[i].articleLabelId +' '+'text='+'"'+value.rows[i].articleLabelName +'"'+">" + value.rows[i].articleLabelName + "</option>";
+                        for (var i = 0; i < value.msg.length; i++) {
+                            content2 += "<option value=" + value.msg[i].articleLabelId +' '+'text='+'"'+value.msg[i].articleLabelName +'"'+">" + value.msg[i].articleLabelName + "</option>";
                         }
 
                         var result1 = content1 + "</select>";

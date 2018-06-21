@@ -35,7 +35,7 @@ public class ModleCodeServiceImpl implements ModleCodeService {
     public Map getAllModleCode() {
         Map map=new HashMap();
         List<ModleCode> allModleCodeList = modleCodeDao.getAllModleCode();
-        map.put("allModleCodeList",allModleCodeList);
+        map.put("msg",allModleCodeList);
         return map ;
     }
 

@@ -39,8 +39,9 @@ public class ArticleEditorServiceImpl implements ArticleEditorService {
     @Override
     public Map getArticleAll() {
         Map map=new HashMap();
-        map.put("getArticleAll",articleEditorDao.getArticleAll());
-        return null;
+        List<ArticleEditor> articleAll = articleEditorDao.getArticleAll();
+        map.put("msg",articleAll);
+        return map;
     }
 
     @Override

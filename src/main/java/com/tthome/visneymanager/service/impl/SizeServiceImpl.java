@@ -35,7 +35,7 @@ public class SizeServiceImpl implements SizeService {
     @Override
     public Map getAllSize() {
         Map map=new HashMap();
-        map.put("List1",sizeDao.getAllSize());
+        map.put("msg",sizeDao.getAllSize());
         return map;
     }
 
