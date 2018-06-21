@@ -11,9 +11,10 @@
     <!--全部-->
     <select id="getArticleAll" resultMap="ArticleEditor">
         SELECT * from article_editor
-        <if test="start!=0 and end!=0">
+    </select>
+    <select id="getArticleAllByPage" resultMap="ArticleEditor">
+        SELECT * from article_editor
             limit #{start},#{end}
-        </if>
     </select>
 
     <!-- Count-->

@@ -12,7 +12,8 @@ import java.util.Map;
  */
 public interface ArticleEditorService {
 
-    public Map getArticleAll(int pageIndex,  int pagesize);
+    public Map getArticleAllByPage(int pageIndex,  int pagesize);
+    public Map getArticleAll();
     public Map editorUpdate(ArticleEditor articleEditor);
     public Map editorDelte(int[] articleEditorId);
     public Map editorAdd(ArticleEditor articleEditor);

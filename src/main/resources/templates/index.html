@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+    </head>
+
+
+    <body>
+
+    <!--<input th:value="${user.password}"></input>
+    <input th:value="${user.username}"></input>
+    <input th:value="${user.userId}"></input>
+    <h1 th:text="${user.password}"</h1>
+    <span th:value="${user.password}">
+    </span>
+-->
+    <table>
+        <thead></thead>
+        <tbody>
+        <tr th:each="list:${list}">
+            <td th:text="${list.userId}"></td>
+            <td th:if="${list.userId}==1">好</td>
+            <td th:if="${list.userId}!=1">不好</td>
+        </tr>
+        </tbody>
+
+    </table>
+
+
+    </body>
+
+</html>

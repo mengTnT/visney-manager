@@ -12,7 +12,8 @@ import java.util.List;
 public interface ArticleLabelDao {
     public int articleLabelDelete(int[] articleIds);
 
-    public List<ArticleLabel> getAllArticleLabel(@Param("start") int start,@Param("end") int end);
+    public List<ArticleLabel> getAllArticleLabelByPage(@Param("start") int start,@Param("end") int end);
+    public List<ArticleLabel> getAllArticleLabel();
     public int getAllArticleLabelCount();
 
     public int addArticleLabel(ArticleLabel articleLabel);

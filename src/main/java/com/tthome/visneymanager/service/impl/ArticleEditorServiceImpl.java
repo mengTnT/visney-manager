@@ -19,20 +19,28 @@ import java.util.Map;
 @Service
 @Transactional
 public class ArticleEditorServiceImpl implements ArticleEditorService {
+
     @Autowired
     private ArticleEditorDao articleEditorDao;
 
 
     @Override
-    public Map  getArticleAll(int pageIndex, int pageSize) {
+    public Map  getArticleAllByPage(int pageIndex, int pageSize) {
         int start=pageSize*(pageIndex-1);
         int end=pageSize;
         Map map=new HashMap();
-        List<ArticleEditor> articleAll = articleEditorDao.getArticleAll(start, end);
+        List<ArticleEditor> articleAll = articleEditorDao.getArticleAllByPage(start, end);
         int i=articleEditorDao.getArticleEditorCount();
         map.put("total",i);//上传的总的条数
         map.put("rows",articleAll);//上传的内容
         return map;
+    }
+
+    @Override
+    public Map getArticleAll() {
+        Map map=new HashMap();
+        map.put("getArticleAll",articleEditorDao.getArticleAll());
+        return null;
     }
 
     @Override

@@ -241,86 +241,8 @@
          function pro2(){
                  $("#updateProImg").dialog("close");
              }
-         /*添加界面开始*/
-         //添加页面
-            /* $(function(){
-                     $("#addProImg").dialog({
-                             title:"添加页面",
-                             width:860,
-                             height: 400,
-                             cache: false,
-                             closed:true,
-                             modal:true,
-                         });
-                 })
-         //显示添加 页面
-         function addE(){
-                 $("#addProImg").dialog("open");
-             }*/
-       /*  //点击添加按钮添加
-         function pro3(){
-         //              发送ajxs请求
-
-                         $("#addProImgInformation").form('submit',{
-                                 url:"http://192.168.100.250:9999/visney-manager/proImg/addProImg",
-                         type:"post",
-                         success:function (data) {
-                             var da = eval('('+  data  + ')');
-                             if(da.msg){
-                                     $.messager.alert("提示框","添加成功","info")
-                                     //	关闭对话框
-                                     $("#addProImg").dialog("close")
-                                     //表格重新加载
-                                     $("#showAllProImg").datagrid("reload");
-                                 }else{
-                                     $.messager.alert("提示框","添加失败","warming");
-                                 }
-                         }
-                 })
-             }*/
-        /* //点击取消按钮 取消添加
-         function prof4(){
-                 $("#addProImg").dialog("close");
-             }
-     */
-         //点击删除按钮执行  删除操作
-            /* function  deleteE(){
-                     var rows = $("#showAllProImg").datagrid("getSelections");//返回所有被选中的行，当没有记录被选中的时候将返回一个空数组。
-
-                         if(rows.length==0){
-                             $.messager.alert("提示框","请删除要选择的内容","warning");
-                         }else{
-                             $.messager.confirm("确认删除","确定要删除选中的所有内容吗？",function(r){
-                                     if(r){
-                                             var ids = new Array();//创建一个数组
-                                             for(var i = 0;i<rows.length;i  ){
-                                                     ids[i]= rows[i].sizeId;//这里是（对象.属性）
-                                                 }
-                                             $.ajax({
-                                                     url:"http://192.168.100.250:9999/visney-manager/proImg/deleteProImg",
-                                                     type:"post",
-                                                     data:"ids="+ids,//data:{"ids":ids}
-                                                     success:function(data){
-
-
-                                                         if(data.msg){
-                                                                 $.messager.alert("提示框"," 修改成功","info");//提示框
-                                                                 //关闭添加  对话框
-
-                                                                         $("#updateProImg").dialog("close");
-
-                                                                     //表格重新加载
-                                                                         $("#showAllProImg").datagrid("reload");
-                                                             }else{
-                                                                 $.messager.alert("提示框","修改失败，请确认","warming");
-                                                             }
-                                                     }
-                                             });
-
-                                             }
-                                 });
-                         }
-                 }*/
+             
+    
      </script>
  </body>
  

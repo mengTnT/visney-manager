@@ -10,7 +10,8 @@ import java.util.List;
  * @date 2018-06-02 15:01
  */
 public interface SizeDao {
-    public List<Size> getAllSize(@Param("start")int start,@Param("end")int end);
+    public List<Size> getAllSizeBypage(@Param("start")int start,@Param("end")int end);
+    public List<Size> getAllSize();
     public int getSizeCount();
     public int addSize(Size size);
     public int updateSize(Size size);

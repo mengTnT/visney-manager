@@ -17,9 +17,13 @@ public class SizeController {
     @Autowired
     private SizeService sizeService;
 
+    @PostMapping("/getAllSizeBypage")
+     public Map getAllSizeBypage(int page,int rows){
+         return sizeService.getAllSizeBypage(page,rows);
+     }
     @PostMapping("/getAllSize")
-     public Map getAllSize(int page,int rows){
-         return sizeService.getAllSize(page,rows);
+     public Map getAllSize(){
+         return sizeService.getAllSize();
      }
     @PostMapping("/addSize")
      public Map addSize(Size size){

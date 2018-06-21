@@ -12,7 +12,8 @@ import com.tthome.visneymanager.entity.ArticleLabel;
 public interface ArticleLabelService {
     public int articleLabelDelete(int[] articleIds);
 
-    public Map getAllArticleLabel(int pageIndex, int pageSize);
+    public Map getAllArticleLabelByPage(int pageIndex, int pageSize);
+    public Map getAllArticleLabel();
     public Map addArticleLabel(ArticleLabel articleLabel);
     public Map updateArticleLabel(ArticleLabel articleLabel);
 

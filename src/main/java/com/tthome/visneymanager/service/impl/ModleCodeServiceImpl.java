@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,17 +18,27 @@ import java.util.Map;
 @Service
 @Transactional
 public class ModleCodeServiceImpl implements ModleCodeService {
+
     @Autowired
     private ModleCodeDao modleCodeDao;
     @Override
-    public Map getAllModleCode(int pageIndex, int pageSizes) {
+    public Map getAllModleCodeByPage(int pageIndex, int pageSizes) {
         Map map=new HashMap();
         int start=(pageIndex-1)*pageSizes;
         int end=pageSizes;
         map.put("total",modleCodeDao.getCount());
-        map.put("rows",modleCodeDao.getAllModleCode(start,end));
+        map.put("rows",modleCodeDao.getAllModleCodeByPage(start,end));
         return map;
     }
+
+    @Override
+    public Map getAllModleCode() {
+        Map map=new HashMap();
+        List<ModleCode> allModleCodeList = modleCodeDao.getAllModleCode();
+        map.put("allModleCodeList",allModleCodeList);
+        return map ;
+    }
+
     @Override
     public Map addModleCode(ModleCode modleCode) {
         Map map=new HashMap();

@@ -11,7 +11,8 @@ import java.util.List;
  */
 public interface ModleCodeDao {
 
-    public List<ModleCode> getAllModleCode(@Param("start")int start,@Param("end")int end);
+    public List<ModleCode> getAllModleCodeByPage(@Param("start")int start,@Param("end")int end);
+    public List<ModleCode> getAllModleCode();
     public int getCount();
     public int  addModleCode(ModleCode modleCode);
     public int updateModleCode(ModleCode modleCode);

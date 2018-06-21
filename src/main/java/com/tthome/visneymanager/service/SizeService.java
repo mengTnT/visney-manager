@@ -10,7 +10,8 @@ import java.util.Map;
  * @date 2018-06-02 15:22
  */
 public interface SizeService {
-    public Map  getAllSize(int pageIndex,int pageSize);
+    public Map  getAllSizeBypage(int pageIndex,int pageSize);
+    public Map  getAllSize();
     public Map addSize(Size size);
     public Map updateSize(Size size);
     public Map deleteSize(int[] sizeIds);

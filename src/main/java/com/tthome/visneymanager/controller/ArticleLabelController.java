@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArticleLabelController {
     @Autowired
     private ArticleLabelService articleLabelService;
+    @PostMapping("/getAllArticleLabelByPage")
+    public Map getAllArticleLabelByPage(int page,int rows){
+        return articleLabelService.getAllArticleLabelByPage(page,rows);
+    }
     @PostMapping("/getAllArticleLabel")
-    public Map getAllArticleLabel(int page,int rows){
-        return articleLabelService.getAllArticleLabel(page,rows);
+    public Map getAllArticleLabel(){
+        return articleLabelService.getAllArticleLabel();
     }
     @PostMapping("/addArticleLabel")
     public Map addArticleLabel(ArticleLabel articleLabel){

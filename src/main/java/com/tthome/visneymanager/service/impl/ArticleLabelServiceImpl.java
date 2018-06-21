@@ -26,15 +26,22 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
     }
 
     @Override
-    public Map getAllArticleLabel(int pageIndex, int pageSize) {
+    public Map getAllArticleLabelByPage(int pageIndex, int pageSize) {
         Map map=new HashMap();
         int start=(pageIndex-1)*pageSize;
         int end=pageSize;
-        List<ArticleLabel> allArticleLabel = articleLabelDao.getAllArticleLabel(start, end);
+        List<ArticleLabel> allArticleLabel = articleLabelDao.getAllArticleLabelByPage(start, end);
         int i = articleLabelDao.getAllArticleLabelCount();
         map.put("total",i);
         map.put("rows",allArticleLabel);
         return map;
+    }
+
+    @Override
+    public Map getAllArticleLabel() {
+        Map map=new HashMap();
+        map.put("msg",articleLabelDao.getAllArticleLabel());
+        return null;
     }
 
     @Override

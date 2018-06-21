@@ -102,7 +102,7 @@ public class BannerController {
 
             }
 
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e){
             e.printStackTrace();
             return 0;
         } catch (IOException e) {

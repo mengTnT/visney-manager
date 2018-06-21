@@ -9,13 +9,15 @@
 
     <select id="getAllSize" resultMap="size">
      SELECT * FROM size
-        <if test="end!=0 and start!=0">
+    </select>
+    <select id="getAllSizeBypage" resultMap="size">
+     SELECT * FROM size
             limit #{start},#{end}
-        </if>
     </select>
 
     <select id="getSizeCount" resultType="int">
         select count(0) from size
+
     </select>
     <!--add-->
     <insert id="addSize" >

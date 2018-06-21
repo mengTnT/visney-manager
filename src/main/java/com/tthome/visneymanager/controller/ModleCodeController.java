@@ -17,7 +17,11 @@ public class ModleCodeController {
     @Autowired
     private ModleCodeService modleCodeService;
     @PostMapping("/getAllModleCode")
-    public Map getAllModleCode(int page,int rows){return modleCodeService.getAllModleCode(page, rows);}
+    public Map getAllModleCode()
+    {return modleCodeService.getAllModleCode();}
+    @PostMapping("/getAllModleCodeByPage")
+    public Map getAllModleCodeByPage(int page,int rows)
+    {return modleCodeService.getAllModleCodeByPage(page, rows);}
     @PostMapping("/addModleCode")
     public Map addModleCode(ModleCode modleCode){return modleCodeService.addModleCode(modleCode);}
     @PostMapping("/updateModleCode")

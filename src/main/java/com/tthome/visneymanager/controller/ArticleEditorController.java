@@ -21,9 +21,13 @@ public class ArticleEditorController {
     @Autowired
     private ArticleEditorService articleEditorService;
 
+    @PostMapping("/getArticleAllByPage")
+    public Map getArticleAllByPage(int page, int rows) {
+        return articleEditorService.getArticleAllByPage(page, rows);
+    }
     @PostMapping("/getAllArticleEditor")
-    public Map GetAllArticleEditor(int page, int rows) {
-        return articleEditorService.getArticleAll(page, rows);
+    public Map GetAllArticleEditor() {
+        return articleEditorService.getArticleAll();
     }
 
     @PostMapping("/addArticleEditor")

@@ -21,14 +21,21 @@ public class SizeServiceImpl implements SizeService {
     @Autowired
     private SizeDao sizeDao;
     @Override
-    public Map getAllSize(int pageIndex, int pageSize) {
+    public Map getAllSizeBypage(int pageIndex, int pageSize) {
         Map map=new HashMap();
         int start=(pageIndex-1)*pageSize;
         int end=pageSize;
-        List<Size> allSize = sizeDao.getAllSize(start, end);
+        List<Size> allSize = sizeDao.getAllSizeBypage(start, end);
         int i = sizeDao.getSizeCount();
         map.put("total",i);
         map.put("rows",allSize);
+        return map;
+    }
+
+    @Override
+    public Map getAllSize() {
+        Map map=new HashMap();
+        map.put("List1",sizeDao.getAllSize());
         return map;
     }
 

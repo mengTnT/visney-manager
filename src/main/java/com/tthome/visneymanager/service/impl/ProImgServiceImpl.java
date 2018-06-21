@@ -25,8 +25,8 @@ public class ProImgServiceImpl implements ProImgService {
         int start=(pageIndex-1)*pageSize;
         int end=pageSize;
         Map map=new HashMap();
-        List<ProImg> allProImg = proImgDao.getAllProImg(start, end,proId);
-        int i = proImgDao.getAllCount();
+        List<ProImg> allProImg = proImgDao.getAllProImg(start,end,proId);
+        int i = proImgDao.getAllCount(proId);
         map.put("total",i);
         map.put("rows",allProImg);
         return map;

@@ -17,6 +17,8 @@ import java.util.Map;
  */
 @Service
 @Transactional
+
+
 public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     @Autowired
     private ArticleCategoryDao articleCategoryDao;
