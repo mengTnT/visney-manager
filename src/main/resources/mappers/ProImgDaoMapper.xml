@@ -12,7 +12,7 @@
 
     <select id="getAllProImg" resultMap="ProImg">
      SELECT * FROM pro_img
-        <if test="proId!=0">
+        <if test="proId!=0 and proId!=null">
             where pro_id=#{proId}
 
         </if>
@@ -22,6 +22,9 @@
 
     <select id="getAllCount" resultType="int">
         select count(0) from pro_img
+        <if test="proId!=0 and proId!=null">
+            where pro_id=#{proId}
+        </if>
     </select>
     <!--add-->
     <insert id="addProImg" >

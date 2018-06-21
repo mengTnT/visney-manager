@@ -52,6 +52,7 @@ public class MyInterceptorConfig extends WebMvcConfigurerAdapter {
         interceptorRegistration.addPathPatterns("/product.html");
         interceptorRegistration.addPathPatterns("/proImg.html");
         interceptorRegistration.addPathPatterns("/size.html");
+        interceptorRegistration.addPathPatterns("/login_success.html");
 
         interceptorRegistration.excludePathPatterns("/login");
         interceptorRegistration.excludePathPatterns("/visney-manager");

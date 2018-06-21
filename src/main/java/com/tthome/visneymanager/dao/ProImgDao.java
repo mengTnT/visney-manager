@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface ProImgDao {
     public List<ProImg> getAllProImg(@Param("start")int start,@Param("end")int end,@Param("proId")int proId);
-    public int getAllCount();
+    public int getAllCount(@Param("proId")int proId);
     public int addProImg(ProImg proImg);
     public int updateProImg(ProImg proImg);
     public int deleteProImg(int [] proImgIds);

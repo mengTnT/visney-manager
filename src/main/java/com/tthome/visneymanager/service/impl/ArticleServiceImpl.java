@@ -1,5 +1,6 @@
 package com.tthome.visneymanager.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.tthome.visneymanager.dao.ArticleDao;
 import com.tthome.visneymanager.dao.ArticleImgDao;
@@ -57,10 +58,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Map getArticles(int page, int rows,String category,String editor,String title) {
         Map map = new HashMap();
-        int total = articleDao.getArticleTotal();
+        /*int total = articleDao.getArticleTotal(category, editor, title);*/
         PageHelper.startPage(page, rows);
         List<Article> list = articleDao.getArticles(category, editor, title);
-        map.put("total", total);
+        map.put("total", list.size());
         map.put("rows", list);
         return map;
     }

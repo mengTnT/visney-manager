@@ -17,8 +17,6 @@ public interface ArticleDao {
     public List<Article> getArticles(@Param("category")String category,@Param("editor")String editor,@Param("title")String title);
     public List<Article> getArticlesByCategory(@Param("articleCategoryId") int articleCategoryId);
 
-
-
     /**
      * 文章分类别统计总数
      * @param articleCategoryId
@@ -26,7 +24,7 @@ public interface ArticleDao {
      */
     public int getTotalByArticleCategoryId(int articleCategoryId);
 
-    public int getArticleTotal();
+    public int getArticleTotal(@Param("category")String category,@Param("editor")String editor,@Param("title")String title);
 
     public int articleDelete(int[] articleIds);
 
